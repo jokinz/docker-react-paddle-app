@@ -12,6 +12,7 @@ import PageMyAccount from './routes/PageMyAccount.tsx'
 import PageReserves from './routes/PageReserves.tsx'
 import PageUsers from './routes/PageUsers.tsx'
 import PageNotFound from './routes/PageNotFound.tsx'
+import PageEmployees from './routes/PageEmployees.tsx'
 
 const darkTheme = createTheme({
   palette: {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: '/users',
     element: <PageUsers />,
+  },
+  {
+    path: '/employees',
+    element: <PageEmployees />,
   },
 ])
 
