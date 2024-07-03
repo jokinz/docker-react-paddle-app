@@ -1,4 +1,7 @@
 import { createContext } from 'react'
+
 import { User } from '../types/user'
 
-export const UserContext = createContext<User | null>(null)
+export type UserContextType = User | null
+
+export const UserContext = createContext<UserContextType>(null)
