@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
+
+import { User } from '../types/user'
+
 import { getAllUsers } from '../api/users/user'
+
 import LoadingWrapper from '../components/LoadingWrapper'
 import UsersList from '../components/Users/UsersList'
-import { User } from '../types/user'
 
 const PageUsers = () => {
   const [userList, setUserList] = useState<User[]>([])
