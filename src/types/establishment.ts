@@ -7,5 +7,5 @@ export type Establishment={
     latitude: string
     longitud: string
     openTime: Date
-    endTime: Date
+    closeTime: Date
 }
