@@ -1,5 +1,5 @@
 export type Role = {
   id: number
-  roleName: string
+  roleName: 'counter' | 'operator' | 'admin'
   roleLevel: string
 }
