@@ -65,6 +65,7 @@ const NewItemForm = () => {
         <TextField
           id="price"
           label="Precio"
+          type='number'
           variant="filled"
           value={itemData.price}
           onChange={(e) =>
