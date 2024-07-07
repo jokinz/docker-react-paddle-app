@@ -1,8 +1,8 @@
 import { useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const NavigationMenu = () => {
-  const user = useContext(UserContext)
+  const user = useContext(EmployeeContext)
   if (!user) {
     return <div>no menu</div>
   }
