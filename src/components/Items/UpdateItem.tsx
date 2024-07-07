@@ -3,12 +3,12 @@ import { useState } from 'react'
 import { Item } from '../../types/item'
 
 import {
-    Button,
-    Grid,
-    Switch,
-    TextField
+  Button,
+  Grid,
+  Switch,
+  TextField
 } from '@mui/material'
-import { updateItemById, updateItemEnabledById } from '../../api/items/item'
+import { updateItemById } from '../../api/items/item'
 type props = {
   item: Item
 }
