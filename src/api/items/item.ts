@@ -1,4 +1,4 @@
-import { Item as ItemType } from '../../types/item'
+import { Item as ItemType, NewItem } from '../../types/item'
 import { emulateApiCall, itemExample, itemsListExample } from '../dummy'
 
 export const getItemById = async (
@@ -16,15 +16,18 @@ export const getItemById = async (
   return
 }
 
-export const getItemByDocument = async (
-  id: number
+export const createItem = async (
+  newItem: NewItem
 ): Promise<ItemType | undefined> => {
   try {
-    const response: ItemType = await emulateApiCall(itemExample, 'success', id)
+    const response = await emulateApiCall(
+      { ...newItem, id: 3, thumbnail: '' },
+      'success'
+    )
     if (response) {
       return response
     }
-    throw new Error('Error descargando datos del item')
+    throw new Error('Error creando el item')
   } catch (error) {
     console.error(error)
   }
@@ -41,8 +44,8 @@ export const updateItemById = async (item: ItemType): Promise<any> => {
     throw new Error('Error actualizando datos del item')
   } catch (error) {
     console.error(error)
+    return
   }
-  return
 }
 
 export const updateItemEnabledById = async (
