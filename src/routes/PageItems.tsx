@@ -1,5 +1,45 @@
+import { useEffect, useState } from 'react'
+
+import { Item } from '../types/item'
+
+import { getAllItems } from '../api/items/item'
+import { itemExample } from '../api/dummy'
+
+import ButtonLogout from '../components/ButtonLogout'
+import ForceLogin from '../components/ForceLogin'
+import LoadingWrapper from '../components/LoadingWrapper'
+// import UpdateItem from '../components/Items/UpdateItem'
+import ItemsList from '../components/Items/ItemsList'
+import UpdateItem from '../components/Items/UpdateItem'
+
 const PageItems = () => {
-  return <div>Página Items</div>
+  const [itemList, setItemList] = useState<Item[]>([])
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    const getData = async () => {
+      const result = await getAllItems()
+      if (result) {
+        setItemList(result)
+        setLoading(false)
+      } else {
+        setItemList([])
+        setLoading(false)
+      }
+    }
+    getData()
+  }, [])
+  return (
+    <ForceLogin>
+      <div>
+        Página Items
+        <UpdateItem item={itemExample} />
+        <LoadingWrapper loading={loading}>
+          <ItemsList items={itemList} />
+        </LoadingWrapper>
+      </div>
+      <ButtonLogout />
+    </ForceLogin>
+  )
 }
 
 export default PageItems
