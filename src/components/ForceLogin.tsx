@@ -1,12 +1,10 @@
 import { useContext } from 'react'
 
-import { redirect } from 'react-router-dom'
-
-import { UserContext } from '../contexts/UserContext'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 import PageLogin from '../routes/PageLogin'
 
 const ForceLogin = ({ children }: { children: React.ReactNode }) => {
-  const user = useContext(UserContext)
+  const user = useContext(EmployeeContext)
   if (!user) {
     return <PageLogin />
   }
