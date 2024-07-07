@@ -4,9 +4,10 @@ import { Item } from '../../types/item'
 
 import {
   Button,
+  FormControlLabel,
   Grid,
   Switch,
-  TextField
+  TextField,
 } from '@mui/material'
 import { updateItemById } from '../../api/items/item'
 type props = {
@@ -25,7 +26,7 @@ const UpdateItem = ({ item }: props) => {
     })
   }
   return (
-    <Grid item xs={12}>
+    <Grid container columns={12}>
       <Grid item xs={12}>
         <h1>Actualizar item</h1>
       </Grid>
@@ -69,10 +70,16 @@ const UpdateItem = ({ item }: props) => {
         />
       </Grid>
       <Grid item xs={6}>
-        <Switch
-          aria-label="Activado"
-          value={itemData.enabled}
-          onClick={handleEnabledClick}
+        <FormControlLabel
+          control={
+            <Switch
+              aria-label="Activado"
+              checked={itemData.enabled}
+              onClick={handleEnabledClick}
+            />
+          }
+          label="Activado"
+          labelPlacement="start"
         />
       </Grid>
       <Grid item xs={12}>
