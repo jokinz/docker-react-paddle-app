@@ -7,12 +7,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import CssBaseline from '@mui/material/CssBaseline'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import { UserContext, UserContextType } from './contexts/UserContext.ts'
+import { EmployeeContext, EmployeeContextType } from './contexts/EmployeeContext.ts'
 
 import PageDashboard from './routes/PageDashboard.tsx'
 import PageEmployees from './routes/PageEmployees.tsx'
 import PageLogin from './routes/PageLogin.tsx'
-import PageMyAccount from './routes/PageMyAccount.tsx'
 import PageNotFound from './routes/PageNotFound.tsx'
 import PageReserves from './routes/PageReserves.tsx'
 import PageUsers from './routes/PageUsers.tsx'
@@ -29,10 +28,6 @@ const App = () => {
       path: '/',
       element: <PageDashboard />,
       errorElement: <PageNotFound />,
-    },
-    {
-      path: '/my-account',
-      element: <PageMyAccount />,
     },
     {
       path: '/reserves',
@@ -52,14 +47,14 @@ const App = () => {
     },
   ])
 
-  const [user, setUser] = useState<UserContextType>(null)
+  const [user, setUser] = useState<EmployeeContextType>(null)
   return (
-    <UserContext.Provider value={user}>
+    <EmployeeContext.Provider value={user}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <RouterProvider router={router} />
       </ThemeProvider>
-    </UserContext.Provider>
+    </EmployeeContext.Provider>
   )
 }
 
