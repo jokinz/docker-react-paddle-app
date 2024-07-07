@@ -1,8 +1,8 @@
 export type Item = {
-id: number
+  id: number
   name: string
   description: string
   thumbnail: string
   price: number
-  enable: boolean
+  enabled: boolean
 }
