@@ -31,7 +31,7 @@ const ItemsList = ({ items }: props) => {
   if (itemsData.length > 0) {
     return (
       <div>
-        Lista de items
+        <h1>Lista de items</h1>
         <Grid item xs={12} md={6}>
           <Demo>
             <List dense={false}>
