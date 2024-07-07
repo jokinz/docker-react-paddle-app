@@ -9,7 +9,7 @@ import {
 import { User as UserType } from '../../types/user'
 
 type props = { user: UserType }
-const User = ({ user }: props) => {
+const UserItem = ({ user }: props) => {
   return (
     <ListItem
       secondaryAction={
@@ -31,4 +31,4 @@ const User = ({ user }: props) => {
   )
 }
 
-export default User
+export default UserItem
