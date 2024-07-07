@@ -7,13 +7,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import CssBaseline from '@mui/material/CssBaseline'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import {
-  EmployeeContext,
-  EmployeeContextType,
-} from './contexts/EmployeeContext.ts'
+import { EmployeeContext } from './contexts/EmployeeContext.ts'
 
+import { employeeExample } from './api/dummy.ts'
 import PageDashboard from './routes/PageDashboard.tsx'
 import PageEmployees from './routes/PageEmployees.tsx'
+import PageItems from './routes/PageItems.tsx'
 import PageLogin from './routes/PageLogin.tsx'
 import PageNotFound from './routes/PageNotFound.tsx'
 import PageReserves from './routes/PageReserves.tsx'
@@ -49,9 +48,13 @@ const App = () => {
       path: '/employees',
       element: <PageEmployees />,
     },
+    {
+      path: '/items',
+      element: <PageItems />,
+    },
   ])
 
-  const [employee, setEmployee] = useState<Employee | null>(null)
+  const [employee, setEmployee] = useState<Employee | null>(employeeExample)
   return (
     <EmployeeContext.Provider value={{ employee, setEmployee }}>
       <ThemeProvider theme={darkTheme}>
