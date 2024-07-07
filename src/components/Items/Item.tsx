@@ -4,11 +4,10 @@ import { Item as ItemType } from '../../types/item'
 import {
   Avatar,
   Icon,
-  IconButton,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Switch,
+  Switch
 } from '@mui/material'
 
 type props = {
@@ -29,9 +28,11 @@ const Item = ({ index, item, handleItemEnabledUpdate }: props) => {
   return (
     <ListItem
       secondaryAction={
-        <IconButton edge="end" aria-label="delete">
-          <Icon />
-        </IconButton>
+        <Switch
+          disabled={disabled}
+          checked={item.enabled}
+          onClick={(e) => handleSwitchClick(e)}
+        />
       }
     >
       <ListItemAvatar>
@@ -40,11 +41,6 @@ const Item = ({ index, item, handleItemEnabledUpdate }: props) => {
         </Avatar>
       </ListItemAvatar>
       <ListItemText primary={`${item.name}`} secondary={item.price} />
-      <Switch
-        disabled={disabled}
-        checked={item.enabled}
-        onClick={(e) => handleSwitchClick(e)}
-      />
     </ListItem>
   )
 }
