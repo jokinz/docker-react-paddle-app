@@ -3,8 +3,12 @@ import { useEffect, useState } from 'react'
 import { User } from '../types/user'
 
 import { getAllUsers } from '../api/users/user'
+import { userExample } from '../api/dummy'
 
+import ButtonLogout from '../components/ButtonLogout'
+import ForceLogin from '../components/ForceLogin'
 import LoadingWrapper from '../components/LoadingWrapper'
+import UpdateUser from '../components/Users/UpdateUser'
 import UsersList from '../components/Users/UsersList'
 
 const PageUsers = () => {
@@ -24,12 +28,16 @@ const PageUsers = () => {
     getData()
   }, [])
   return (
-    <div>
-      Página Usuarios
-      <LoadingWrapper loading={loading}>
-        <UsersList users={userList} />
-      </LoadingWrapper>
-    </div>
+    <ForceLogin>
+      <div>
+        Página Usuarios
+        <UpdateUser user={userExample} />
+        <LoadingWrapper loading={loading}>
+          <UsersList users={userList} />
+        </LoadingWrapper>
+      </div>
+      <ButtonLogout />
+    </ForceLogin>
   )
 }
 
