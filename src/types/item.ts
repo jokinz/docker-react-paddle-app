@@ -6,3 +6,5 @@ export type Item = {
   price: number
   enabled: boolean
 }
+
+export type NewItem = Omit<Item, 'id' | 'thumbnail'>
