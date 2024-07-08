@@ -1,5 +1,6 @@
 import { Employee } from '../types/employee'
 import { Item } from '../types/item'
+import { Payment } from '../types/payment'
 import { PlayingField } from '../types/playingField'
 import { Reserve } from '../types/reserve'
 import { User } from '../types/user'
@@ -169,5 +170,38 @@ export const reservesListExample: Reserve[] = [
     itemsHanded: false,
     totalPrice: 250,
     endtime: new Date(),
+  },
+]
+
+export const paymentExample: Payment = {
+  id: 1,
+  idReserve: 2,
+  status: 'paid',
+  transactionCode: '111222333',
+}
+export const paymentsListExample: Payment[] = [
+  {
+    id: 1,
+    idReserve: 2,
+    status: 'paid',
+    transactionCode: '111222333',
+  },
+  {
+    id: 2,
+    idReserve: 3,
+    status: 'pending',
+    transactionCode: '222333444',
+  },
+  {
+    id: 3,
+    idReserve: 4,
+    status: 'pending',
+    transactionCode: '333444555',
+  },
+  {
+    id: 4,
+    idReserve: 5,
+    status: 'failed',
+    transactionCode: '444555666',
   },
 ]
