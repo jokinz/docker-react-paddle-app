@@ -15,6 +15,7 @@ import PageEmployees from './routes/PageEmployees.tsx'
 import PageItems from './routes/PageItems.tsx'
 import PageLogin from './routes/PageLogin.tsx'
 import PageNotFound from './routes/PageNotFound.tsx'
+import PagePayments from './routes/PagePayments.tsx'
 import PageReserves from './routes/PageReserves.tsx'
 import PageUsers from './routes/PageUsers.tsx'
 import { Employee } from './types/employee.ts'
@@ -51,6 +52,10 @@ const App = () => {
     {
       path: '/items',
       element: <PageItems />,
+    },
+    {
+      path: '/payments',
+      element: <PagePayments />,
     },
   ])
 
