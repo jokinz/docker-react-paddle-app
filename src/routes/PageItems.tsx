@@ -7,11 +7,10 @@ import { getAllItems } from '../api/items/item'
 
 import ButtonLogout from '../components/ButtonLogout'
 import ForceLogin from '../components/ForceLogin'
-import LoadingWrapper from '../components/LoadingWrapper'
-// import UpdateItem from '../components/Items/UpdateItem'
 import ItemsList from '../components/Items/ItemsList'
 import NewItemForm from '../components/Items/NewItemForm'
 import UpdateItem from '../components/Items/UpdateItem'
+import LoadingWrapper from '../components/LoadingWrapper'
 
 const PageItems = () => {
   const [itemList, setItemList] = useState<Item[]>([])
