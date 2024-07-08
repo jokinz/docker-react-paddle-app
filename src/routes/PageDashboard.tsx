@@ -24,6 +24,11 @@ const PageDashboard = () => {
           Empleados
         </Button>
       </div>
+      <div>
+        <Button variant="outlined" href="/payments">
+          Pagos
+        </Button>
+      </div>
     </div>
   )
 }
