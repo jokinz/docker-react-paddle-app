@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 
 import { Reserve } from '../types/reserve'
 
-import { getAllReserves } from '../api/reserves/reserve'
 import { reserveExample } from '../api/dummy'
+import { getAllReserves } from '../api/reserves/reserve'
 
-import ButtonLogout from '../components/ButtonLogout'
+import Drawer from '../components/Drawer'
 import ForceLogin from '../components/ForceLogin'
 import LoadingWrapper from '../components/LoadingWrapper'
-import UpdateReserve from '../components/Reserves/UpdateReserve'
 import ReservesList from '../components/Reserves/ReservesList'
+import UpdateReserve from '../components/Reserves/UpdateReserve'
 
 const PageReserves = () => {
   const [reserveList, setReserveList] = useState<Reserve[]>([])
@@ -29,14 +29,13 @@ const PageReserves = () => {
   }, [])
   return (
     <ForceLogin>
-      <div>
+      <Drawer>
         Página Reservas
         <UpdateReserve reserve={reserveExample} />
         <LoadingWrapper loading={loading}>
           <ReservesList reserves={reserveList} />
         </LoadingWrapper>
-      </div>
-      <ButtonLogout />
+      </Drawer>
     </ForceLogin>
   )
 }

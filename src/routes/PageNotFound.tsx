@@ -1,5 +1,7 @@
+import Drawer from "../components/Drawer"
+
 const PageNotFound = () => {
-  return <div>Página no encontrada</div>
+  return <Drawer>Página no encontrada</Drawer>
 }
 
 export default PageNotFound

@@ -5,7 +5,7 @@ import { Item } from '../types/item'
 import { itemExample } from '../api/dummy'
 import { getAllItems } from '../api/items/item'
 
-import ButtonLogout from '../components/ButtonLogout'
+import Drawer from '../components/Drawer'
 import ForceLogin from '../components/ForceLogin'
 import ItemsList from '../components/Items/ItemsList'
 import NewItemForm from '../components/Items/NewItemForm'
@@ -30,15 +30,14 @@ const PageItems = () => {
   }, [])
   return (
     <ForceLogin>
-      <div>
-        Página Items
+      <Drawer>
+        <h1>Página Items</h1>
         <NewItemForm />
         <UpdateItem item={itemExample} />
         <LoadingWrapper loading={loading}>
           <ItemsList items={itemList} />
         </LoadingWrapper>
-      </div>
-      <ButtonLogout />
+      </Drawer>
     </ForceLogin>
   )
 }

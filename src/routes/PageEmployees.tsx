@@ -6,6 +6,8 @@ import { getAllEmployees } from '../api/employees/employee'
 
 import LoadingWrapper from '../components/LoadingWrapper'
 import EmployeesList from '../components/Employees/EmployeesList'
+import Drawer from '../components/Drawer'
+import ForceLogin from '../components/ForceLogin'
 
 const PageEmployees = () => {
   const [employeeList, setEmployeeList] = useState<Employee[]>([])
@@ -24,12 +26,14 @@ const PageEmployees = () => {
     getData()
   }, [])
   return (
-    <div>
-      Página trabajadores
-      <LoadingWrapper loading={loading}>
-        <EmployeesList employees={employeeList} />
-      </LoadingWrapper>
-    </div>
+    <ForceLogin>
+      <Drawer>
+        <h1>Página trabajadores</h1>
+        <LoadingWrapper loading={loading}>
+          <EmployeesList employees={employeeList} />
+        </LoadingWrapper>
+      </Drawer>
+    </ForceLogin>
   )
 }
 
