@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography'
 
 import { NavLink } from 'react-router-dom'
 import ButtonLogout from './ButtonLogout'
+import { Link, ListItemButton, ListItemText } from '@mui/material'
 
 const menuLinksList: { text: string; url: string }[] = [
   { text: 'Inicio', url: '' },
@@ -50,12 +51,22 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
         <List>
           {menuLinksList.map((item, index) => (
             <ListItem key={index} disablePadding>
-              <NavLink
-                to={`/${item.url}`}
-                className={({ isActive }) => (isActive ? 'active-link' : '')}
-              >
-                {item.text}
-              </NavLink>
+              <ListItemButton>
+                <ListItemText
+                  primary={
+                    <Link href="#">
+                      <NavLink
+                        to={`/${item.url}`}
+                        className={({ isActive }) =>
+                          isActive ? 'active-link' : ''
+                        }
+                      >
+                        {item.text}
+                      </NavLink>
+                    </Link>
+                  }
+                />
+              </ListItemButton>
             </ListItem>
           ))}
         </List>
