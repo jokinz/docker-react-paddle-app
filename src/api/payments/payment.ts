@@ -6,7 +6,7 @@ export const getPaymentById = async (
 ): Promise<PaymentType | undefined> => {
   try {
     const response: PaymentType = await emulateApiCall(
-      paymentExample,
+      paymentsListExample[id-1],
       'success',
       id
     )
