@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Payment as PaymentType } from '../../types/payment'
 
-import { Grid, List, styled } from '@mui/material'
+import { Grid, List } from '@mui/material'
 
 import { updatePaymentById } from '../../api/payments/payment'
 import PaymentItem from './PaymentItem'
@@ -10,9 +10,7 @@ import PaymentItem from './PaymentItem'
 type props = { payments: PaymentType[] }
 const PaymentsList = ({ payments }: props) => {
   const [paymentsData, setPaymentsData] = useState(payments)
-  const Demo = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
-  }))
+  
   const handlePaymentStatusUpdate = async (
     index: number,
     payment: PaymentType
@@ -34,9 +32,8 @@ const PaymentsList = ({ payments }: props) => {
   if (paymentsData.length > 0) {
     return (
       <div>
-        <h1>Lista de reservas</h1>
+        <h1>Resultado</h1>
         <Grid item xs={12} md={6}>
-          <Demo>
             <List dense={false}>
               {paymentsData.map((payment, index) => (
                 <PaymentItem
@@ -47,7 +44,6 @@ const PaymentsList = ({ payments }: props) => {
                 />
               ))}
             </List>
-          </Demo>
         </Grid>
       </div>
     )
