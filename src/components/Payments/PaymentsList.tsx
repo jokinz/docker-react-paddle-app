@@ -1,49 +1,23 @@
-import { useState } from 'react'
 
 import { Payment as PaymentType } from '../../types/payment'
 
 import { Grid, List } from '@mui/material'
 
-import { updatePaymentById } from '../../api/payments/payment'
 import PaymentItem from './PaymentItem'
 
 type props = { payments: PaymentType[] }
 const PaymentsList = ({ payments }: props) => {
-  const [paymentsData, setPaymentsData] = useState(payments)
-  
-  const handlePaymentStatusUpdate = async (
-    index: number,
-    payment: PaymentType
-  ) => {
-    try {
-      const response = await updatePaymentById(payment)
-      if (response) {
-        setPaymentsData((prev) => {
-          const updatedPaymentsData = [...prev]
-          updatedPaymentsData[index] = payment
-          return updatedPaymentsData
-        })
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
-  if (paymentsData.length > 0) {
+  if (payments.length > 0) {
     return (
       <div>
         <h1>Resultado</h1>
         <Grid item xs={12} md={6}>
-            <List dense={false}>
-              {paymentsData.map((payment, index) => (
-                <PaymentItem
-                  key={index}
-                  index={index}
-                  payment={payment}
-                  handlePaymentEnabledUpdate={handlePaymentStatusUpdate}
-                />
-              ))}
-            </List>
+          <List dense={false}>
+            {payments.map((payment, index) => (
+              <PaymentItem key={index} index={index} payment={payment} />
+            ))}
+          </List>
         </Grid>
       </div>
     )
@@ -51,8 +25,8 @@ const PaymentsList = ({ payments }: props) => {
 
   return (
     <div>
-      <h1>Lista de reservas</h1>
-      Ningna reserva para mostrar
+      <h1>Lista de pagos</h1>
+      Ningna pago para mostrar
     </div>
   )
 }
