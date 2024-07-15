@@ -33,6 +33,19 @@ export const updatePaymentById = async (payment: PaymentType) => {
   return
 }
 
+export const getPaymentsByDocument = async (userDocument: string) => {
+  try {
+    const response = await emulateApiCall(paymentsListExample, 'success', userDocument)
+    if (response) {
+      return response
+    }
+    throw new Error('Error buscando lista de reservas')
+  } catch (error) {
+    console.error(error)
+  }
+  return
+}
+
 export const getAllPayments = async (): Promise<PaymentType[] | undefined> => {
   try {
     const response: PaymentType[] = await emulateApiCall(
