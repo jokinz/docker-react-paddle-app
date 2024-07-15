@@ -12,15 +12,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { EmployeeContext } from './contexts/EmployeeContext.ts'
 
 import { employeeExample } from './api/dummy.ts'
+
+import { Employee } from './types/employee.ts'
+
 import PageDashboard from './routes/PageDashboard.tsx'
 import PageEmployees from './routes/PageEmployees.tsx'
 import PageItems from './routes/PageItems.tsx'
 import PageLogin from './routes/PageLogin.tsx'
 import PageNotFound from './routes/PageNotFound.tsx'
 import PagePayments from './routes/PagePayments.tsx'
+import PagePaymentSingle from './routes/PagePaymentSingle.tsx'
 import PageReserves from './routes/PageReserves.tsx'
 import PageUsers from './routes/PageUsers.tsx'
-import { Employee } from './types/employee.ts'
 
 const darkTheme = createTheme({
   palette: {
@@ -59,13 +62,17 @@ const App = () => {
       path: '/payments',
       element: <PagePayments />,
     },
+    {
+      path: '/payments/:paymentId',
+      element: <PagePaymentSingle />,
+    },
   ])
 
   const [employee, setEmployee] = useState<Employee | null>(employeeExample)
   return (
     <SnackbarProvider
       maxSnack={3}
-      autoHideDuration={1000}
+      autoHideDuration={1500}
       anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
     >
       <EmployeeContext.Provider value={{ employee, setEmployee }}>
