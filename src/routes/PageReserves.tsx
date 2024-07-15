@@ -9,7 +9,7 @@ import Drawer from '../components/Drawer'
 import ForceLogin from '../components/ForceLogin'
 import LoadingWrapper from '../components/LoadingWrapper'
 import ReservesList from '../components/Reserves/ReservesList'
-import UpdateReserve from '../components/Reserves/UpdateReserve'
+import ReserveDetails from '../components/Reserves/ReserveDetails'
 
 const PageReserves = () => {
   const [reserveList, setReserveList] = useState<Reserve[]>([])
@@ -31,7 +31,7 @@ const PageReserves = () => {
     <ForceLogin>
       <Drawer>
         Página Reservas
-        <UpdateReserve reserve={reserveExample} />
+        <ReserveDetails reserve={reserveExample} />
         <LoadingWrapper loading={loading}>
           <ReservesList reserves={reserveList} />
         </LoadingWrapper>
