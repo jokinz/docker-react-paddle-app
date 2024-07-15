@@ -4,6 +4,8 @@ import { useState } from 'react'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import { SnackbarProvider } from 'notistack'
+
 import CssBaseline from '@mui/material/CssBaseline'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -61,12 +63,18 @@ const App = () => {
 
   const [employee, setEmployee] = useState<Employee | null>(employeeExample)
   return (
-    <EmployeeContext.Provider value={{ employee, setEmployee }}>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </EmployeeContext.Provider>
+    <SnackbarProvider
+      maxSnack={3}
+      autoHideDuration={1000}
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+    >
+      <EmployeeContext.Provider value={{ employee, setEmployee }}>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </EmployeeContext.Provider>
+    </SnackbarProvider>
   )
 }
 
