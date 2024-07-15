@@ -14,7 +14,7 @@ type props = {
   reserve: Reserve
 }
 
-const UpdateReserve = ({ reserve }: props) => {
+const ReserveDetails = ({ reserve }: props) => {
   const [reserveData, setReserveData] = useState<Reserve>(reserve)
   const handleEnabledClick = async () => {
     setReserveData((prev) => {
@@ -82,4 +82,4 @@ const UpdateReserve = ({ reserve }: props) => {
   )
 }
 
-export default UpdateReserve
+export default ReserveDetails
