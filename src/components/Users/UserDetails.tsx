@@ -17,7 +17,7 @@ type props = {
   user: User
 }
 
-const UpdateUser = ({ user }: props) => {
+const UserDetails = ({ user }: props) => {
   const [userData, setUserData] = useState<User>(user)
   const handleDocumentTypeChange = (event: SelectChangeEvent) => {
     setUserData((prevUserData) => {
@@ -148,4 +148,4 @@ const UpdateUser = ({ user }: props) => {
   )
 }
 
-export default UpdateUser
+export default UserDetails
