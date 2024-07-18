@@ -1,42 +1,72 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+
+import _ from 'lodash'
 
 import { User } from '../types/user'
 
 import { getAllUsers } from '../api/users/user'
-import { userExample } from '../api/dummy'
 
-import ButtonLogout from '../components/ButtonLogout'
+import { Grid, TextField } from '@mui/material'
+
+import Drawer from '../components/Drawer'
 import ForceLogin from '../components/ForceLogin'
 import LoadingWrapper from '../components/LoadingWrapper'
-import UpdateUser from '../components/Users/UpdateUser'
 import UsersList from '../components/Users/UsersList'
 
 const PageUsers = () => {
   const [userList, setUserList] = useState<User[]>([])
+  const [searchValue, setSearchValue] = useState('')
   const [loading, setLoading] = useState(true)
+
+  const debouncedSearch = useCallback(
+    _.debounce(async (newValue: string) => {
+      await handleSearchUsers(newValue)
+    }, 1000),
+    []
+  )
   useEffect(() => {
-    const getData = async () => {
-      const result = await getAllUsers()
-      if (result) {
-        setUserList(result)
-        setLoading(false)
-      } else {
-        setUserList([])
-        setLoading(false)
+    debouncedSearch(searchValue)
+    return debouncedSearch.cancel
+  }, [searchValue, debouncedSearch])
+
+  const handleSearchUsers = async (newValue: string) => {
+    try {
+      // TODO: update what functions calls
+      if (newValue !== '') {
+        setLoading(true)
+        const result = await getAllUsers()
+        if (result) {
+          setUserList(result)
+        } else {
+          setUserList([])
+        }
       }
+    } catch (error) {
+      setUserList([])
+    } finally {
+      setLoading(false)
     }
-    getData()
-  }, [])
+  }
   return (
     <ForceLogin>
-      <div>
-        Página Usuarios
-        <UpdateUser user={userExample} />
+      <Drawer>
+        <h1>Página Usuarios</h1>
+        <Grid container>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              id="searchValue"
+              label="Documento de usuario"
+              variant="filled"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+          </Grid>
+        </Grid>
         <LoadingWrapper loading={loading}>
           <UsersList users={userList} />
         </LoadingWrapper>
-      </div>
-      <ButtonLogout />
+      </Drawer>
     </ForceLogin>
   )
 }
