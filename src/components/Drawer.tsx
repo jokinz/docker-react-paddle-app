@@ -55,16 +55,14 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
               <ListItemButton>
                 <ListItemText
                   primary={
-                    <Link href="#">
-                      <NavLink
-                        to={`/${item.url}`}
-                        className={({ isActive }) =>
-                          isActive ? 'active-link' : ''
-                        }
-                      >
-                        {item.text}
-                      </NavLink>
-                    </Link>
+                    <NavLink
+                      to={`/${item.url}`}
+                      className={({ isActive }) =>
+                        isActive ? 'active-link' : ''
+                      }
+                    >
+                      {item.text}
+                    </NavLink>
                   }
                 />
               </ListItemButton>
