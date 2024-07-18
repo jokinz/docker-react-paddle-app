@@ -24,10 +24,11 @@ import PagePayments from './routes/PagePayments.tsx'
 import PagePaymentSingle from './routes/PagePaymentSingle.tsx'
 import PageReserves from './routes/PageReserves.tsx'
 import PageUsers from './routes/PageUsers.tsx'
+import PageReserveSingle from './routes/PageReserveSingle.tsx'
 
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
   },
 })
 
@@ -41,6 +42,10 @@ const App = () => {
     {
       path: '/reserves',
       element: <PageReserves />,
+    },
+    {
+      path: '/reserves/:reserveId',
+      element: <PageReserveSingle />,
     },
     {
       path: '/login',
