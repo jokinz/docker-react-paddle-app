@@ -1,37 +1,69 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+
+import _ from 'lodash'
 
 import { Reserve } from '../types/reserve'
 
-import { reserveExample } from '../api/dummy'
 import { getAllReserves } from '../api/reserves/reserve'
+
+import { Grid, TextField } from '@mui/material'
 
 import Drawer from '../components/Drawer'
 import ForceLogin from '../components/ForceLogin'
 import LoadingWrapper from '../components/LoadingWrapper'
 import ReservesList from '../components/Reserves/ReservesList'
-import ReserveDetails from '../components/Reserves/ReserveDetails'
 
 const PageReserves = () => {
   const [reserveList, setReserveList] = useState<Reserve[]>([])
+  const [searchValue, setSearchValue] = useState('')
   const [loading, setLoading] = useState(true)
+
+  const debouncedSearch = useCallback(
+    _.debounce(async (newValue: string) => {
+      await handleSearchReserves(newValue)
+    }, 1000),
+    []
+  )
   useEffect(() => {
-    const getData = async () => {
-      const result = await getAllReserves()
-      if (result) {
-        setReserveList(result)
-        setLoading(false)
-      } else {
-        setReserveList([])
-        setLoading(false)
+    debouncedSearch(searchValue)
+    return debouncedSearch.cancel
+  }, [searchValue, debouncedSearch])
+
+  const handleSearchReserves = async (newValue: string) => {
+    try {
+      // TODO: update what functions calls
+      if (newValue !== '') {
+        setLoading(true)
+        const result = await getAllReserves()
+        if (result) {
+          setReserveList(result)
+        } else {
+          setReserveList([])
+        }
       }
+    } catch (error) {
+      setReserveList([])
+    } finally {
+      setLoading(false)
     }
-    getData()
-  }, [])
+  }
+
   return (
     <ForceLogin>
       <Drawer>
-        Página Reservas
-        <ReserveDetails reserve={reserveExample} />
+        <h1>Página Reservas</h1>
+        <Grid container>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              id="searchValue"
+              label="Documento/Código de reserva"
+              variant="filled"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+          </Grid>
+        </Grid>
         <LoadingWrapper loading={loading}>
           <ReservesList reserves={reserveList} />
         </LoadingWrapper>
