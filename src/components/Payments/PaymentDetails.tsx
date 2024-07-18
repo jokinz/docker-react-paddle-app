@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-
 import { Payment, paymentStatus } from '../../types/payment'
 
 import { getPaymentById, updatePaymentById } from '../../api/payments/payment'
