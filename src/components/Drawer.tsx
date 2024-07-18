@@ -1,3 +1,6 @@
+import { NavLink } from 'react-router-dom'
+
+import { ListItemButton, ListItemText } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
@@ -7,9 +10,7 @@ import ListItem from '@mui/material/ListItem'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
-import { NavLink } from 'react-router-dom'
 import ButtonLogout from './ButtonLogout'
-import { Link, ListItemButton, ListItemText } from '@mui/material'
 
 const menuLinksList: { text: string; url: string }[] = [
   { text: 'Inicio', url: '' },
