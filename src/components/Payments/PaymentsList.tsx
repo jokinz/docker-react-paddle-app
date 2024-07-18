@@ -26,7 +26,7 @@ const PaymentsList = ({ payments }: props) => {
   return (
     <div>
       <h1>Lista de pagos</h1>
-      Ningna pago para mostrar
+      Ninguna pago para mostrar
     </div>
   )
 }
