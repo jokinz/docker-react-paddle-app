@@ -1,5 +1,3 @@
-import { NavLink } from 'react-router-dom'
-
 import { ListItemButton, ListItemText } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -11,13 +9,14 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
 import ButtonLogout from './ButtonLogout'
+import MenuLink from './MenuLink'
 
 const menuLinksList: { text: string; url: string }[] = [
-  { text: 'Inicio', url: '' },
-  { text: 'Reservas', url: 'reserves' },
-  { text: 'Usuarios', url: 'users' },
-  { text: 'Trabajadores', url: 'employees' },
-  { text: 'Pagos', url: 'payments' },
+  { text: 'Inicio', url: '/' },
+  { text: 'Reservas', url: '/reserves' },
+  { text: 'Usuarios', url: '/users' },
+  { text: 'Trabajadores', url: '/employees' },
+  { text: 'Pagos', url: '/payments' },
 ]
 
 const drawerWidth = 240
@@ -54,16 +53,7 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
             <ListItem key={index} disablePadding>
               <ListItemButton>
                 <ListItemText
-                  primary={
-                    <NavLink
-                      to={`/${item.url}`}
-                      className={({ isActive }) =>
-                        isActive ? 'active-link' : ''
-                      }
-                    >
-                      {item.text}
-                    </NavLink>
-                  }
+                  primary={<MenuLink to={item.url}>{item.text}</MenuLink>}
                 />
               </ListItemButton>
             </ListItem>
