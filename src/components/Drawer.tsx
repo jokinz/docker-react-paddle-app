@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+
 import { ListItemButton, ListItemText } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -8,20 +10,42 @@ import ListItem from '@mui/material/ListItem'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
+import { EmployeeContext } from '../contexts/EmployeeContext'
+
 import ButtonLogout from './ButtonLogout'
 import MenuLink from './MenuLink'
 
-const menuLinksList: { text: string; url: string }[] = [
-  { text: 'Inicio', url: '/' },
-  { text: 'Reservas', url: '/reserves' },
-  { text: 'Usuarios', url: '/users' },
-  { text: 'Trabajadores', url: '/employees' },
-  { text: 'Pagos', url: '/payments' },
-]
+const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
+  [
+    { text: 'Inicio', url: '/' },
+    { text: 'Reservas', url: '/reserves' },
+    { text: 'Pagos', url: '/payments' },
+    { text: 'Usuarios', url: '/users' },
+    { text: 'Trabajadores', url: '/employees', allowedRoles: [3] },
+  ]
 
 const drawerWidth = 240
 
 export default function Drawer({ children }: { children: React.ReactNode }) {
+  const employeeContext = useContext(EmployeeContext)
+  const LinkList = menuLinksList
+    .filter((item) => {
+      if (!item.allowedRoles) {
+        return true
+      }
+      return item.allowedRoles.includes(
+        employeeContext?.employee?.idRole as number
+      )
+    })
+    .map((item, index) => (
+      <ListItem key={index} disablePadding>
+        <ListItemButton>
+          <ListItemText
+            primary={<MenuLink to={item.url}>{item.text}</MenuLink>}
+          />
+        </ListItemButton>
+      </ListItem>
+    ))
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar
@@ -48,17 +72,7 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
       >
         <Toolbar />
         <Divider />
-        <List>
-          {menuLinksList.map((item, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton>
-                <ListItemText
-                  primary={<MenuLink to={item.url}>{item.text}</MenuLink>}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <List>{LinkList}</List>
         <ButtonLogout />
       </MUIDrawer>
       <Box
