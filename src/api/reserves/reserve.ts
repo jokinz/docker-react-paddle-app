@@ -6,7 +6,7 @@ export const getReserveById = async (
 ): Promise<ReserveType | undefined> => {
   try {
     const response: ReserveType = await emulateApiCall(
-      reserveExample,
+      reservesListExample[id - 1],
       'success',
       id
     )
