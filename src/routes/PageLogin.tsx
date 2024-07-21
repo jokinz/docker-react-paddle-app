@@ -1,9 +1,16 @@
 import { useContext, useState } from 'react'
 
-import { Button, TextField } from '@mui/material'
+import { Box, Button, Grid, TextField } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+
+import { Navigate } from 'react-router-dom'
+
+import { EmployeeContext } from '../contexts/EmployeeContext'
+
+import LoadingWrapper from '../components/LoadingWrapper'
 
 import { employeeExample, emulateApiCall } from '../api/dummy'
-import { EmployeeContext } from '../contexts/EmployeeContext'
+import { Employee } from '../types/employee'
 
 const PageLogin = () => {
   const employeeContext = useContext(EmployeeContext)
