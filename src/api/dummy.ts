@@ -143,33 +143,36 @@ export const playingFieldsListExample: PlayingField[] = [
 export const reserveExample: Reserve = {
   id: 1,
   idSchedule: 1,
-  idStablishment: 1,
+  idEstablishment: 1,
   idPlayingField: 1,
   idPriceBracket: 1,
   itemsHanded: true,
   totalPrice: 200,
   endtime: new Date(),
+  idUser: 1,
 }
 export const reservesListExample: Reserve[] = [
   {
     id: 1,
     idSchedule: 1,
-    idStablishment: 1,
+    idEstablishment: 1,
     idPlayingField: 1,
     idPriceBracket: 1,
     itemsHanded: true,
     totalPrice: 200,
     endtime: new Date(),
+    idUser: 1,
   },
   {
     id: 2,
     idSchedule: 1,
-    idStablishment: 1,
+    idEstablishment: 1,
     idPlayingField: 1,
     idPriceBracket: 1,
     itemsHanded: false,
     totalPrice: 250,
     endtime: new Date(),
+    idUser: 3,
   },
 ]
 

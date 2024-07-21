@@ -1,7 +1,8 @@
 export type Reserve = {
   id: number
   idSchedule: number
-  idStablishment: number
+  idUser: number
+  idEstablishment: number
   idPlayingField: number
   idPriceBracket: number
   itemsHanded: boolean
