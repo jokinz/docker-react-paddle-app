@@ -1,23 +1,26 @@
 import { useEffect, useState } from 'react'
 
-import { Payment, paymentStatus } from '../../types/payment'
-
-import { getPaymentById, updatePaymentById } from '../../api/payments/payment'
-
 import {
   Button,
   Dialog,
   DialogActions,
   DialogTitle,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
+  TextField
 } from '@mui/material'
 
 import { enqueueSnackbar } from 'notistack'
 
+import { Payment, paymentStatus } from '../../types/payment'
+
+import { getPaymentById, updatePaymentById } from '../../api/payments/payment'
+
+import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 
 type props = { paymentId: string }
@@ -81,15 +84,36 @@ const PaymentDetails = ({ paymentId }: props) => {
   }, [])
 
   return (
-      <LoadingWrapper loading={loading}>
-        {payment ? (
-          <>
-            <h1>ID: {payment.id}</h1>
-            <p>Código de transacción: {payment?.transactionCode}</p>
-            <FormControl variant="standard">
+    <LoadingWrapper loading={loading}>
+      {payment ? (
+        <DetailsWrapper>
+          <Grid textAlign={'center'} item xs={12}>
+            <h1>Detalles de pago N° {payment.id}</h1>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="transactionCode"
+              label="transactionCode"
+              variant="filled"
+              value={payment.transactionCode}
+              fullWidth
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="idReserve"
+              label="idReserve"
+              variant="filled"
+              value={payment.idReserve}
+              fullWidth
+              disabled
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="standard">
               <InputLabel id="new-status-label">Estado de pago</InputLabel>
               <Select
-                fullWidth
                 disabled={
                   payment.status === 'paid' || payment.status === 'failed'
                 }
@@ -107,40 +131,42 @@ const PaymentDetails = ({ paymentId }: props) => {
                 <MenuItem value={'failed'}>Fallido</MenuItem>
               </Select>
             </FormControl>
-            <br />
+          </Grid>
+          <Grid item xs={12} textAlign={'center'}>
             <Button
+              variant="contained"
               disabled={payment.status === newStatus}
               onClick={handleUpdateButtonClick}
             >
               Actualizar pago
             </Button>
-            <Dialog
-              open={showModal}
-              onClose={handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">
-                {'¿Actualizar el estado del pago?'}
-              </DialogTitle>
-              <DialogActions>
-                <Button onClick={handleClose}>Cancelar</Button>
-                <Button
-                  disabled={updateLoading}
-                  onClick={handleConfirmationClick}
-                  autoFocus
-                >
-                  <LoadingWrapper loading={updateLoading}>
-                    Sí, actualizar
-                  </LoadingWrapper>
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </>
-        ) : (
-          <h1>Pago no encontrado</h1>
-        )}
-      </LoadingWrapper>
+          </Grid>
+          <Dialog
+            open={showModal}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {'¿Actualizar el estado del pago?'}
+            </DialogTitle>
+            <DialogActions>
+              <Button
+                disabled={updateLoading}
+                onClick={handleConfirmationClick}
+                autoFocus
+              >
+                <LoadingWrapper loading={updateLoading}> </LoadingWrapper>
+                Sí, actualizar
+              </Button>
+              <Button onClick={handleClose}>Cancelar</Button>
+            </DialogActions>
+          </Dialog>
+        </DetailsWrapper>
+      ) : (
+        <h1>Pago no encontrado</h1>
+      )}
+    </LoadingWrapper>
   )
 }
 
