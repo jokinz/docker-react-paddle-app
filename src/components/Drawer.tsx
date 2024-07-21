@@ -30,7 +30,7 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Paddle App
+            Padle App
           </Typography>
         </Toolbar>
       </AppBar>
