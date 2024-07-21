@@ -1,12 +1,18 @@
+import { Box } from '@mui/material'
 import ButtonLogout from '../components/ButtonLogout'
-import Drawer from '../components/Drawer'
 
 const PageDisabled = () => {
   return (
-    <Drawer>
+    <Box
+      display={'flex'}
+      flexDirection={'column'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      height={'100vh'}
+    >
       <h1>Su usuario está deshabilitado</h1>
       <ButtonLogout />
-    </Drawer>
+    </Box>
   )
 }
 
