@@ -71,6 +71,8 @@ const ReserveDetails = ({ reserveId }: props) => {
           if (result) {
             setReserve(result)
             setItemsHanded(result.itemsHanded)
+          } else {
+            setReserve(null)
           }
         }
       } catch (error) {
@@ -84,16 +86,63 @@ const ReserveDetails = ({ reserveId }: props) => {
   return (
     <LoadingWrapper loading={loading}>
       {reserve ? (
-        <Grid container width={'50%'} rowSpacing={3} gridColumn={2}>
-          <Grid item xs={12}>
-            <h1>Actualizar reserva</h1>
+        <Grid
+          container
+          maxWidth={'48rem'}
+          spacing={3}
+          // gridColumn={2}
+          // direction={'column'}
+        >
+          <Grid textAlign={'center'} item xs={12}>
+            <h1>Detalles de reserva N° {reserve.id}</h1>
           </Grid>
           <Grid item xs={6}>
             <TextField
-              id="id"
-              label="ID"
+              id="idUser"
+              label="idUser"
               variant="filled"
-              value={reserve.id}
+              value={reserve.idUser}
+              fullWidth
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="idEstablishment"
+              label="idEstablishment"
+              variant="filled"
+              value={reserve.idEstablishment}
+              fullWidth
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="idPlayingField"
+              label="idPlayingField"
+              variant="filled"
+              value={reserve.idPlayingField}
+              fullWidth
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="idPriceBracket"
+              label="idPriceBracket"
+              variant="filled"
+              value={reserve.idPriceBracket}
+              fullWidth
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="idSchedule"
+              label="idSchedule"
+              variant="filled"
+              value={reserve.idSchedule}
+              fullWidth
               disabled
             />
           </Grid>
@@ -103,6 +152,7 @@ const ReserveDetails = ({ reserveId }: props) => {
               label="endTime"
               variant="filled"
               value={reserve.endtime}
+              fullWidth
               disabled
             />
           </Grid>
@@ -117,12 +167,19 @@ const ReserveDetails = ({ reserveId }: props) => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid
+            item
+            xs={6}
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
             <FormControlLabel
               control={
                 <Switch
                   aria-label="Items entregados"
-                  checked={reserve.itemsHanded}
+                  disabled={reserve.itemsHanded}
+                  checked={itemsHanded}
                   onChange={handleItemsHandedChange}
                 />
               }
@@ -130,8 +187,12 @@ const ReserveDetails = ({ reserveId }: props) => {
               labelPlacement="start"
             />
           </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" onClick={handleUpdateButtonClick}>
+          <Grid item xs={12} textAlign={'center'}>
+            <Button
+              variant="contained"
+              onClick={handleUpdateButtonClick}
+              disabled={!itemsHanded && itemsHanded === reserve.itemsHanded}
+            >
               Actualizar reserva
             </Button>
           </Grid>
@@ -142,19 +203,18 @@ const ReserveDetails = ({ reserveId }: props) => {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {'¿Actualizar el estado de losítems entregados?'}
+              {'¿Actualizar el estado de los ítems entregados?'}
             </DialogTitle>
             <DialogActions>
-              <Button onClick={handleClose}>Cancelar</Button>
               <Button
                 disabled={updateLoading}
                 onClick={handleConfirmationClick}
                 autoFocus
               >
-                <LoadingWrapper loading={updateLoading}>
-                  Sí, actualizar
-                </LoadingWrapper>
+                <LoadingWrapper loading={updateLoading}>{' '}</LoadingWrapper>
+                Sí, actualizar
               </Button>
+              <Button onClick={handleClose}>Cancelar</Button>
             </DialogActions>
           </Dialog>
         </Grid>
