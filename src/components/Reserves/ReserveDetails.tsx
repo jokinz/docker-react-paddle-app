@@ -17,6 +17,7 @@ import {
 
 import { enqueueSnackbar } from 'notistack'
 
+import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 
 type props = { reserveId: string }
@@ -86,13 +87,7 @@ const ReserveDetails = ({ reserveId }: props) => {
   return (
     <LoadingWrapper loading={loading}>
       {reserve ? (
-        <Grid
-          container
-          maxWidth={'48rem'}
-          spacing={3}
-          // gridColumn={2}
-          // direction={'column'}
-        >
+        <DetailsWrapper>
           <Grid textAlign={'center'} item xs={12}>
             <h1>Detalles de reserva N° {reserve.id}</h1>
           </Grid>
@@ -211,13 +206,13 @@ const ReserveDetails = ({ reserveId }: props) => {
                 onClick={handleConfirmationClick}
                 autoFocus
               >
-                <LoadingWrapper loading={updateLoading}>{' '}</LoadingWrapper>
+                <LoadingWrapper loading={updateLoading}> </LoadingWrapper>
                 Sí, actualizar
               </Button>
               <Button onClick={handleClose}>Cancelar</Button>
             </DialogActions>
           </Dialog>
-        </Grid>
+        </DetailsWrapper>
       ) : (
         <h1>Reserva no encontrada</h1>
       )}
