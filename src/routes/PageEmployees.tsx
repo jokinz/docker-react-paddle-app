@@ -1,17 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+
+import { Navigate } from 'react-router-dom'
+
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 import { Employee } from '../types/employee'
 
 import { getAllEmployees } from '../api/employees/employee'
 
-import LoadingWrapper from '../components/LoadingWrapper'
-import EmployeesList from '../components/Employees/EmployeesList'
 import Drawer from '../components/Drawer'
+import EmployeesList from '../components/Employees/EmployeesList'
 import ForceLogin from '../components/ForceLogin'
+import LoadingWrapper from '../components/LoadingWrapper'
 
 const PageEmployees = () => {
+  const employeeContext = useContext(EmployeeContext)
+
   const [employeeList, setEmployeeList] = useState<Employee[]>([])
   const [loading, setLoading] = useState(true)
+  if (employeeContext?.employee?.idRole !== 3) {
+    return <Navigate to="/"/>
+  }
   useEffect(() => {
     const getData = async () => {
       const result = await getAllEmployees()
