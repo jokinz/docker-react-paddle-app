@@ -24,7 +24,7 @@ const ReservesList = ({ reserves }: props) => {
 
   return (
     <div>
-      <h1>Lista de reservas</h1>
+      <h1>Resultado</h1>
       Ninguna reserva para mostrar
     </div>
   )
