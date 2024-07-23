@@ -1,6 +1,6 @@
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-import { ListItem, ListItemText } from '@mui/material'
+import { Grid, ListItem, ListItemButton, ListItemText } from '@mui/material'
 
 import { Reserve as ReserveType } from '../../types/reserve'
 
@@ -9,14 +9,26 @@ type props = {
   reserve: ReserveType
 }
 const ReserveItem = ({ reserve }: props) => {
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate(`/reserves/${reserve.id}`)
+  }
   return (
     <ListItem>
-      <NavLink to={`/reserves/${reserve.id}`}>
-        <ListItemText
-          primary={`id: ${reserve.id}`}
-          secondary={`idReserve: ${reserve.id} Items entregados: ${reserve.itemsHanded}`}
-        />
-      </NavLink>{' '}
+      <ListItemButton onClick={handleClick}>
+        <Grid container display={'flex'} alignItems={'center'}>
+          <ListItemText primary={`Número de reserva: ${reserve.id}`} />
+          <Grid item xs={3}>
+            Número de pago: <b>no hay</b>
+          </Grid>
+          <Grid item xs={3}>
+            Items entregados: <b>{`${reserve.itemsHanded ? 'SÍ' : 'NO'}`}</b>
+          </Grid>
+          <Grid item xs={3}>
+            Horario: {reserve.idSchedule} {reserve.endtime.toDateString()}
+          </Grid>
+        </Grid>
+      </ListItemButton>
     </ListItem>
   )
 }
