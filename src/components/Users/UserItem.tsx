@@ -1,32 +1,46 @@
+import { useNavigate } from 'react-router-dom'
+
 import {
   Avatar,
+  Grid,
   Icon,
-  IconButton,
   ListItem,
   ListItemAvatar,
-  ListItemText,
+  ListItemButton,
+  ListItemText
 } from '@mui/material'
+
 import { User as UserType } from '../../types/user'
 
 type props = { user: UserType }
 const UserItem = ({ user }: props) => {
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate(`/users/${user.id}`)
+  }
   return (
-    <ListItem
-      secondaryAction={
-        <IconButton edge="end" aria-label="delete">
-          <Icon />
-        </IconButton>
-      }
-    >
+    <ListItem>
       <ListItemAvatar>
         <Avatar>
           <Icon />
         </Avatar>
       </ListItemAvatar>
-      <ListItemText
-        primary={`${user.firstName} ${user.lastName}`}
-        secondary={user.email}
-      />
+      <ListItemButton onClick={handleClick}>
+        <Grid container display={'flex'} alignItems={'center'}>
+          <ListItemText
+            primary={`${user.firstName} ${user.lastName}`}
+          />
+          <Grid item xs={3}>
+            Email: <b>{user.email}</b>
+          </Grid>
+          <Grid item xs={3}>
+            Documento: <b>{user.documentNumber}</b>
+          </Grid>
+          <Grid item xs={3}>
+            Teléfono: <b>{user.phone}</b>
+          </Grid>
+        </Grid>
+      </ListItemButton>
     </ListItem>
   )
 }
