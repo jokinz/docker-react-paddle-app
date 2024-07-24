@@ -8,10 +8,11 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  Link,
   MenuItem,
   Select,
   SelectChangeEvent,
-  TextField
+  TextField,
 } from '@mui/material'
 
 import { enqueueSnackbar } from 'notistack'
@@ -22,6 +23,7 @@ import { getPaymentById, updatePaymentById } from '../../api/payments/payment'
 
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import { NavLink } from 'react-router-dom'
 
 type props = { paymentId: string }
 
@@ -64,6 +66,9 @@ const PaymentDetails = ({ paymentId }: props) => {
       setUpdateLoading(false)
     }
   }
+  const handleReserveClick = () => {
+    window.open(`/reserves/${payment?.idReserve}`, '_blank')
+  }
 
   useEffect(() => {
     const getPaymentData = async () => {
@@ -92,6 +97,21 @@ const PaymentDetails = ({ paymentId }: props) => {
           </Grid>
           <Grid item xs={6}>
             <TextField
+              id="idReserve"
+              label="idReserve"
+              variant="filled"
+              value={payment.idReserve}
+              fullWidth
+              disabled
+            />
+          </Grid>
+          <Grid item xs={6} display={'flex'} justifyContent={'flex-start'} alignItems={'center'}>
+            <Link href={`/reserves/${payment?.idReserve}`} target="_blank">
+              Ver reserva
+            </Link>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
               id="transactionCode"
               label="transactionCode"
               variant="filled"
@@ -101,16 +121,6 @@ const PaymentDetails = ({ paymentId }: props) => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              id="idReserve"
-              label="idReserve"
-              variant="filled"
-              value={payment.idReserve}
-              fullWidth
-              disabled
-            />
-          </Grid>
-          <Grid item xs={12}>
             <FormControl fullWidth variant="standard">
               <InputLabel id="new-status-label">Estado de pago</InputLabel>
               <Select
