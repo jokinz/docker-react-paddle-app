@@ -6,12 +6,13 @@ import { Reserve } from '../types/reserve'
 
 import { getAllReserves } from '../api/reserves/reserve'
 
-import { Grid, TextField } from '@mui/material'
+import { Grid, Skeleton, TextField } from '@mui/material'
 
 import Drawer from '../components/Drawer'
 import ForceLogin from '../components/ForceLogin'
 import LoadingWrapper from '../components/LoadingWrapper'
 import ReservesList from '../components/Reserves/ReservesList'
+import SkeletonList from '../components/SkeletonList'
 
 const PageReserves = () => {
   const [reserveList, setReserveList] = useState<Reserve[]>([])
@@ -64,7 +65,7 @@ const PageReserves = () => {
             />
           </Grid>
         </Grid>
-        <LoadingWrapper loading={loading}>
+        <LoadingWrapper loading={loading} skeleton={<SkeletonList/>}>
           <ReservesList reserves={reserveList} />
         </LoadingWrapper>
       </Drawer>
