@@ -7,10 +7,12 @@ import { Navigate } from 'react-router-dom'
 
 import { EmployeeContext } from '../contexts/EmployeeContext'
 
-import LoadingWrapper from '../components/LoadingWrapper'
+import { enqueueSnackbar } from 'notistack'
 
 import { employeeExample, emulateApiCall } from '../api/dummy'
+
 import { Employee } from '../types/employee'
+import LoadingWrapper from '../components/LoadingWrapper'
 
 const PageLogin = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -32,8 +34,8 @@ const PageLogin = () => {
       if (response) {
         employeeContext?.setEmployee(employeeExample)
       }
-      console.log(response)
     } catch (error) {
+      enqueueSnackbar('Error al iniciar sesión', { variant: 'error' })
     } finally {
       setLoading(false)
     }
@@ -48,7 +50,6 @@ const PageLogin = () => {
       if (response) {
         employeeContext?.setEmployee(response as Employee)
       }
-      console.log(response)
     } catch (error) {
     } finally {
       setLoading(false)
@@ -64,7 +65,6 @@ const PageLogin = () => {
       if (response) {
         employeeContext?.setEmployee(response as Employee)
       }
-      console.log(response)
     } catch (error) {
     } finally {
       setLoading(false)
@@ -80,7 +80,6 @@ const PageLogin = () => {
       if (response) {
         employeeContext?.setEmployee(response as Employee)
       }
-      console.log(response)
     } catch (error) {
     } finally {
       setLoading(false)
@@ -100,7 +99,6 @@ const PageLogin = () => {
           enabled: false,
         })
       }
-      console.log(response)
     } catch (error) {
     } finally {
       setLoading(false)
