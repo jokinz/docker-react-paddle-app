@@ -12,6 +12,7 @@ import Drawer from '../components/Drawer'
 import ForceLogin from '../components/ForceLogin'
 import PaymentsList from '../components/Payments/PaymentsList'
 import LoadingWrapper from '../components/LoadingWrapper'
+import SkeletonList from '../components/SkeletonList'
 
 const PagePayments = () => {
   const [paymentList, setPaymentList] = useState<Payment[]>([])
@@ -51,7 +52,7 @@ const PagePayments = () => {
   return (
     <ForceLogin>
       <Drawer>
-        <h1>Página Payments</h1>
+        <h1>Página Pagos</h1>
         <Grid container>
           <Grid item xs={12}>
             <TextField
@@ -64,7 +65,7 @@ const PagePayments = () => {
             />
           </Grid>
         </Grid>
-        <LoadingWrapper loading={loading}>
+        <LoadingWrapper loading={loading} skeleton={<SkeletonList/>}>
           <PaymentsList payments={paymentList} />
         </LoadingWrapper>
       </Drawer>
