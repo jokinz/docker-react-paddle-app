@@ -1,6 +1,6 @@
-import { User as UserType } from '../../types/user'
-
 import { Grid, List } from '@mui/material'
+
+import { User as UserType } from '../../types/user'
 
 import UserItem from './UserItem'
 
@@ -9,7 +9,7 @@ const UsersList = ({ users }: props) => {
   if (users.length > 0) {
     return (
       <div>
-        Lista de usuarios
+        <h1>Resultado</h1>
         <Grid item xs={12} md={6}>
           <List dense={false}>
             {users.map((user, index) => (
@@ -23,7 +23,7 @@ const UsersList = ({ users }: props) => {
 
   return (
     <div>
-      <h1>Lista de usuarios</h1>
+      <h1>Resultado</h1>
       Ningún usuario para mostrar
     </div>
   )
