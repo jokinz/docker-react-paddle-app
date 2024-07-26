@@ -18,7 +18,7 @@ const PageEmployees = () => {
 
   const [employeeList, setEmployeeList] = useState<Employee[]>([])
   const [loading, setLoading] = useState(true)
-  if (employeeContext?.employee?.idRole !== 3) {
+  if (employeeContext?.employee?.role.id !== 3) {
     return <Navigate to="/"/>
   }
   useEffect(() => {

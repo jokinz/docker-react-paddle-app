@@ -34,7 +34,7 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
         return true
       }
       return item.allowedRoles.includes(
-        employeeContext?.employee?.idRole as number
+        employeeContext?.employee?.role.id as number
       )
     })
     .map((item, index) => (
@@ -48,6 +48,7 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
     ))
   return (
     <Box sx={{ display: 'flex' }}>
+      <p>test</p>
       <AppBar
         position="fixed"
         sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
@@ -70,7 +71,14 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
         variant="permanent"
         anchor="left"
       >
-        <Toolbar />
+        <Toolbar>
+          <Typography variant="h6">
+            {`${employeeContext?.employee?.firstName} ${employeeContext?.employee?.lastName}`}
+          </Typography>
+          <Typography variant="subtitle1">
+            {`${employeeContext?.employee?.firstName} ${employeeContext?.employee?.lastName}`}
+          </Typography>
+        </Toolbar>
         <Divider />
         <List>{LinkList}</List>
         <ButtonLogout />

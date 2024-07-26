@@ -88,7 +88,11 @@ export const itemsListExample: Item[] = [
 
 export const employeeExample: Employee = {
   id: 1,
-  idRole: 1,
+  role: {
+    id: 1,
+    roleName: 'string',
+    accessLevel: 'string'
+  },
   firstName: 'Juancho',
   lastName: 'Lopecho',
   enabled: true,
@@ -96,14 +100,22 @@ export const employeeExample: Employee = {
 export const employeesListExample: Employee[] = [
   {
     id: 1,
-    idRole: 1,
+    role: {
+      id: 1,
+      roleName: 'string',
+      accessLevel: 'string'
+    },
     firstName: 'Juancho',
     lastName: 'Lopecho',
     enabled: true,
   },
   {
     id: 2,
-    idRole: 1,
+    role: {
+      id: 1,
+      roleName: 'string',
+      accessLevel: 'string'
+    },
     firstName: 'Juancho2',
     lastName: 'Lopecho2',
     enabled: false,

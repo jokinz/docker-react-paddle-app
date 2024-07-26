@@ -25,7 +25,7 @@ const Employee = ({ employee }: props) => {
       </ListItemAvatar>
       <ListItemText
         primary={`${employee.firstName} ${employee.lastName}`}
-        secondary={`RoleId: ${employee.idRole}`}
+        secondary={`Access Level: ${employee.role.accessLevel}`}
       />
     </ListItem>
   )

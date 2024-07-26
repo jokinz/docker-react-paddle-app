@@ -95,7 +95,6 @@ const PageLogin = () => {
       if (response) {
         employeeContext?.setEmployee({
           ...employeeExample,
-          idRole: 1,
           enabled: false,
         })
       }
