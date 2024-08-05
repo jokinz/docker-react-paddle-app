@@ -26,7 +26,7 @@ const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
 
 const drawerWidth = 240
 
-export default function Drawer({ children }: { children: React.ReactNode }) {
+const Drawer = ({ children }: { children: React.ReactNode }) => {
   const employeeContext = useContext(EmployeeContext)
   const LinkList = menuLinksList
     .filter((item) => {
@@ -93,3 +93,5 @@ export default function Drawer({ children }: { children: React.ReactNode }) {
     </Box>
   )
 }
+
+export default Drawer
