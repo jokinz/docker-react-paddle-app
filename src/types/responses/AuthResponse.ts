@@ -1,10 +1,10 @@
-import { User } from '../user'
+import { Employee } from '../employee'
 
 export type AuthResponse = {
   message: string
   statusCode: number
   data: {
     token: string
-    user: User
+    employee: Employee
   }
 }
