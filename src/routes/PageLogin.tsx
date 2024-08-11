@@ -5,13 +5,16 @@ import { useTheme } from '@mui/material/styles'
 
 import { Navigate } from 'react-router-dom'
 
-import { EmployeeContext } from '../contexts/EmployeeContext'
-
 import { enqueueSnackbar } from 'notistack'
 
-import { employeeExample, emulateApiCall } from '../api/dummy'
+import { useCookies } from 'react-cookie'
 
-import { Employee } from '../types/employee'
+import { EmployeeContext } from '../contexts/EmployeeContext'
+
+import { BOHEMIA_PADEL_JWT, UserCookie } from '../types/userCookie'
+
+import { auth } from '../api/auth'
+
 import LoadingWrapper from '../components/LoadingWrapper'
 
 const PageLogin = () => {
@@ -19,20 +22,31 @@ const PageLogin = () => {
 
   const theme = useTheme()
 
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [email, setEmail] = useState<string>('employee2@example.com')
+  const [password, setPassword] = useState<string>('ThisIsASecurePassword123')
   const [loading, setLoading] = useState(false)
+
+  const [, setCookie] = useCookies([BOHEMIA_PADEL_JWT])
+
+  // const jwt = getJWTFromCookies()
+  // if (employeeContext?.employee && jwt) {
+  //   return <Navigate to="/" />
+  // }
 
   if (employeeContext?.employee) {
     return <Navigate to="/" />
   }
 
-  const handleLoginClick = async () => {
+  const handleLoginClick = async (email: string, password: string) => {
     setLoading(true)
     try {
-      const response = await emulateApiCall(employeeExample, 'success')
+      const response = await auth(email, password)
       if (response) {
-        employeeContext?.setEmployee(employeeExample)
+        const cookieData: UserCookie = {
+          token: response.data.token,
+          data: response.data.employee,
+        }
+        setCookie(BOHEMIA_PADEL_JWT, cookieData, { maxAge: 365 })
       }
     } catch (error) {
       enqueueSnackbar('Error al iniciar sesión', { variant: 'error' })
@@ -40,68 +54,6 @@ const PageLogin = () => {
       setLoading(false)
     }
   }
-  const handleLoginClickAdmin = async () => {
-    setLoading(true)
-    try {
-      const response = await emulateApiCall(
-        { ...employeeExample, idRole: 3 },
-        'success'
-      )
-      if (response) {
-        employeeContext?.setEmployee(response as Employee)
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
-    }
-  }
-  const handleLoginClickOperator = async () => {
-    setLoading(true)
-    try {
-      const response = await emulateApiCall(
-        { ...employeeExample, idRole: 2 },
-        'success'
-      )
-      if (response) {
-        employeeContext?.setEmployee(response as Employee)
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
-    }
-  }
-  const handleLoginClickCounter = async () => {
-    setLoading(true)
-    try {
-      const response = await emulateApiCall(
-        { ...employeeExample, idRole: 1 },
-        'success'
-      )
-      if (response) {
-        employeeContext?.setEmployee(response as Employee)
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
-    }
-  }
-  const handleLoginClickDisabled = async () => {
-    setLoading(true)
-    try {
-      const response = await emulateApiCall(
-        { ...employeeExample, idRole: 3, enabled: false },
-        'success'
-      )
-      if (response) {
-        employeeContext?.setEmployee({
-          ...employeeExample,
-          enabled: false,
-        })
-      }
-    } catch (error) {
-    } finally {
-      setLoading(false)
-    }
   }
 
   return (
@@ -148,47 +100,11 @@ const PageLogin = () => {
         <Grid item xs={12} textAlign={'center'}>
           <Button
             variant="contained"
-            onClick={handleLoginClick}
+            onClick={() => handleLoginClick(email, password)}
             fullWidth
             disabled={loading}
           >
             <LoadingWrapper loading={loading}>Iniciar Sesión</LoadingWrapper>
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={handleLoginClickAdmin}
-            fullWidth
-            disabled={loading}
-          >
-            <LoadingWrapper loading={loading}>
-              Iniciar Sesión c/Admin
-            </LoadingWrapper>
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={handleLoginClickOperator}
-            fullWidth
-            disabled={loading}
-          >
-            <LoadingWrapper loading={loading}>
-              Iniciar Sesión c/Operario
-            </LoadingWrapper>
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            onClick={handleLoginClickCounter}
-            fullWidth
-            disabled={loading}
-          >
-            <LoadingWrapper loading={loading}>
-              Iniciar Sesión c/Counter
-            </LoadingWrapper>
           </Button>
         </Grid>
         <Grid item xs={12}>
