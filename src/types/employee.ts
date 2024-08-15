@@ -1,4 +1,4 @@
-import { EmployeeRole } from "./employeeRole"
+import { EmployeeRole } from './employeeRole'
 
 export type Employee = {
   id: number
@@ -7,4 +7,9 @@ export type Employee = {
   email: string
   role: EmployeeRole
   enabled: boolean
+}
+
+export type NewEmployee = Pick<Employee, 'firstName' | 'lastName'|'email'> & {
+  password: string
+  roleId: number
 }
