@@ -1,13 +1,50 @@
+import axios from '../axios'
+
+import { AxiosResponse } from 'axios'
+
+import { GetUsersSchema } from '../../types/schemas/GetUsersSchema'
 import { User as UserType } from '../../types/user'
-import { emulateApiCall, userExample, usersListExample } from '../dummy'
+import { GetUsersResponse } from '../../types/responses/GetUsersResponse'
+import { GetUserByIdResponse } from '../../types/responses/GetUserByIdResponse'
+
+export const getUsers = async (
+  usersSchema: GetUsersSchema,
+  token: string
+): Promise<UserType[] | undefined> => {
+  try {
+    const axiosResponse: AxiosResponse<GetUsersResponse> = await axios.get(
+      '/users',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: { ...usersSchema },
+      }
+    )
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data.rows
+    }
+    throw new Error('Error buscando usuarios')
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export const getUserById = async (
-  id: number
+  userId: number,
+  token: string
 ): Promise<UserType | undefined> => {
   try {
-    const response: UserType = await emulateApiCall(userExample, 'success', id)
-    if (response) {
-      return response
+    const axiosResponse: AxiosResponse<GetUserByIdResponse> = await axios.get(
+      `/users/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data
     }
     throw new Error('Error descargando datos de usuario')
   } catch (error) {
@@ -16,45 +53,22 @@ export const getUserById = async (
   return
 }
 
-export const getUserByDocument = async (
-  id: number
-): Promise<UserType | undefined> => {
+export const updateUserById = async (
+  userId: number,
+  user: Partial<UserType>,
+  token: string
+): Promise<true | undefined> => {
   try {
-    const response: UserType = await emulateApiCall(userExample, 'success', id)
-    if (response) {
-      return response
-    }
-    throw new Error('Error descargando datos de usuario')
-  } catch (error) {
-    console.error(error)
-  }
-  return
-}
-
-// TODO: update response type
-export const updateUserById = async (user: UserType): Promise<any> => {
-  try {
-    const response = await emulateApiCall(user, 'success')
-    if (response) {
-      return response
+    const axiosResponse = await axios.patch(`/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { ...user },
+    })
+    if (axiosResponse.status === 200) {
+      return true
     }
     throw new Error('Error actualizando datos de usuario')
-  } catch (error) {
-    console.error(error)
-  }
-  return
-}
-
-export const getAllUsers = async (): Promise<UserType[] | undefined> => {
-  try {
-    const response: UserType[] = await emulateApiCall(
-      usersListExample,
-      'success'
-    )
-    if (response) {
-      return response
-    }
-    throw new Error('Error descargando usuarios')
   } catch (error) {
     console.error(error)
   }
