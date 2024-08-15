@@ -1,45 +1,116 @@
+import axios from '../axios'
+
+import { AxiosResponse } from 'axios'
+
 import { Employee as EmployeeType } from '../../types/employee'
-import { emulateApiCall, employeeExample, employeesListExample } from '../dummy'
+import { CreateEmployeeResponse } from '../../types/responses/CreateEmployeeResponse'
+import { GetEmployeesResponse } from '../../types/responses/GetEmployeesResponse'
+import { CreateEmployeeSchema } from '../../types/schemas/CreateEmployeeSchema'
+import { GetEmployeesSchema } from '../../types/schemas/GetEmployeesSchema'
+import { GetEmployeeByIdResponse } from '../../types/responses/GetEmployeeByIdResponse'
+
+export const getEmployees = async (
+  employeesSchema: GetEmployeesSchema,
+  token: string
+): Promise<EmployeeType[] | undefined> => {
+  try {
+    const axiosResponse: AxiosResponse<GetEmployeesResponse> = await axios.get(
+      '/employees',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: { ...employeesSchema },
+      }
+    )
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data.rows
+    }
+    throw new Error('Error buscando trabajadores')
+  } catch (error) {}
+}
 
 export const getEmployeeById = async (
-  id: number
+  employeeId: number,
+  token: string
 ): Promise<EmployeeType | undefined> => {
   try {
-    const employee: EmployeeType = employeeExample
-    return employee
+    const axiosResponse: AxiosResponse<GetEmployeeByIdResponse> =
+      await axios.get(`/employees/${employeeId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data
+    }
+    throw new Error('Error descargando datos de empleado')
   } catch (error) {
     console.error(error)
   }
   return
 }
 
-export const getEmployeeByDocument = async (
-  id: number
+export const createEmployeeWithResponse = async (
+  employee: CreateEmployeeSchema,
+  token: string
 ): Promise<EmployeeType | undefined> => {
   try {
-    const employee: EmployeeType = await emulateApiCall(employeeExample, 'success', id)
-    return employee
-  } catch (error) {
-    console.error(error)
-  }
-  return
+    const axiosResponse: AxiosResponse<CreateEmployeeResponse> =
+      await axios.post(
+        `/employees`,
+        { ...employee, returning: true },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data
+    }
+    throw new Error('Error creando el trabajador')
+  } catch (error) {}
 }
 
-export const getAllEmployees = async (): Promise<EmployeeType[] | undefined> => {
+export const createEmployeeNoResponse = async (
+  employee: CreateEmployeeSchema,
+  token: string
+): Promise<true | undefined> => {
   try {
-    const employeesList: EmployeeType[] = await emulateApiCall(
-      employeesListExample,
-      'success'
-    )
-    return employeesList
-  } catch (error) {
-    console.error(error)
-  }
+    const axiosResponse: AxiosResponse<CreateEmployeeResponse> =
+      await axios.post(
+        `/employees`,
+        { ...employee, returning: false },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    if (axiosResponse.status === 204) {
+      return true
+    }
+    throw new Error('Error creando el trabajador')
+  } catch (error) {}
 }
 
-export const createEmployee = async (employee: EmployeeType) => {
+export const updateEmployeeById = async (
+  employeeId: number,
+  employee: Partial<EmployeeType>,
+  token: string
+): Promise<true | undefined> => {
   try {
-    console.log(employee)
+    const axiosResponse = await axios.patch(`/employees/${employeeId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { ...employee },
+    })
+    if (axiosResponse.status === 200) {
+      return true
+    }
+    throw new Error('Error actualizando datos de trabajador')
   } catch (error) {
     console.error(error)
   }
