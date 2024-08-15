@@ -115,11 +115,3 @@ export const updateEmployeeById = async (
     console.error(error)
   }
 }
-
-export const resetPassword = async (email: string) => {
-  try {
-    console.log(email)
-  } catch (error) {
-    console.error(error)
-  }
-}
