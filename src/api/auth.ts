@@ -15,8 +15,8 @@ export const auth = async (
     if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
       return axiosResponse.data
     }
+    throw new Error()
   } catch (error) {
-    console.error(error)
     return
   }
 }
