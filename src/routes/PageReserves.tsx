@@ -2,14 +2,13 @@ import { useCallback, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
-import { Reserve } from '../types/reserve'
-
 import { getAllReserves } from '../api/reserves/reserve'
 
-import { Grid, Skeleton, TextField } from '@mui/material'
+import { Grid, TextField } from '@mui/material'
+
+import { Reserve } from '../types/reserve'
 
 import Drawer from '../components/Drawer'
-import ForceLogin from '../components/ForceLogin'
 import LoadingWrapper from '../components/LoadingWrapper'
 import ReservesList from '../components/Reserves/ReservesList'
 import SkeletonList from '../components/SkeletonList'
@@ -50,26 +49,24 @@ const PageReserves = () => {
   }
 
   return (
-    <ForceLogin>
-      <Drawer>
-        <h1>Página Reservas</h1>
-        <Grid container>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              id="searchValue"
-              label="Documento/Código de reserva"
-              variant="filled"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-          </Grid>
+    <Drawer>
+      <h1>Página Reservas</h1>
+      <Grid container>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            id="searchValue"
+            label="Documento/Código de reserva"
+            variant="filled"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
         </Grid>
-        <LoadingWrapper loading={loading} skeleton={<SkeletonList/>}>
-          <ReservesList reserves={reserveList} />
-        </LoadingWrapper>
-      </Drawer>
-    </ForceLogin>
+      </Grid>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonList />}>
+        <ReservesList reserves={reserveList} />
+      </LoadingWrapper>
+    </Drawer>
   )
 }
 

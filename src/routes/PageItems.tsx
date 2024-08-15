@@ -6,7 +6,6 @@ import { itemExample } from '../api/dummy'
 import { getAllItems } from '../api/items/item'
 
 import Drawer from '../components/Drawer'
-import ForceLogin from '../components/ForceLogin'
 import ItemsList from '../components/Items/ItemsList'
 import NewItemForm from '../components/Items/NewItemForm'
 import UpdateItem from '../components/Items/UpdateItem'
@@ -29,16 +28,14 @@ const PageItems = () => {
     getData()
   }, [])
   return (
-    <ForceLogin>
-      <Drawer>
-        <h1>Página Items</h1>
-        <NewItemForm />
-        <UpdateItem item={itemExample} />
-        <LoadingWrapper loading={loading}>
-          <ItemsList items={itemList} />
-        </LoadingWrapper>
-      </Drawer>
-    </ForceLogin>
+    <Drawer>
+      <h1>Página Items</h1>
+      <NewItemForm />
+      <UpdateItem item={itemExample} />
+      <LoadingWrapper loading={loading}>
+        <ItemsList items={itemList} />
+      </LoadingWrapper>
+    </Drawer>
   )
 }
 
