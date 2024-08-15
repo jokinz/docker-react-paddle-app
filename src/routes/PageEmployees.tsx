@@ -15,7 +15,6 @@ import EmployeesList from '../components/Employees/EmployeesList'
 import LoadingWrapper from '../components/LoadingWrapper'
 
 import { BOHEMIA_PADEL_JWT } from '../types/userCookie'
-import EmployeeCreate from '../components/Employees/EmployeeCreate'
 
 const PageEmployees = () => {
   const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
@@ -58,7 +57,6 @@ const PageEmployees = () => {
   return (
     <Drawer>
       <h1>Página trabajadores</h1>
-      <EmployeeCreate/>
       <Grid container>
         <Grid item xs={12}>
           <TextField
