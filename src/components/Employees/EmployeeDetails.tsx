@@ -74,7 +74,7 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
     }
   }
 
-  const handleDocumentTypeChange = (event: SelectChangeEvent) => {
+  const handleRoleTypeChange = (event: SelectChangeEvent) => {
     const id: number = parseInt(event.target.value)
     const roleName: string =
       id === 1 ? 'Recepción' : id === 2 ? 'Operador' : 'Administrador'
@@ -140,7 +140,7 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
             id="demo-simple-select"
             value={employee.role.id.toString()}
             label="Tipo"
-            onChange={handleDocumentTypeChange}
+            onChange={handleRoleTypeChange}
           >
             <MenuItem value={1}>Recepción</MenuItem>
             <MenuItem value={2}>Operador</MenuItem>
