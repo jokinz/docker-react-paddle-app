@@ -39,16 +39,28 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <PageDashboard />,
+      element: (
+        <ForceLogin>
+          <PageDashboard />
+        </ForceLogin>
+      ),
       errorElement: <PageNotFound />,
     },
     {
       path: '/reserves',
-      element: <PageReserves />,
+      element: (
+        <ForceLogin>
+          <PageReserves />
+        </ForceLogin>
+      ),
     },
     {
       path: '/reserves/:reserveId',
-      element: <PageReserveSingle />,
+      element: (
+        <ForceLogin>
+          <PageReserveSingle />
+        </ForceLogin>
+      ),
     },
     {
       path: '/login',
@@ -56,23 +68,45 @@ const App = () => {
     },
     {
       path: '/users',
-      element: <PageUsers />,
+      element: (
+        <ForceLogin>
+          <PageUsers />
+        </ForceLogin>
+      ),
+    },
     },
     {
       path: '/employees',
-      element: <PageEmployees />,
+      element: (
+        <ForceLogin>
+          <PageEmployees />
+        </ForceLogin>
+      ),
+    },
     },
     {
       path: '/items',
-      element: <PageItems />,
+      element: (
+        <ForceLogin>
+          <PageItems />
+        </ForceLogin>
+      ),
     },
     {
       path: '/payments',
-      element: <PagePayments />,
+      element: (
+        <ForceLogin>
+          <PagePayments />
+        </ForceLogin>
+      ),
     },
     {
       path: '/payments/:paymentId',
-      element: <PagePaymentSingle />,
+      element: (
+        <ForceLogin>
+          <PagePaymentSingle />
+        </ForceLogin>
+      ),
     },
   ])
 
