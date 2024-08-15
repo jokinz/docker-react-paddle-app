@@ -16,7 +16,9 @@ import { Employee } from './types/employee.ts'
 import { useCookies } from 'react-cookie'
 
 import PageDashboard from './routes/PageDashboard.tsx'
+import PageEmployeeCreate from './routes/PageEmployeeCreate.tsx'
 import PageEmployees from './routes/PageEmployees.tsx'
+import PageEmployeeSingle from './routes/PageEmployeeSingle.tsx'
 import PageItems from './routes/PageItems.tsx'
 import PageLogin from './routes/PageLogin.tsx'
 import PageNotFound from './routes/PageNotFound.tsx'
@@ -25,8 +27,11 @@ import PagePaymentSingle from './routes/PagePaymentSingle.tsx'
 import PageReserves from './routes/PageReserves.tsx'
 import PageReserveSingle from './routes/PageReserveSingle.tsx'
 import PageUsers from './routes/PageUsers.tsx'
+import PageUserSingle from './routes/PageUserSingle.tsx'
 
+import ForceLogin from './components/ForceLogin.tsx'
 import LoadingWrapper from './components/LoadingWrapper.tsx'
+
 import { BOHEMIA_PADEL_JWT } from './types/userCookie.ts'
 
 const darkTheme = createTheme({
@@ -74,6 +79,13 @@ const App = () => {
         </ForceLogin>
       ),
     },
+    {
+      path: '/users/:userId',
+      element: (
+        <ForceLogin>
+          <PageUserSingle />
+        </ForceLogin>
+      ),
     },
     {
       path: '/employees',
@@ -83,6 +95,21 @@ const App = () => {
         </ForceLogin>
       ),
     },
+    {
+      path: '/employees/:employeeId',
+      element: (
+        <ForceLogin>
+          <PageEmployeeSingle />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: '/employees/create',
+      element: (
+        <ForceLogin>
+          <PageEmployeeCreate />
+        </ForceLogin>
+      ),
     },
     {
       path: '/items',
