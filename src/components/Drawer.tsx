@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { ListItemButton, ListItemText } from '@mui/material'
+import { Grid, ListItemButton, ListItemText } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
@@ -24,7 +24,7 @@ const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
     { text: 'Trabajadores', url: '/employees', allowedRoles: [3] },
   ]
 
-const drawerWidth = 240
+const drawerWidth = 250
 
 const Drawer = ({ children }: { children: React.ReactNode }) => {
   const employeeContext = useContext(EmployeeContext)
@@ -72,16 +72,20 @@ const Drawer = ({ children }: { children: React.ReactNode }) => {
         anchor="left"
       >
         <Toolbar>
-          <Typography variant="h6">
-            {`${employeeContext?.employee?.firstName} ${employeeContext?.employee?.lastName}`}
-          </Typography>
-          <Typography variant="subtitle1">
-            {`${employeeContext?.employee?.firstName} ${employeeContext?.employee?.lastName}`}
-          </Typography>
+          <Grid container direction={'column'}>
+            <Typography variant="h6">
+              {`${employeeContext?.employee?.firstName} ${employeeContext?.employee?.lastName}`}
+            </Typography>
+            <Typography variant="subtitle2">
+              {`${employeeContext?.employee?.role.roleName}`}
+            </Typography>
+          </Grid>
         </Toolbar>
         <Divider />
-        <List>{LinkList}</List>
-        <ButtonLogout />
+        <List>
+          {LinkList}
+          <ButtonLogout />
+        </List>
       </MUIDrawer>
       <Box
         component="main"
