@@ -1,37 +1,26 @@
-import { useState } from 'react'
+import { useContext } from 'react'
 
 import { Button } from '@mui/material'
-
-import { enqueueSnackbar } from 'notistack'
 
 import { useCookies } from 'react-cookie'
 
 import { BOHEMIA_PADEL_JWT } from '../types/userCookie'
 
-import LoadingWrapper from './LoadingWrapper'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const ButtonLogout = () => {
-  const [loading, setLoading] = useState(false)
+  const employeeContext = useContext(EmployeeContext)
 
   const [, , removeCookie] = useCookies([BOHEMIA_PADEL_JWT])
 
-  const handleLogoutClick = async () => {
-    setLoading(true)
-    try {
-      removeCookie(BOHEMIA_PADEL_JWT)
-    } catch (error) {
-      enqueueSnackbar('Error al cerrar la sesión', { variant: 'error' })
-      console.error(error)
-    } finally {
-      setLoading(false)
-    }
+  const handleLogoutClick = () => {
+    removeCookie(BOHEMIA_PADEL_JWT)
+    employeeContext?.setEmployee(null)
   }
   return (
-    <div>
-      <Button onClick={handleLogoutClick} color="error" variant="outlined">
-        <LoadingWrapper loading={loading}>Cerrar sesión</LoadingWrapper>
-      </Button>
-    </div>
+    <Button onClick={handleLogoutClick} color="error" variant="outlined">
+      Cerrar sesión
+    </Button>
   )
 }
 
