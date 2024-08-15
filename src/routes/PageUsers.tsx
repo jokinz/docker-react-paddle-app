@@ -4,16 +4,22 @@ import _ from 'lodash'
 
 import { Grid, TextField } from '@mui/material'
 
+import { useCookies } from 'react-cookie'
+
 import { User } from '../types/user'
 
-import { getAllUsers } from '../api/users/user'
+import { getUsers } from '../api/users/user'
 
 import Drawer from '../components/Drawer'
-import ForceLogin from '../components/ForceLogin'
 import LoadingWrapper from '../components/LoadingWrapper'
 import UsersList from '../components/Users/UsersList'
 
+import { BOHEMIA_PADEL_JWT } from '../types/userCookie'
+
 const PageUsers = () => {
+  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
+  const token = cookies[BOHEMIA_PADEL_JWT].token
+
   const [userList, setUserList] = useState<User[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [loading, setLoading] = useState(true)
@@ -31,10 +37,9 @@ const PageUsers = () => {
 
   const handleSearchUsers = async (newValue: string) => {
     try {
-      // TODO: update what functions calls
       if (newValue !== '') {
         setLoading(true)
-        const result = await getAllUsers()
+        const result = await getUsers({ search: newValue }, token)
         if (result) {
           setUserList(result)
         } else {
@@ -48,26 +53,28 @@ const PageUsers = () => {
     }
   }
   return (
-    <ForceLogin>
-      <Drawer>
-        <h1>Página Usuarios</h1>
-        <Grid container>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              id="searchValue"
-              label="Documento de usuario"
-              variant="filled"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-          </Grid>
+    <Drawer>
+      <h1>Página Usuarios</h1>
+      <Grid container>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            id="searchValue"
+            label="Nombre/Apellido/Correo/Documento de usuario"
+            variant="filled"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
         </Grid>
+      </Grid>
+      {searchValue === '' ? (
+        <h3>Empiece a escribir para buscar</h3>
+      ) : (
         <LoadingWrapper loading={loading}>
           <UsersList users={userList} />
         </LoadingWrapper>
-      </Drawer>
-    </ForceLogin>
+      )}
+    </Drawer>
   )
 }
 
