@@ -1,12 +1,9 @@
-import { Employee } from "../employee"
-import { Pagination } from "../pagination"
+import { ApiResponse } from './ApiResponse'
 
-export type GetEmployeesResponse = {
-    message: string
-    statusCode: number
-    data: {
-      rows: Employee[]
-      pagination: Pagination
-    }
-  }
-  
+import { Employee } from '../employee'
+import { Pagination } from '../pagination'
+
+export type GetEmployeesResponse = ApiResponse<{
+  rows: Employee[]
+  pagination: Pagination
+}>
