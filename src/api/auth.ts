@@ -12,7 +12,7 @@ export const auth = async (
       password,
       type,
     })
-    if (axiosResponse.status && axiosResponse.data.statusCode === 200) {
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
       return axiosResponse.data
     }
   } catch (error) {
