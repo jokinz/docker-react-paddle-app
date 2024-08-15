@@ -4,4 +4,5 @@ export type CreateEmployeeSchema = {
   email: string
   roleId: number
   password: string
+  returning?: boolean
 }
