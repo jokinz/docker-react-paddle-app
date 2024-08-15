@@ -22,16 +22,11 @@ const PageLogin = () => {
 
   const theme = useTheme()
 
-  const [email, setEmail] = useState<string>('employee2@example.com')
-  const [password, setPassword] = useState<string>('ThisIsASecurePassword123')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState(false)
 
   const [, setCookie] = useCookies([BOHEMIA_PADEL_JWT])
-
-  // const jwt = getJWTFromCookies()
-  // if (employeeContext?.employee && jwt) {
-  //   return <Navigate to="/" />
-  // }
 
   if (employeeContext?.employee) {
     return <Navigate to="/" />
@@ -48,6 +43,7 @@ const PageLogin = () => {
         }
         setCookie(BOHEMIA_PADEL_JWT, cookieData, { maxAge: 365 })
       }
+      throw Error
     } catch (error) {
       enqueueSnackbar('Error al iniciar sesión', { variant: 'error' })
     } finally {
