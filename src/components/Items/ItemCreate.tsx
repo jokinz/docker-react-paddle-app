@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { useCookies } from 'react-cookie'
+
 import { NewItem } from '../../types/item'
 
 import {
@@ -9,25 +11,31 @@ import {
   Switch,
   TextField,
 } from '@mui/material'
-import { createItem } from '../../api/items/item'
+import { createItemNoResponse } from '../../api/items/item'
+import { BOHEMIA_PADEL_JWT } from '../../types/userCookie'
 
 const starterNewItem: NewItem = {
   name: '',
-  enabled: true,
+  // enabled: true,
   description: '',
   price: 0,
+  itemCategoryId: 1,
+  thumbnail: null,
 }
 
-const NewItemForm = () => {
-  const [itemData, setItemData] = useState<NewItem>(starterNewItem)
-  const handleEnabledClick = async () => {
-    setItemData((prev) => {
-      const updatedEnabled = !prev.enabled
-      return { ...prev, enabled: updatedEnabled }
-    })
-  }
+const ItemCreate = () => {
+  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
+  const token = cookies[BOHEMIA_PADEL_JWT].token
+
+  const [item, setItem] = useState<NewItem>(starterNewItem)
+  // const handleEnabledClick = async () => {
+  //   setItemData((prev) => {
+  //     const updatedEnabled = !prev.enabled
+  //     return { ...prev, enabled: updatedEnabled }
+  //   })
+  // }
   const handleCreateItemClick = async () => {
-    const response = await createItem(itemData)
+    const response = await createItemNoResponse(item, token)
     console.log(response)
   }
   return (
@@ -40,9 +48,9 @@ const NewItemForm = () => {
           id="name"
           label="Nombre"
           variant="filled"
-          value={itemData.name}
+          value={item.name}
           onChange={(e) =>
-            setItemData((prev) => {
+            setItem((prev) => {
               return { ...prev, name: e.target.value }
             })
           }
@@ -53,9 +61,9 @@ const NewItemForm = () => {
           id="description"
           label="Descripción"
           variant="filled"
-          value={itemData.description}
+          value={item.description}
           onChange={(e) =>
-            setItemData((prev) => {
+            setItem((prev) => {
               return { ...prev, description: e.target.value }
             })
           }
@@ -65,17 +73,17 @@ const NewItemForm = () => {
         <TextField
           id="price"
           label="Precio"
-          type='number'
+          type="number"
           variant="filled"
-          value={itemData.price}
+          value={item.price}
           onChange={(e) =>
-            setItemData((prev) => {
+            setItem((prev) => {
               return { ...prev, price: parseInt(e.target.value) }
             })
           }
         />
       </Grid>
-      <Grid item xs={6}>
+      {/* <Grid item xs={6}>
         <FormControlLabel
           control={
             <Switch
@@ -87,7 +95,7 @@ const NewItemForm = () => {
           label="Activado"
           labelPlacement='start'
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <Button variant="contained" onClick={handleCreateItemClick}>
           Crear item
@@ -97,4 +105,4 @@ const NewItemForm = () => {
   )
 }
 
-export default NewItemForm
+export default ItemCreate
