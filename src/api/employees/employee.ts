@@ -26,8 +26,10 @@ export const getEmployees = async (
     if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
       return axiosResponse.data.data.rows
     }
-    throw new Error('Error buscando trabajadores')
-  } catch (error) {}
+    throw Error('Error buscando trabajadores')
+  } catch (error) {
+    throw error
+  }
 }
 
 export const getEmployeeById = async (
@@ -44,11 +46,10 @@ export const getEmployeeById = async (
     if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
       return axiosResponse.data.data
     }
-    throw new Error('Error descargando datos de empleado')
+    throw Error('Error descargando datos de empleado')
   } catch (error) {
-    console.error(error)
+    throw error
   }
-  return
 }
 
 export const createEmployeeWithResponse = async (
@@ -69,8 +70,9 @@ export const createEmployeeWithResponse = async (
     if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
       return axiosResponse.data.data
     }
-    throw new Error('Error creando el trabajador')
-  } catch (error) {}
+  } catch (error) {
+    throw Error
+  }
 }
 
 export const createEmployeeNoResponse = async (
@@ -91,8 +93,10 @@ export const createEmployeeNoResponse = async (
     if (axiosResponse.status === 204) {
       return true
     }
-    throw new Error('Error creando el trabajador')
-  } catch (error) {}
+    throw Error(axiosResponse.data.message)
+  } catch (error) {
+    throw error
+  }
 }
 
 export const updateEmployeeById = async (
@@ -110,8 +114,8 @@ export const updateEmployeeById = async (
     if (axiosResponse.status === 200) {
       return true
     }
-    throw new Error('Error actualizando datos de trabajador')
+    throw Error('Error actualizando datos de trabajador')
   } catch (error) {
-    console.error(error)
+    throw error
   }
 }
