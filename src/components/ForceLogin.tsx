@@ -19,20 +19,18 @@ const ForceLogin = ({
 }) => {
   const employeeContext = useContext(EmployeeContext)
   const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
-  if (employeeContext) {
-    if (!employeeContext.employee || !token) {
-      return <PageLogin />
-    } else {
-      const userRoleId = employeeContext.employee.role.id
-      if (requiredRole && !requiredRole.find((id) => id === userRoleId)) {
-        return <PageDashboard />
-      }
+  const token = cookies[BOHEMIA_PADEL_JWT]?.token
+  if (!employeeContext?.employee || !token) {
+    return <PageLogin />
+  } else {
+    const userRoleId = employeeContext.employee.role.id
+    if (requiredRole && !requiredRole.find((id) => id === userRoleId)) {
+      return <PageDashboard />
     }
+  }
 
-    if (employeeContext.employee.enabled === false) {
-      return <PageDisabled />
-    }
+  if (employeeContext.employee.enabled === false) {
+    return <PageDisabled />
   }
   return children
 }
