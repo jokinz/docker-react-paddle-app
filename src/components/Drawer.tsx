@@ -21,7 +21,10 @@ const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
     { text: 'Reservas', url: '/reserves' },
     { text: 'Pagos', url: '/payments' },
     { text: 'Usuarios', url: '/users' },
+    { text: 'Items', url: '/items' },
     { text: 'Trabajadores', url: '/employees', allowedRoles: [3] },
+    { text: 'Campos', url: '/playingfields', allowedRoles: [3] },
+    { text: 'Establecimientos', url: '/establishments', allowedRoles: [3] },
   ]
 
 const drawerWidth = 250
