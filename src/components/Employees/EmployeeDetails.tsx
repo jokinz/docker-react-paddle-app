@@ -20,8 +20,7 @@ import {
 
 import { enqueueSnackbar } from 'notistack'
 
-import { Employee } from '../../types/employee'
-import { EmployeeRole } from '../../types/employeeRole'
+import { Employee, EmployeeRole } from '../../types/employee'
 
 import { updateEmployeeById } from '../../api/employees/employee'
 
