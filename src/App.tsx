@@ -52,6 +52,10 @@ const App = () => {
       errorElement: <PageNotFound />,
     },
     {
+      path: '/login',
+      element: <PageLogin />,
+    },
+    {
       path: '/reserves',
       element: (
         <ForceLogin>
@@ -66,10 +70,6 @@ const App = () => {
           <PageReserveSingle />
         </ForceLogin>
       ),
-    },
-    {
-      path: '/login',
-      element: <PageLogin />,
     },
     {
       path: '/users',
@@ -90,7 +90,7 @@ const App = () => {
     {
       path: '/employees',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[3]}>
           <PageEmployees />
         </ForceLogin>
       ),
@@ -98,7 +98,7 @@ const App = () => {
     {
       path: '/employees/:employeeId',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[3]}>
           <PageEmployeeSingle />
         </ForceLogin>
       ),
@@ -106,7 +106,7 @@ const App = () => {
     {
       path: '/employees/create',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[3]}>
           <PageEmployeeCreate />
         </ForceLogin>
       ),
