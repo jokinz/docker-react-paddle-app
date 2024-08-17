@@ -1,6 +1,10 @@
 import { useContext } from 'react'
 
+import { useCookies } from 'react-cookie'
+
 import { EmployeeContext } from '../contexts/EmployeeContext'
+
+import { BOHEMIA_PADEL_JWT } from '../types/userCookie'
 
 import PageLogin from '../routes/PageLogin'
 import PageDisabled from '../routes/PageDisabled'
@@ -14,8 +18,10 @@ const ForceLogin = ({
   requiredRole?: (2 | 3)[]
 }) => {
   const employeeContext = useContext(EmployeeContext)
+  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
+  const token = cookies[BOHEMIA_PADEL_JWT].token
   if (employeeContext) {
-    if (!employeeContext.employee) {
+    if (!employeeContext.employee || !token) {
       return <PageLogin />
     } else {
       const userRoleId = employeeContext.employee.role.id
