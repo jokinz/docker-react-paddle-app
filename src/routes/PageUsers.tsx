@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
 import { Grid, TextField } from '@mui/material'
-
-import { useCookies } from 'react-cookie'
 
 import { User } from '../types/user'
 
@@ -14,11 +12,11 @@ import Drawer from '../components/Drawer'
 import LoadingWrapper from '../components/LoadingWrapper'
 import UsersList from '../components/Users/UsersList'
 
-import { BOHEMIA_PADEL_JWT } from '../types/userCookie'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const PageUsers = () => {
-  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
 
   const [userList, setUserList] = useState<User[]>([])
   const [searchValue, setSearchValue] = useState('')
@@ -37,7 +35,7 @@ const PageUsers = () => {
 
   const handleSearchUsers = async (newValue: string) => {
     try {
-      if (newValue !== '') {
+      if (newValue !== '' && token && token !== '') {
         setLoading(true)
         const result = await getUsers({ search: newValue }, token)
         if (result) {
