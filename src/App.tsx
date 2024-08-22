@@ -22,8 +22,6 @@ import PageEmployeeSingle from './routes/PageEmployeeSingle.tsx'
 import PageItems from './routes/PageItems.tsx'
 import PageLogin from './routes/PageLogin.tsx'
 import PageNotFound from './routes/PageNotFound.tsx'
-import PagePayments from './routes/PagePayments.tsx'
-import PagePaymentSingle from './routes/PagePaymentSingle.tsx'
 import PageReserves from './routes/PageReserves.tsx'
 import PageReserveSingle from './routes/PageReserveSingle.tsx'
 import PageUsers from './routes/PageUsers.tsx'
@@ -116,22 +114,6 @@ const App = () => {
       element: (
         <ForceLogin>
           <PageItems />
-        </ForceLogin>
-      ),
-    },
-    {
-      path: '/payments',
-      element: (
-        <ForceLogin>
-          <PagePayments />
-        </ForceLogin>
-      ),
-    },
-    {
-      path: '/payments/:paymentId',
-      element: (
-        <ForceLogin>
-          <PagePaymentSingle />
         </ForceLogin>
       ),
     },
