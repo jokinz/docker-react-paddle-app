@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react'
 
-import { useCookies } from 'react-cookie'
-
 import {
   Button,
   Dialog,
@@ -24,10 +22,9 @@ import { Employee, EmployeeRole } from '../../types/employee'
 
 import { updateEmployeeById } from '../../api/employees/employee'
 
-import { BOHEMIA_PADEL_JWT } from '../../types/userCookie'
-
 import { areValuesDifferent, getDifferences } from '../../utils'
 
+import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 
@@ -37,8 +34,8 @@ type props = {
 }
 
 const EmployeeDetails = ({ employee, updateEmployee }: props) => {
-  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
 
   const initialEmployee = useMemo(() => employee, [])
 
@@ -56,14 +53,8 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
   const handleConfirmationClick = async () => {
     try {
       setUpdateLoading(true)
-      const result = await updateEmployeeById(
-        employee.id,
-        getDifferences(initialEmployee, employee),
-        token
-      )
-      if (result) {
-        setShowModal(false)
-        enqueueSnackbar('Trabajador actualizado', { variant: 'success' })
+      if (token && token !== '') {
+        }
       }
     } catch (error) {
       enqueueSnackbar('Error actualizando', { variant: 'error' })
