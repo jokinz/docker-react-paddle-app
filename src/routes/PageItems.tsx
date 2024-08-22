@@ -12,14 +12,26 @@ import LoadingWrapper from '../components/LoadingWrapper'
 import SkeletonList from '../components/SkeletonList'
 
 const PageItems = () => {
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
+
   const [itemList, setItemList] = useState<Item[]>([])
   const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     const getData = async () => {
-      const result = await getAllItems()
-      if (result) {
-        setItemList(result)
-        setLoading(false)
+      if (token && token !== '') {
+        try {
+          const result = await getAllItems({ search: '' }, token)
+          if (result) {
+            setItemList(result)
+          } else {
+            setItemList([])
+          }
+        } catch (error) {
+        } finally {
+          setLoading(false)
+        }
       } else {
         setItemList([])
         setLoading(false)
