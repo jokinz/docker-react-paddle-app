@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
 import { Grid, TextField } from '@mui/material'
-
-import { useCookies } from 'react-cookie'
 
 import { Employee } from '../types/employee'
 
@@ -14,11 +12,11 @@ import Drawer from '../components/Drawer'
 import EmployeesList from '../components/Employees/EmployeesList'
 import LoadingWrapper from '../components/LoadingWrapper'
 
-import { BOHEMIA_PADEL_JWT } from '../types/userCookie'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const PageEmployees = () => {
-  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
 
   const [employeeList, setEmployeeList] = useState<Employee[]>([])
   const [searchValue, setSearchValue] = useState('')
@@ -38,9 +36,12 @@ const PageEmployees = () => {
 
   const handleSearchEmployees = async (newValue: string) => {
     try {
-      if (newValue !== '') {
+      if (newValue !== '' && token && token !== '') {
         setLoading(true)
-        const result = await getEmployees({ search: newValue, includeDisabled: 1 }, token)
+        const result = await getEmployees(
+          { search: newValue, includeDisabled: 1 },
+          token
+        )
         if (result) {
           setEmployeeList(result)
         } else {
