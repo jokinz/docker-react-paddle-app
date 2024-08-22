@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 
 import {
   Button,
@@ -23,9 +23,9 @@ import { updateUserById } from '../../api/users/user'
 import { areValuesDifferent, getDifferences } from '../../utils'
 
 import { EmployeeContext } from '../../contexts/EmployeeContext'
+import { districtList } from '../../districtList'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
-import { districtList } from '../../districtList'
 
 type props = {
   user: User
@@ -36,7 +36,7 @@ const UserDetails = ({ user, updateUser }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
-  const initialUser = useMemo(() => user, [])
+  const initialUser = useRef(user)
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
@@ -55,7 +55,7 @@ const UserDetails = ({ user, updateUser }: props) => {
       if (token && token !== '') {
         const result = await updateUserById(
           user.id,
-          getDifferences(initialUser, user),
+          getDifferences(initialUser.current, user),
           token
         )
         if (result) {
@@ -178,7 +178,7 @@ const UserDetails = ({ user, updateUser }: props) => {
       </Grid>
       <Grid item xs={12}>
         <Button
-          disabled={!areValuesDifferent(user, initialUser)}
+          disabled={!areValuesDifferent(user, initialUser.current)}
           variant="contained"
           onClick={handleUpdateButtonClick}
         >
