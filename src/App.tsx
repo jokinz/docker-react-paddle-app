@@ -120,15 +120,18 @@ const App = () => {
   ])
 
   const [employee, setEmployee] = useState<Employee | null>(null)
+  const [token, setToken] = useState<string>('');
   const [loading, setLoading] = useState(true)
 
   const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
   useEffect(() => {
     const userCookie = cookies[BOHEMIA_PADEL_JWT]
-    if (userCookie) {
+    if (userCookie && userCookie?.data && userCookie?.token) {
       setEmployee(userCookie.data)
+      setToken(userCookie.token)
     } else {
       setEmployee(null)
+      setToken('')
     }
     setLoading(false)
   }, [cookies])
@@ -139,7 +142,7 @@ const App = () => {
         autoHideDuration={1500}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
-        <EmployeeContext.Provider value={{ employee, setEmployee }}>
+        <EmployeeContext.Provider value={{ employee, token, setEmployee }}>
           <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <RouterProvider router={router} />
