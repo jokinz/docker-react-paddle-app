@@ -1,6 +1,4 @@
-import { useMemo, useState } from 'react'
-
-import { useCookies } from 'react-cookie'
+import { useContext, useMemo, useState } from 'react'
 
 import {
   Button,
@@ -22,10 +20,9 @@ import { User } from '../../types/user'
 
 import { updateUserById } from '../../api/users/user'
 
-import { BOHEMIA_PADEL_JWT } from '../../types/userCookie'
-
 import { areValuesDifferent, getDifferences } from '../../utils'
 
+import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 import { districtList } from '../../districtList'
@@ -36,8 +33,8 @@ type props = {
 }
 
 const UserDetails = ({ user, updateUser }: props) => {
-  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
 
   const initialUser = useMemo(() => user, [])
 
@@ -55,14 +52,16 @@ const UserDetails = ({ user, updateUser }: props) => {
   const handleConfirmationClick = async () => {
     try {
       setUpdateLoading(true)
-      const result = await updateUserById(
-        user.id,
-        getDifferences(initialUser, user),
-        token
-      )
-      if (result) {
-        setShowModal(false)
-        enqueueSnackbar('Usuario actualizado', { variant: 'success' })
+      if (token && token !== '') {
+        const result = await updateUserById(
+          user.id,
+          getDifferences(initialUser, user),
+          token
+        )
+        if (result) {
+          setShowModal(false)
+          enqueueSnackbar('Usuario actualizado', { variant: 'success' })
+        }
       }
     } catch (error) {
       enqueueSnackbar('Error actualizando', { variant: 'error' })
