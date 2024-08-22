@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { useParams } from 'react-router-dom'
 
-import { useCookies } from 'react-cookie'
-
 import { Employee } from '../types/employee'
-import { BOHEMIA_PADEL_JWT } from '../types/userCookie'
 
 import { getEmployeeById } from '../api/employees/employee'
 
 import Drawer from '../components/Drawer'
-import LoadingWrapper from '../components/LoadingWrapper'
 import EmployeeDetails from '../components/Employees/EmployeeDetails'
+import LoadingWrapper from '../components/LoadingWrapper'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const PageEmployeeSingle = () => {
   const params = useParams<{ employeeId: string }>()
 
-  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
 
   const [loading, setLoading] = useState(true)
   const [employee, setEmployee] = useState<Employee | null>(null)
@@ -29,7 +27,7 @@ const PageEmployeeSingle = () => {
   useEffect(() => {
     const getEmployeeData = async () => {
       try {
-        if (params.employeeId) {
+        if (params.employeeId && token && token !== '') {
           const result = await getEmployeeById(
             parseInt(params.employeeId),
             token
