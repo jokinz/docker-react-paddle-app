@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 
+import { enqueueSnackbar } from 'notistack'
+
 import { EmployeeContext } from '../contexts/EmployeeContext'
 
 import { Item } from '../types/item'
@@ -29,12 +31,12 @@ const PageItems = () => {
             setItemList([])
           }
         } catch (error) {
+          enqueueSnackbar('Error descargando items', { variant: 'error' })
         } finally {
           setLoading(false)
         }
       } else {
-        setItemList([])
-        setLoading(false)
+        enqueueSnackbar('Error token no encontrado', { variant: 'error' })
       }
     }
     getData()
