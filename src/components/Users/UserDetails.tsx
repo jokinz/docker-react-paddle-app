@@ -28,6 +28,7 @@ import { areValuesDifferent, getDifferences } from '../../utils'
 
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import { districtList } from '../../districtList'
 
 type props = {
   user: User
@@ -156,59 +157,11 @@ const UserDetails = ({ user, updateUser }: props) => {
             label="Distrito"
             onChange={handleDistrictChange}
           >
-            <MenuItem value={'Ancón'}>Ancón</MenuItem>
-            <MenuItem value={'Ate'}>Ate</MenuItem>
-            <MenuItem value={'Barranco'}>Barranco</MenuItem>
-            <MenuItem value={'Breña'}>Breña</MenuItem>
-            <MenuItem value={'Carabayllo'}>Carabayllo</MenuItem>
-            <MenuItem value={'Chaclacayo'}>Chaclacayo</MenuItem>
-            <MenuItem value={'Chorrillos'}>Chorrillos</MenuItem>
-            <MenuItem value={'Cieneguilla'}>Cieneguilla</MenuItem>
-            <MenuItem value={'Comas'}>Comas</MenuItem>
-            <MenuItem value={'El Agustino'}>El Agustino</MenuItem>
-            <MenuItem value={'Independencia'}>Independencia</MenuItem>
-            <MenuItem value={'Jesús María'}>Jesús María</MenuItem>
-            <MenuItem value={'La Molina'}>La Molina</MenuItem>
-            <MenuItem value={'La Victoria'}>La Victoria</MenuItem>
-            <MenuItem value={'Lima'}>Lima</MenuItem>
-            <MenuItem value={'Lince'}>Lince</MenuItem>
-            <MenuItem value={'Los Olivos'}>Los Olivos</MenuItem>
-            <MenuItem value={'Lurigancho'}>Lurigancho</MenuItem>
-            <MenuItem value={'Lurín'}>Lurín</MenuItem>
-            <MenuItem value={'Magdalena del Mar'}>Magdalena del Mar</MenuItem>
-            <MenuItem value={'Miraflores'}>Miraflores</MenuItem>
-            <MenuItem value={'Pachacámac'}>Pachacámac</MenuItem>
-            <MenuItem value={'Pucusana'}>Pucusana</MenuItem>
-            <MenuItem value={'Pueblo Libre'}>Pueblo Libre</MenuItem>
-            <MenuItem value={'Puente Piedra'}>Puente Piedra</MenuItem>
-            <MenuItem value={'Punta Hermosa'}>Punta Hermosa</MenuItem>
-            <MenuItem value={'Punta Negra'}>Punta Negra</MenuItem>
-            <MenuItem value={'Rímac'}>Rímac</MenuItem>
-            <MenuItem value={'San Bartolo'}>San Bartolo</MenuItem>
-            <MenuItem value={'San Borja'}>San Borja</MenuItem>
-            <MenuItem value={'San Isidro'}>San Isidro</MenuItem>
-            <MenuItem value={'San Juan de Lurigancho'}>
-              San Juan de Lurigancho
-            </MenuItem>
-            <MenuItem value={'San Juan de Miraflores'}>
-              San Juan de Miraflores
-            </MenuItem>
-            <MenuItem value={'San Luis'}>San Luis</MenuItem>
-            <MenuItem value={'San Martín de Porres'}>
-              San Martín de Porres
-            </MenuItem>
-            <MenuItem value={'San Miguel'}>San Miguel</MenuItem>
-            <MenuItem value={'Santa Anita'}>Santa Anita</MenuItem>
-            <MenuItem value={'Santa María del Mar'}>
-              Santa María del Mar
-            </MenuItem>
-            <MenuItem value={'Santa Rosa'}>Santa Rosa</MenuItem>
-            <MenuItem value={'Santiago de Surco'}>Santiago de Surco</MenuItem>
-            <MenuItem value={'Surquillo'}>Surquillo</MenuItem>
-            <MenuItem value={'Villa El Salvador'}>Villa El Salvador</MenuItem>
-            <MenuItem value={'Villa María del Triunfo'}>
-              Villa María del Triunfo
-            </MenuItem>
+            {districtList.map((district, index) => (
+              <MenuItem key={index} value={district}>
+                {district}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
