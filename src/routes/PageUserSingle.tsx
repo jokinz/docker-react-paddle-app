@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { useParams } from 'react-router-dom'
 
-import { useCookies } from 'react-cookie'
-
 import { User } from '../types/user'
-import { BOHEMIA_PADEL_JWT } from '../types/userCookie'
 
 import { getUserById } from '../api/users/user'
 
 import Drawer from '../components/Drawer'
 import LoadingWrapper from '../components/LoadingWrapper'
 import UserDetails from '../components/Users/UserDetails'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const PageUserSingle = () => {
   const params = useParams<{ userId: string }>()
 
-  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
 
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<User | null>(null)
@@ -29,7 +27,7 @@ const PageUserSingle = () => {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        if (params.userId) {
+        if (params.userId && token && token !== '') {
           const result = await getUserById(parseInt(params.userId), token)
           if (result) {
             setUser(result)
@@ -42,7 +40,7 @@ const PageUserSingle = () => {
     }
     getUserData()
   }, [])
-  
+
   return (
     <Drawer>
       <LoadingWrapper loading={loading}>
