@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 import { Item } from '../types/item'
 
-import { itemExample } from '../api/dummy'
 import { getAllItems } from '../api/items/item'
 
 import Drawer from '../components/Drawer'
 import ItemsList from '../components/Items/ItemsList'
-import NewItemForm from '../components/Items/NewItemForm'
-import UpdateItem from '../components/Items/UpdateItem'
 import LoadingWrapper from '../components/LoadingWrapper'
+import SkeletonList from '../components/SkeletonList'
 
 const PageItems = () => {
   const [itemList, setItemList] = useState<Item[]>([])
@@ -27,12 +27,10 @@ const PageItems = () => {
     }
     getData()
   }, [])
+
   return (
     <Drawer>
-      <h1>Página Items</h1>
-      <NewItemForm />
-      <UpdateItem item={itemExample} />
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonList />}>
         <ItemsList items={itemList} />
       </LoadingWrapper>
     </Drawer>
