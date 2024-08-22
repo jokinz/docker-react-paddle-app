@@ -1,18 +1,10 @@
-import { useState } from 'react'
-
-import { useCookies } from 'react-cookie'
+import { useContext, useState } from 'react'
 
 import { NewItem } from '../../types/item'
 
-import {
-  Button,
-  FormControlLabel,
-  Grid,
-  Switch,
-  TextField,
-} from '@mui/material'
+import { Button, Grid, TextField } from '@mui/material'
 import { createItemNoResponse } from '../../api/items/item'
-import { BOHEMIA_PADEL_JWT } from '../../types/userCookie'
+import { EmployeeContext } from '../../contexts/EmployeeContext'
 
 const starterNewItem: NewItem = {
   name: '',
@@ -24,8 +16,8 @@ const starterNewItem: NewItem = {
 }
 
 const ItemCreate = () => {
-  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
 
   const [item, setItem] = useState<NewItem>(starterNewItem)
   // const handleEnabledClick = async () => {
@@ -34,9 +26,13 @@ const ItemCreate = () => {
   //     return { ...prev, enabled: updatedEnabled }
   //   })
   // }
+  // TODO: update function
   const handleCreateItemClick = async () => {
-    const response = await createItemNoResponse(item, token)
-    console.log(response)
+    try {
+      if (token && token !== '') {
+        const response = await createItemNoResponse(item, token)
+      }
+    } catch (error) {}
   }
   return (
     <Grid container columns={12}>
