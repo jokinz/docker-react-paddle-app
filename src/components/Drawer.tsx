@@ -19,11 +19,10 @@ const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
   [
     { text: 'Inicio', url: '/' },
     { text: 'Reservas', url: '/reserves' },
-    { text: 'Pagos', url: '/payments' },
     { text: 'Usuarios', url: '/users' },
-    { text: 'Items', url: '/items' },
+    { text: 'Items', url: '/items', allowedRoles:[2,3] },
+    { text: 'Campos', url: '/playingfields', allowedRoles: [2,3] },
     { text: 'Trabajadores', url: '/employees', allowedRoles: [3] },
-    { text: 'Campos', url: '/playingfields', allowedRoles: [3] },
     { text: 'Establecimientos', url: '/establishments', allowedRoles: [3] },
   ]
 
