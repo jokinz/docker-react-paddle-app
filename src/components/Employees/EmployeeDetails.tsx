@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 
 import {
   Button,
@@ -37,7 +37,7 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
-  const initialEmployee = useMemo(() => employee, [])
+  const initialEmployee = useRef(employee)
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
@@ -54,6 +54,14 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
     try {
       setUpdateLoading(true)
       if (token && token !== '') {
+        const result = await updateEmployeeById(
+          employee.id,
+          getDifferences(initialEmployee.current, employee),
+          token
+        )
+        if (result) {
+          setShowModal(false)
+          enqueueSnackbar('Trabajador actualizado', { variant: 'success' })
         }
       }
     } catch (error) {
@@ -153,7 +161,7 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
       </Grid>
       <Grid item xs={12}>
         <Button
-          disabled={!areValuesDifferent(employee, initialEmployee)}
+          disabled={!areValuesDifferent(employee, initialEmployee.current)}
           variant="contained"
           onClick={handleUpdateButtonClick}
         >
