@@ -4,6 +4,7 @@ import { Employee } from '../types/employee'
 
 export type EmployeeContextType = {
   employee: Employee | null
+  token: string
   setEmployee: (newValue: Employee | null) => void
 }
 
