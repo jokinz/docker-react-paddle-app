@@ -1,14 +1,34 @@
 import { useContext, useState } from 'react'
 
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material'
+
+import { enqueueSnackbar } from 'notistack'
+
+import { createItemWithResponse } from '../../api/items/item'
+
 import { NewItem } from '../../types/item'
 
-import { Button, Grid, TextField } from '@mui/material'
-import { createItemNoResponse } from '../../api/items/item'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
+
+import DetailsWrapper from '../DetailsWrapper'
+import LoadingWrapper from '../LoadingWrapper'
 
 const starterNewItem: NewItem = {
   name: '',
-  // enabled: true,
   description: '',
   price: 0,
   itemCategoryId: 1,
@@ -20,22 +40,51 @@ const ItemCreate = () => {
   const token = employeeContext?.token
 
   const [item, setItem] = useState<NewItem>(starterNewItem)
-  // const handleEnabledClick = async () => {
-  //   setItemData((prev) => {
-  //     const updatedEnabled = !prev.enabled
-  //     return { ...prev, enabled: updatedEnabled }
-  //   })
-  // }
+
+  const [showModal, setShowModal] = useState(false)
+  const [updateLoading, setUpdateLoading] = useState(false)
+
+  const resetItem = () => {
+    setItem(starterNewItem)
+  }
+
+  const handleCreateClick = () => {
+    setShowModal(true)
+  }
+
+  const handleClose = () => {
+    setShowModal(false)
+  }
+
+  const handleCategoryChange = (event: SelectChangeEvent) => {
+    setItem({ ...item, itemCategoryId: parseInt(event.target.value) })
+  }
+
   // TODO: update function
-  const handleCreateItemClick = async () => {
+  const handleConfirmationClick = async () => {
     try {
+      setUpdateLoading(true)
       if (token && token !== '') {
-        const response = await createItemNoResponse(item, token)
+        const response = await createItemWithResponse(item, token)
+        if (response) {
+          setShowModal(false)
+          enqueueSnackbar('Item creado', { variant: 'success' })
+          resetItem()
+        }
       }
-    } catch (error) {}
+    } catch (error: any) {
+      if (error.response.data.message) {
+        enqueueSnackbar(`Error: ${error}`, { variant: 'error' })
+      } else {
+        enqueueSnackbar('Error creando item', { variant: 'error' })
+      }
+    } finally {
+      setShowModal(false)
+      setUpdateLoading(false)
+    }
   }
   return (
-    <Grid container columns={12}>
+    <DetailsWrapper>
       <Grid item xs={12}>
         <h1>Crear item</h1>
       </Grid>
@@ -79,25 +128,77 @@ const ItemCreate = () => {
           }
         />
       </Grid>
-      {/* <Grid item xs={6}>
-        <FormControlLabel
-          control={
-            <Switch
-              aria-label="Activado"
-              checked={itemData.enabled}
-              onClick={handleEnabledClick}
-            />
+      <Grid item xs={6}>
+        <TextField
+          id="price"
+          label="Precio"
+          type="number"
+          variant="filled"
+          value={item.price}
+          onChange={(e) =>
+            setItem((prev) => {
+              return { ...prev, price: parseInt(e.target.value) }
+            })
           }
-          label="Activado"
-          labelPlacement='start'
         />
-      </Grid> */}
+      </Grid>
+      <Grid item xs={6}>
+        <FormControl variant="standard">
+          <InputLabel id="demo-simple-select-label">Categoría</InputLabel>
+          <Select
+            required
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={item.itemCategoryId.toString()}
+            label="Tipo"
+            onChange={handleCategoryChange}
+          >
+            {/* TODO: update categories source */}
+            <MenuItem disabled value={0}>
+              ---
+            </MenuItem>
+            <MenuItem value={1}>Cat 1</MenuItem>
+            <MenuItem value={2}>Cat 2</MenuItem>
+            <MenuItem value={3}>Cat 3</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
       <Grid item xs={12}>
-        <Button variant="contained" onClick={handleCreateItemClick}>
+        <Button variant="contained" onClick={handleCreateClick}>
           Crear item
         </Button>
       </Grid>
-    </Grid>
+      <Dialog
+        open={showModal}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'¿Crear trabajador?'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Nombre: {item.name}
+            <br />
+            Descripción: {item.description}
+            <br />
+            Precio: S/.{item.price}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            disabled={updateLoading}
+            onClick={handleConfirmationClick}
+            autoFocus
+          >
+            <LoadingWrapper loading={updateLoading}> </LoadingWrapper>
+            Sí, crear
+          </Button>
+          <Button onClick={handleClose}>Cancelar</Button>
+        </DialogActions>
+      </Dialog>
+    </DetailsWrapper>
   )
 }
 
