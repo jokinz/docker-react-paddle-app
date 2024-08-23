@@ -1,6 +1,4 @@
-import { useState } from 'react'
-
-import { useCookies } from 'react-cookie'
+import { useContext, useState } from 'react'
 
 import {
   Button,
@@ -23,8 +21,8 @@ import { enqueueSnackbar } from 'notistack'
 import { createEmployeeWithResponse } from '../../api/employees/employee'
 
 import { NewEmployee } from '../../types/employee'
-import { BOHEMIA_PADEL_JWT } from '../../types/userCookie'
 
+import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 
@@ -37,8 +35,8 @@ const starterNewEmployee: NewEmployee = {
 }
 
 const EmployeeCreate = () => {
-  const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
-  const token = cookies[BOHEMIA_PADEL_JWT].token
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
 
   const [employee, setEmployee] = useState<NewEmployee>(starterNewEmployee)
 
@@ -60,8 +58,8 @@ const EmployeeCreate = () => {
   const handleRoleTypeChange = (event: SelectChangeEvent) => {
     setEmployee({ ...employee, roleId: parseInt(event.target.value) })
   }
-  
-  // TODO: add validation for data 
+
+  // TODO: add validation for data
   const isEmployeeValid = (): boolean => {
     if (
       employee.email === '' ||
@@ -79,14 +77,20 @@ const EmployeeCreate = () => {
   const handleConfirmationClick = async () => {
     try {
       setUpdateLoading(true)
-      const response = await createEmployeeWithResponse(employee, token)
-      if (response) {
-        setShowModal(false)
-        enqueueSnackbar('Trabajador creado', { variant: 'success' })
-        resetEmployee()
+      if (token && token !== '') {
+        const response = await createEmployeeWithResponse(employee, token)
+        if (response) {
+          setShowModal(false)
+          enqueueSnackbar('Trabajador creado', { variant: 'success' })
+          resetEmployee()
+        }
       }
-    } catch (error) {
-      enqueueSnackbar('Error creando trabajador', { variant: 'error' })
+    } catch (error: any) {
+      if (error.response.data.message) {
+        enqueueSnackbar(`Error: ${error}`, { variant: 'error' })
+      } else {
+        enqueueSnackbar('Error creando trabajador', { variant: 'error' })
+      }
     } finally {
       setShowModal(false)
       setUpdateLoading(false)
