@@ -31,6 +31,8 @@ import ForceLogin from './components/ForceLogin.tsx'
 import LoadingWrapper from './components/LoadingWrapper.tsx'
 
 import { BOHEMIA_PADEL_JWT } from './types/userCookie.ts'
+import PageItemSingle from './routes/PageItemSingle.tsx'
+import PageItemCreate from './routes/PageItemCreate.tsx'
 
 const darkTheme = createTheme({
   palette: {
@@ -117,10 +119,26 @@ const App = () => {
         </ForceLogin>
       ),
     },
+    {
+      path: '/items/:itemId',
+      element: (
+        <ForceLogin>
+          <PageItemSingle />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: '/items/create',
+      element: (
+        <ForceLogin>
+          <PageItemCreate />
+        </ForceLogin>
+      ),
+    },
   ])
 
   const [employee, setEmployee] = useState<Employee | null>(null)
-  const [token, setToken] = useState<string>('');
+  const [token, setToken] = useState<string>('')
   const [loading, setLoading] = useState(true)
 
   const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
