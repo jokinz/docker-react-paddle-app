@@ -28,29 +28,25 @@ import { BOHEMIA_PADEL_JWT } from '../../types/userCookie'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 
+const starterNewEmployee: NewEmployee = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  roleId: 0,
+  password: '',
+}
+
 const EmployeeCreate = () => {
   const [cookies] = useCookies([BOHEMIA_PADEL_JWT])
   const token = cookies[BOHEMIA_PADEL_JWT].token
 
-  const [employee, setEmployee] = useState<NewEmployee>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    roleId: 0,
-    password: '',
-  })
+  const [employee, setEmployee] = useState<NewEmployee>(starterNewEmployee)
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
 
   const resetEmployee = () => {
-    setEmployee({
-      firstName: '',
-      lastName: '',
-      email: '',
-      roleId: 0,
-      password: '',
-    })
+    setEmployee(starterNewEmployee)
   }
 
   const handleCreateClick = () => {
