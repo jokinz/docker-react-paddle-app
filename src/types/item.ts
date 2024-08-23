@@ -15,5 +15,7 @@ export type NewItem = Pick<
 
 export type ItemCategory = {
   id: number
+  name: string
   icon: string | null
 }
+export type NewItemCategory = Pick<ItemCategory, 'name'>
