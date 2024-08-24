@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import {
   Button,
@@ -20,11 +20,12 @@ import { enqueueSnackbar } from 'notistack'
 
 import { createEmployeeWithResponse } from '../../api/employees/employee'
 
-import { NewEmployee } from '../../types/employee'
+import { EmployeeRoleResponse, NewEmployee } from '../../types/employee'
 
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import { getAllEmployeeRoles } from '../../api/employees/employeeRole'
 
 const starterNewEmployee: NewEmployee = {
   firstName: '',
@@ -39,9 +40,26 @@ const EmployeeCreate = () => {
   const token = employeeContext?.token
 
   const [employee, setEmployee] = useState<NewEmployee>(starterNewEmployee)
+  const [employeeRoles, setEmployeeRoles] = useState<EmployeeRoleResponse[]>([])
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
+
+  useEffect(() => {
+    const getEmployeeRoles = async () => {
+      if (token) {
+        try {
+          const response = await getAllEmployeeRoles(token)
+          if (response) {
+            setEmployeeRoles(response)
+          }
+        } catch (error) {
+          enqueueSnackbar(`Error cargando los roles`, { variant: 'error' })
+        }
+      }
+    }
+    getEmployeeRoles()
+  }, [])
 
   const resetEmployee = () => {
     setEmployee(starterNewEmployee)
@@ -169,9 +187,11 @@ const EmployeeCreate = () => {
             <MenuItem disabled value={0}>
               ---
             </MenuItem>
-            <MenuItem value={1}>Recepción</MenuItem>
-            <MenuItem value={2}>Operador</MenuItem>
-            <MenuItem value={3}>Administrador</MenuItem>
+            {employeeRoles.map((role, index) => (
+              <MenuItem key={index} value={role.id}>
+                {role.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
