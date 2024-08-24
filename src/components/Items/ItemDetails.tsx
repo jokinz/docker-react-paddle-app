@@ -40,6 +40,9 @@ const ItemDetails = ({ item, updateItem }: props) => {
 
   const initialItem = useRef(item)
   const [itemCategories, setItemCategories] = useState<ItemCategory[]>([])
+  const [newThumbnail, setNewThumbnail] = useState<string | null>(null)
+
+  const imgSrc = item.thumbnail ? (newThumbnail ? newThumbnail : item.thumbnail) : ''
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
@@ -76,35 +79,42 @@ const ItemDetails = ({ item, updateItem }: props) => {
     getItemCategories()
   }, [])
 
-  // TODO: consultar actualizar thumbnail
   const handleConfirmationClick = async () => {
     const oldItem: UpdateItem = {
       itemCategoryId: initialItem.current.itemCategory.id,
       name: initialItem.current.name,
       description: initialItem.current.description,
-      // thumbnail: '',
       price: initialItem.current.price,
       enabled: initialItem.current.enabled,
     }
     const newItem: UpdateItem = {
       itemCategoryId: item.itemCategory.id,
-      name: initialItem.current.name,
-      description: initialItem.current.description,
-      // thumbnail: '',
-      price: initialItem.current.price,
-      enabled: initialItem.current.enabled,
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      enabled: item.enabled,
     }
     try {
       setUpdateLoading(true)
       if (token && token !== '') {
-        const result = await updateItemById(
-          item.id,
-          getDifferences(oldItem, newItem),
-          token
-        )
-        if (result) {
-          setShowModal(false)
-          enqueueSnackbar('Item actualizado', { variant: 'success' })
+        if (newThumbnail) {
+          const result = await updateItemById(
+            item.id,
+            { ...getDifferences(oldItem, newItem), thumbnail: newThumbnail },
+            token
+          )
+          if (result) {
+            enqueueSnackbar('Item actualizado', { variant: 'success' })
+          }
+        } else {
+          const result = await updateItemById(
+            item.id,
+            getDifferences(oldItem, newItem),
+            token
+          )
+          if (result) {
+            enqueueSnackbar('Item actualizado', { variant: 'success' })
+          }
         }
       }
     } catch (error) {
@@ -126,6 +136,19 @@ const ItemDetails = ({ item, updateItem }: props) => {
       ...item,
       itemCategory: { ...item.itemCategory, id: parseInt(event.target.value) },
     })
+  }
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setNewThumbnail(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setNewThumbnail(null)
+    }
   }
 
   return (
@@ -199,15 +222,21 @@ const ItemDetails = ({ item, updateItem }: props) => {
         />
       </Grid>
       <Grid item xs={12}>
-        <img
-          style={{ display: 'block', maxWidth: '100%' }}
-          src={item.thumbnail ? item.thumbnail : ''}
+        <img style={{ display: 'block', maxWidth: '100%' }} src={imgSrc} />
+      </Grid>
+      <Grid item xs={6}>
+        <input
+          type="file"
+          accept=".png, .jpeg, .jpg"
+          onChange={handleImageChange}
         />
       </Grid>
       <Grid item xs={12}>
         <Button
           disabled={
-            !areValuesDifferent(item, initialItem.current) || !isItemValid()
+            (!areValuesDifferent(item, initialItem.current) ||
+              !isItemValid()) &&
+            newThumbnail === null
           }
           variant="contained"
           onClick={handleUpdateButtonClick}
