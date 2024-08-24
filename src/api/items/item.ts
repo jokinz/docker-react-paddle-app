@@ -99,17 +99,20 @@ export const updateItemById = async (
   token: string
 ): Promise<true | undefined> => {
   try {
-    const axiosResponse = await axios.patch(`/items/${itemId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: { ...updateItem },
-    })
-    if (axiosResponse.status === 200) {
+    const axiosResponse = await axios.patch(
+      `/items/${itemId}`,
+      { ...updateItem },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (axiosResponse.status === 204) {
       return true
     }
     throw new Error('Error actualizando datos del item')
   } catch (error) {
-    console.error(error)
+    throw error
   }
 }
