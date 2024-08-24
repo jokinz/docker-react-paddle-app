@@ -31,7 +31,7 @@ const starterNewItem: NewItem = {
   name: '',
   description: '',
   price: 0,
-  itemCategoryId: 1,
+  itemCategoryId: 0,
   thumbnail: null,
 }
 
