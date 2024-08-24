@@ -105,12 +105,15 @@ export const updateEmployeeById = async (
   token: string
 ): Promise<true | undefined> => {
   try {
-    const axiosResponse = await axios.patch(`/employees/${employeeId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: { ...employee },
-    })
+    const axiosResponse = await axios.patch(
+      `/employees/${employeeId}`,
+      { ...employee },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
     if (axiosResponse.status === 200) {
       return true
     }
