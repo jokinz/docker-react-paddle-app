@@ -113,19 +113,3 @@ export const updateItemById = async (
     console.error(error)
   }
 }
-
-// export const updateItemEnabledById = async (
-//   item: ItemType
-// ): Promise<ItemType | undefined> => {
-//   try {
-//     const enabled = item.enabled
-//     const response = await emulateApiCall(item, 'success', { ...item, enabled })
-//     if (response) {
-//       return response
-//     }
-//     throw new Error('Error actualizando el item')
-//   } catch (error) {
-//     console.error(error)
-//     return
-//   }
-// }
