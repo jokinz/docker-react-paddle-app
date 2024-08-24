@@ -1,6 +1,6 @@
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 
-import { Item, UpdateItem } from '../../types/item'
+import { Item, ItemCategory, UpdateItem } from '../../types/item'
 
 import { updateItemById } from '../../api/items/item'
 
@@ -27,6 +27,7 @@ import { areValuesDifferent, getDifferences } from '../../utils'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import { getAllItemCategories } from '../../api/items/itemCategory'
 
 type props = {
   item: Item
@@ -38,6 +39,7 @@ const ItemDetails = ({ item, updateItem }: props) => {
   const token = employeeContext?.token
 
   const initialItem = useRef(item)
+  const [itemCategories, setItemCategories] = useState<ItemCategory[]>([])
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
@@ -49,6 +51,30 @@ const ItemDetails = ({ item, updateItem }: props) => {
   const handleClose = () => {
     setShowModal(false)
   }
+
+  const isItemValid = (): boolean => {
+    if (item.name === '' || item.description === '' || item.price === 0) {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  useEffect(() => {
+    const getItemCategories = async () => {
+      if (token) {
+        try {
+          const response = await getAllItemCategories(token)
+          if (response) {
+            setItemCategories(response)
+          }
+        } catch (error) {
+          enqueueSnackbar(`Error cargando las categorías`, { variant: 'error' })
+        }
+      }
+    }
+    getItemCategories()
+  }, [])
 
   // TODO: consultar actualizar thumbnail
   const handleConfirmationClick = async () => {
@@ -117,10 +143,11 @@ const ItemDetails = ({ item, updateItem }: props) => {
             label="Categoría"
             onChange={handleCategoryChange}
           >
-            {/* TODO: update categories source */}
-            <MenuItem value={1}>Cat 1 </MenuItem>
-            <MenuItem value={2}>Cat 2 </MenuItem>
-            <MenuItem value={3}>Cat 3 </MenuItem>
+            {itemCategories.map((category, index) => (
+              <MenuItem key={index} value={category.id}>
+                {category.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
@@ -149,9 +176,13 @@ const ItemDetails = ({ item, updateItem }: props) => {
           type="number"
           variant="filled"
           value={item.price}
-          onChange={(e) =>
-            updateItem({ ...item, price: parseInt(e.target.value) })
-          }
+          onChange={(e) => {
+            if (e.target.value === '') {
+              updateItem({ ...item, price: 0 })
+            } else {
+              updateItem({ ...item, price: parseInt(e.target.value) })
+            }
+          }}
         />
       </Grid>
       <Grid item xs={6}>
@@ -168,12 +199,20 @@ const ItemDetails = ({ item, updateItem }: props) => {
         />
       </Grid>
       <Grid item xs={12}>
+        <img
+          style={{ display: 'block', maxWidth: '100%' }}
+          src={item.thumbnail ? item.thumbnail : ''}
+        />
+      </Grid>
+      <Grid item xs={12}>
         <Button
-          disabled={!areValuesDifferent(item, initialItem.current)}
+          disabled={
+            !areValuesDifferent(item, initialItem.current) || !isItemValid()
+          }
           variant="contained"
           onClick={handleUpdateButtonClick}
         >
-          Actualizar item
+          Actualizar
         </Button>
       </Grid>
       <Dialog
