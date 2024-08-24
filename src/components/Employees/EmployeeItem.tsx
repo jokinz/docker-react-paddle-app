@@ -16,7 +16,7 @@ type props = { employee: EmployeeType }
 const EmployeeItem = ({ employee }: props) => {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(`/employee/${employee.id}`)
+    navigate(`/employees/${employee.id}`)
   }
   return (
     <ListItem>
