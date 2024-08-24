@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import {
   Button,
@@ -20,12 +20,13 @@ import { enqueueSnackbar } from 'notistack'
 
 import { createItemWithResponse } from '../../api/items/item'
 
-import { NewItem } from '../../types/item'
+import { ItemCategory, NewItem } from '../../types/item'
 
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import { getAllItemCategories } from '../../api/items/itemCategory'
 
 const starterNewItem: NewItem = {
   name: '',
@@ -40,9 +41,26 @@ const ItemCreate = () => {
   const token = employeeContext?.token
 
   const [item, setItem] = useState<NewItem>(starterNewItem)
+  const [itemCategories, setItemCategories] = useState<ItemCategory[]>([])
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
+
+  useEffect(() => {
+    const getItemCategories = async () => {
+      if (token) {
+        try {
+          const response = await getAllItemCategories(token)
+          if (response) {
+            setItemCategories(response)
+          }
+        } catch (error) {
+          enqueueSnackbar(`Error cargando las categorías`, { variant: 'error' })
+        }
+      }
+    }
+    getItemCategories()
+  }, [])
 
   const resetItem = () => {
     setItem(starterNewItem)
@@ -56,11 +74,40 @@ const ItemCreate = () => {
     setShowModal(false)
   }
 
+  const isItemValid = (): boolean => {
+    if (
+      item.name === '' ||
+      item.description === '' ||
+      item.price === 0 ||
+      item.itemCategoryId === 0
+    ) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   const handleCategoryChange = (event: SelectChangeEvent) => {
     setItem({ ...item, itemCategoryId: parseInt(event.target.value) })
   }
 
-  // TODO: update function
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setItem((prev) => {
+          return { ...prev, thumbnail: reader.result as string }
+        })
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setItem((prev) => {
+        return { ...prev, thumbnail: null }
+      })
+    }
+  }
+
   const handleConfirmationClick = async () => {
     try {
       setUpdateLoading(true)
@@ -123,23 +170,20 @@ const ItemCreate = () => {
           value={item.price}
           onChange={(e) =>
             setItem((prev) => {
-              return { ...prev, price: parseInt(e.target.value) }
+              if (e.target.value === '') {
+                return { ...prev, price: 0 }
+              } else {
+                return { ...prev, price: parseInt(e.target.value) }
+              }
             })
           }
         />
       </Grid>
       <Grid item xs={6}>
-        <TextField
-          id="price"
-          label="Precio"
-          type="number"
-          variant="filled"
-          value={item.price}
-          onChange={(e) =>
-            setItem((prev) => {
-              return { ...prev, price: parseInt(e.target.value) }
-            })
-          }
+        <input
+          type="file"
+          accept=".png, .jpeg, .jpg"
+          onChange={handleImageChange}
         />
       </Grid>
       <Grid item xs={6}>
@@ -153,19 +197,24 @@ const ItemCreate = () => {
             label="Tipo"
             onChange={handleCategoryChange}
           >
-            {/* TODO: update categories source */}
             <MenuItem disabled value={0}>
               ---
             </MenuItem>
-            <MenuItem value={1}>Cat 1</MenuItem>
-            <MenuItem value={2}>Cat 2</MenuItem>
-            <MenuItem value={3}>Cat 3</MenuItem>
+            {itemCategories.map((category, index) => (
+              <MenuItem key={index} value={category.id}>
+                {category.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
       <Grid item xs={12}>
-        <Button variant="contained" onClick={handleCreateClick}>
-          Crear item
+        <Button
+          disabled={!isItemValid()}
+          variant="contained"
+          onClick={handleCreateClick}
+        >
+          Crear
         </Button>
       </Grid>
       <Dialog
@@ -174,9 +223,7 @@ const ItemCreate = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {'¿Crear trabajador?'}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'¿Crear ítem?'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Nombre: {item.name}
