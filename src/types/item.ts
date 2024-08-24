@@ -13,14 +13,16 @@ export type NewItem = Pick<
   'name' | 'description' | 'thumbnail' | 'price'
 > & { itemCategoryId: number }
 
-export type UpdateItem = Partial<Pick<
-  Item,
-  'name' | 'description' | 'thumbnail' | 'price' | 'enabled'
-> & { itemCategoryId: number; returning: boolean }>
+export type UpdateItem = Partial<
+  Pick<Item, 'name' | 'description' | 'thumbnail' | 'price' | 'enabled'> & {
+    itemCategoryId: number
+    returning: boolean
+  }
+>
 
 export type ItemCategory = {
   id: number
   name: string
   icon: string | null
 }
-export type NewItemCategory = Pick<ItemCategory, 'name'>
+export type NewItemCategory = Pick<ItemCategory, 'name' | 'icon'>
