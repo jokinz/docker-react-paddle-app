@@ -7,3 +7,8 @@ export type PlayingField = {
   price: number
   enabled: boolean
 }
+
+export type NewPlayingField = Pick<
+  PlayingField,
+  'establishmentId' | 'name' | 'description' | 'thumbnail' | 'price'
+>
