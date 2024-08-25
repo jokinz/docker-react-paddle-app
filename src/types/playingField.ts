@@ -1,9 +1,9 @@
 export type PlayingField = {
   id: number
-  idEstablishment: number
+  establishmentId: number
   name: string
-  description: string
-  thumbnail: string
+  description: string | null
+  thumbnail: string | null
   price: number
-  available: boolean
+  enabled: boolean
 }
