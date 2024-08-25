@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
@@ -10,17 +10,21 @@ import { Reservation } from '../types/reservation'
 
 import Drawer from '../components/Drawer'
 import LoadingWrapper from '../components/LoadingWrapper'
-import ReservesList from '../components/Reserves/ReservesList'
+import ReservationsList from '../components/Reservations/ReservationsList'
 import SkeletonList from '../components/SkeletonList'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const PageReservations = () => {
-  const [reserveList, setReserveList] = useState<Reservation[]>([])
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
+
+  const [reservationsList, setReservationsList] = useState<Reservation[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [loading, setLoading] = useState(true)
 
   const debouncedSearch = useCallback(
     _.debounce(async (newValue: string) => {
-      await handleSearchReserves(newValue)
+      await handleSearchReservations(newValue)
     }, 1000),
     []
   )
@@ -29,20 +33,19 @@ const PageReservations = () => {
     return debouncedSearch.cancel
   }, [searchValue, debouncedSearch])
 
-  const handleSearchReserves = async (newValue: string) => {
+  const handleSearchReservations = async (newValue: string) => {
     try {
-      // TODO: update what functions calls
-      if (newValue !== '') {
+      if (newValue !== '' && token && token !== '') {
         setLoading(true)
-        const result = await getReservations()
+        const result = await getReservations({ search: newValue }, token)
         if (result) {
-          setReserveList(result)
+          setReservationsList(result)
         } else {
-          setReserveList([])
+          setReservationsList([])
         }
       }
     } catch (error) {
-      setReserveList([])
+      setReservationsList([])
     } finally {
       setLoading(false)
     }
@@ -64,7 +67,7 @@ const PageReservations = () => {
         </Grid>
       </Grid>
       <LoadingWrapper loading={loading} skeleton={<SkeletonList />}>
-        <ReservesList reserves={reserveList} />
+        <ReservationsList reservations={reservationsList} />
       </LoadingWrapper>
     </Drawer>
   )
