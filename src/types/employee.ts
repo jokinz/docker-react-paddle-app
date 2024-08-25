@@ -17,3 +17,5 @@ export type EmployeeRole = {
   roleName: string
   accessLevel: string
 }
+
+export type EmployeeRoleResponse = Pick<EmployeeRole, 'id'> & { name: string }
