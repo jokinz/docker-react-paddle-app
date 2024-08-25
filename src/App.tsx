@@ -22,8 +22,8 @@ import PageEmployeeSingle from './routes/PageEmployeeSingle.tsx'
 import PageItems from './routes/PageItems.tsx'
 import PageLogin from './routes/PageLogin.tsx'
 import PageNotFound from './routes/PageNotFound.tsx'
-import PageReserves from './routes/PageReserves.tsx'
-import PageReserveSingle from './routes/PageReserveSingle.tsx'
+import PageReservations from './routes/PageReservations.tsx'
+import PageReservationSingle from './routes/PageReservationSingle.tsx'
 import PageUsers from './routes/PageUsers.tsx'
 import PageUserSingle from './routes/PageUserSingle.tsx'
 
@@ -56,18 +56,18 @@ const App = () => {
       element: <PageLogin />,
     },
     {
-      path: '/reserves',
+      path: '/reservations',
       element: (
         <ForceLogin>
-          <PageReserves />
+          <PageReservations />
         </ForceLogin>
       ),
     },
     {
-      path: '/reserves/:reserveId',
+      path: '/reservations/:reservationId',
       element: (
         <ForceLogin>
-          <PageReserveSingle />
+          <PageReservationSingle />
         </ForceLogin>
       ),
     },

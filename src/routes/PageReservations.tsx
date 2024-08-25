@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
-import { getAllReserves } from '../api/reservations'
+import { getReservations } from '../api/reservations'
 
 import { Grid, TextField } from '@mui/material'
 
@@ -13,7 +13,7 @@ import LoadingWrapper from '../components/LoadingWrapper'
 import ReservesList from '../components/Reserves/ReservesList'
 import SkeletonList from '../components/SkeletonList'
 
-const PageReserves = () => {
+const PageReservations = () => {
   const [reserveList, setReserveList] = useState<Reservation[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [loading, setLoading] = useState(true)
@@ -34,7 +34,7 @@ const PageReserves = () => {
       // TODO: update what functions calls
       if (newValue !== '') {
         setLoading(true)
-        const result = await getAllReserves()
+        const result = await getReservations()
         if (result) {
           setReserveList(result)
         } else {
@@ -70,4 +70,4 @@ const PageReserves = () => {
   )
 }
 
-export default PageReserves
+export default PageReservations

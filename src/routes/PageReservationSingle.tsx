@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import Drawer from '../components/Drawer'
 import ReserveDetails from '../components/Reserves/ReserveDetails'
 
-const PageReserveSingle = () => {
+const PageReservationSingle = () => {
   const params = useParams<{ reserveId: string }>()
   return (
     <Drawer>
@@ -12,4 +12,4 @@ const PageReserveSingle = () => {
   )
 }
 
-export default PageReserveSingle
+export default PageReservationSingle
