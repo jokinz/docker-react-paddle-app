@@ -18,7 +18,7 @@ import MenuLink from './MenuLink'
 const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
   [
     { text: 'Inicio', url: '/' },
-    { text: 'Reservas', url: '/reserves' },
+    { text: 'Reservas', url: '/reservations' },
     { text: 'Usuarios', url: '/users' },
     { text: 'Items', url: '/items', allowedRoles:[2,3] },
     { text: 'Campos', url: '/playingfields', allowedRoles: [2,3] },
