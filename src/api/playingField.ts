@@ -2,10 +2,11 @@ import axios from './axios'
 
 import { AxiosResponse } from 'axios'
 
-import { PlayingField } from '../types/playingField'
+import { NewPlayingField, PlayingField } from '../types/playingField'
 import { GetPlayingFieldsResponse } from '../types/responses/GetPlayingFieldsResponse'
 import { GetPlayingFieldsSchema } from '../types/schemas/GetPlayingFieldsSchema'
 import { GetPlayingFieldByIdResponse } from '../types/responses/GetPlayingFieldByIdResponse'
+import { CreatePlayingFieldResponse } from '../types/responses/CreatePlayingFieldResponse'
 
 export const getPlayingFields = async (
   playingFieldsSchema: GetPlayingFieldsSchema,
@@ -47,3 +48,30 @@ export const getPlayingFieldById = async (
   return
 }
 
+export const createPlayingField = async (
+  playingField: NewPlayingField,
+  token: string,
+  returning: boolean = false
+): Promise<PlayingField | true | undefined> => {
+  try {
+    const axiosResponse: AxiosResponse<CreatePlayingFieldResponse> =
+      await axios.post(
+        `/playing-fields`,
+        { ...playingField, returning },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    if (axiosResponse.status === 204) {
+      return true
+    }
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data
+    }
+    throw new Error('Error creando el campo de juego')
+  } catch (error) {
+    throw error
+  }
+}
