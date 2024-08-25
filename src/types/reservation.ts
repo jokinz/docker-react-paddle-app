@@ -9,8 +9,7 @@ export type Reservation = {
   schedule: Schedule
   playingField: Pick<PlayingField, 'id' | 'name' | 'description' | 'thumbnail'>
   // TODO: consultar icon
-  reservationItems: Pick<Item, 'name' | 'description' | 'thumbnail' | 'price'> &
-    { quantity: number }[]
+  reservationItems: ReservationItems[]
   itemsHanded: boolean
   payed: boolean
 }
@@ -22,3 +21,8 @@ type Schedule = {
   startTime: string
   endTime: string
 }
+
+export type ReservationItems = Pick<
+  Item,
+  'name' | 'description' | 'thumbnail' | 'price'
+> & { quantity: number }
