@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
-import { getAllReserves } from '../api/reserves/reserve'
+import { getAllReserves } from '../api/reservations'
 
 import { Grid, TextField } from '@mui/material'
 
-import { Reserve } from '../types/reserve'
+import { Reservation } from '../types/reservation'
 
 import Drawer from '../components/Drawer'
 import LoadingWrapper from '../components/LoadingWrapper'
@@ -14,7 +14,7 @@ import ReservesList from '../components/Reserves/ReservesList'
 import SkeletonList from '../components/SkeletonList'
 
 const PageReserves = () => {
-  const [reserveList, setReserveList] = useState<Reserve[]>([])
+  const [reserveList, setReserveList] = useState<Reservation[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [loading, setLoading] = useState(true)
 
