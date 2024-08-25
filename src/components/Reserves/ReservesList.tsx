@@ -1,5 +1,5 @@
 
-import { Reserve as ReserveType } from '../../types/reserve'
+import { Reservation as ReserveType } from '../../types/reservation'
 
 import { Grid, List } from '@mui/material'
 

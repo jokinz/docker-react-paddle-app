@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Grid, ListItem, ListItemButton, ListItemText } from '@mui/material'
 
-import { Reserve as ReserveType } from '../../types/reserve'
+import { Reservation as ReserveType } from '../../types/reservation'
 
 type props = {
   index: number

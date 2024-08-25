@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { Reserve } from '../../types/reserve'
+import { Reservation } from '../../types/reservation'
 
-import { getReserveById, updateReserveById } from '../../api/reserves/reserve'
+import { getReserveById, updateReserveById } from '../../api/reservations'
 
 import {
   Button,
@@ -24,7 +24,7 @@ type props = { reserveId: string }
 
 const ReserveDetails = ({ reserveId }: props) => {
   const [loading, setLoading] = useState(true)
-  const [reserve, setReserve] = useState<Reserve | null>(null)
+  const [reserve, setReserve] = useState<Reservation | null>(null)
   const [itemsHanded, setItemsHanded] = useState<boolean>(
     reserve?.itemsHanded as boolean
   )
@@ -51,7 +51,7 @@ const ReserveDetails = ({ reserveId }: props) => {
       const result = await updateReserveById({
         ...reserve,
         status: itemsHanded,
-      } as Reserve)
+      } as Reservation)
       if (result) {
         setShowModal(false)
         setReserve(result)
