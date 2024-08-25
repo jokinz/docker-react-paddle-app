@@ -2,10 +2,9 @@ import axios from '../axios'
 
 import { AxiosResponse } from 'axios'
 
-import { ItemCategory } from '../../types/item'
-import { GetItemCategoriesResponse } from '../../types/responses/GetItemCategoriesResponse'
-import { CreateItemCategorySchema } from '../../types/schemas/CreateItemCategorySchema'
+import { ItemCategory, NewItemCategory } from '../../types/item'
 import { CreateItemCategoryResponse } from '../../types/responses/CreateItemCategoryResponse'
+import { GetItemCategoriesResponse } from '../../types/responses/GetItemCategoriesResponse'
 
 export const getAllItemCategories = async (
   token: string
@@ -25,7 +24,7 @@ export const getAllItemCategories = async (
 }
 
 export const createItemCategoryWithResponse = async (
-  itemCategory: CreateItemCategorySchema,
+  itemCategory: NewItemCategory,
   token: string
 ): Promise<ItemCategory | undefined> => {
   try {
@@ -47,7 +46,7 @@ export const createItemCategoryWithResponse = async (
 }
 
 export const createItemCategoryNoResponse = async (
-  itemCategory: CreateItemCategorySchema,
+  itemCategory: NewItemCategory,
   token: string
 ): Promise<true | undefined> => {
   try {
