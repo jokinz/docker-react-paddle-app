@@ -1,17 +1,12 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useState } from 'react'
 
 import {
   Button,
   Dialog,
   DialogActions,
   DialogTitle,
-  FormControl,
   FormControlLabel,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   Switch,
   TextField,
 } from '@mui/material'
@@ -20,10 +15,11 @@ import { enqueueSnackbar } from 'notistack'
 
 import { Reservation } from '../../types/reservation'
 
+import { updateReservationHandItemsById } from '../../api/reservations'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
-import { updateReservationHandItemsById } from '../../api/reservations'
+import ReservationItemsAccordion from './ReservationItemsAccordion'
 
 type props = {
   reservation: Reservation
@@ -33,8 +29,6 @@ type props = {
 const ReservationDetails = ({ reservation, updateReservation }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
-
-  const initialReservation = useRef(reservation)
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
@@ -178,6 +172,15 @@ const ReservationDetails = ({ reservation, updateReservation }: props) => {
           label="Items entregados"
           labelPlacement="start"
         />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <ReservationItemsAccordion items={reservation.reservationItems} />
       </Grid>
       {!reservation.itemsHanded && (
         <Grid item xs={12} textAlign={'center'}>
