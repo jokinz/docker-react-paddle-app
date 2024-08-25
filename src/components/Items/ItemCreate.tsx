@@ -18,7 +18,7 @@ import {
 
 import { enqueueSnackbar } from 'notistack'
 
-import { createItemWithResponse } from '../../api/items/item'
+import { createItem } from '../../api/items/item'
 
 import { ItemCategory, NewItem } from '../../types/item'
 
@@ -112,7 +112,7 @@ const ItemCreate = () => {
     try {
       setUpdateLoading(true)
       if (token && token !== '') {
-        const response = await createItemWithResponse(item, token)
+        const response = await createItem(item, token, true)
         if (response) {
           setShowModal(false)
           enqueueSnackbar('Item creado', { variant: 'success' })

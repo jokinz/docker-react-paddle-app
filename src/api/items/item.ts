@@ -51,46 +51,35 @@ export const getItemById = async (
   return
 }
 
-export const createItemWithResponse = async (
+export const createItem = async (
   item: CreateItemSchema,
-  token: string
-): Promise<ItemType | undefined> => {
+  token: string,
+  returning: boolean = false
+): Promise<ItemType | true | undefined> => {
   try {
     const axiosResponse: AxiosResponse<CreateItemResponse> = await axios.post(
       `/items`,
-      { ...item, returning: true },
+      { ...item, returning },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     )
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    if (
+      returning &&
+      axiosResponse.status === 200 &&
+      axiosResponse.data.statusCode === 200
+    ) {
       return axiosResponse.data.data
     }
-    throw new Error('Error creando el item')
-  } catch (error) {}
-}
-
-export const createItemNoResponse = async (
-  item: CreateItemSchema,
-  token: string
-): Promise<true | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<CreateItemResponse> = await axios.post(
-      `/items`,
-      { ...item, returning: false },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (axiosResponse.status === 204) {
+    if (!returning && axiosResponse.status === 204) {
       return true
     }
     throw new Error('Error creando el item')
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export const updateItemById = async (
