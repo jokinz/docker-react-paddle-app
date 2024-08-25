@@ -12,3 +12,18 @@ export type NewPlayingField = Pick<
   PlayingField,
   'establishmentId' | 'name' | 'description' | 'thumbnail' | 'price'
 >
+
+export type UpdatePlayingField = Partial<
+  Pick<
+    PlayingField,
+    | 'establishmentId'
+    | 'name'
+    | 'description'
+    | 'thumbnail'
+    | 'price'
+    | 'enabled'
+  > & {
+    itemCategoryId: number
+    returning: boolean
+  }
+>
