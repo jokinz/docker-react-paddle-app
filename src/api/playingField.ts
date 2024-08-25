@@ -2,11 +2,15 @@ import axios from './axios'
 
 import { AxiosResponse } from 'axios'
 
-import { NewPlayingField, PlayingField } from '../types/playingField'
+import {
+  NewPlayingField,
+  PlayingField,
+  UpdatePlayingField,
+} from '../types/playingField'
+import { CreatePlayingFieldResponse } from '../types/responses/CreatePlayingFieldResponse'
+import { GetPlayingFieldByIdResponse } from '../types/responses/GetPlayingFieldByIdResponse'
 import { GetPlayingFieldsResponse } from '../types/responses/GetPlayingFieldsResponse'
 import { GetPlayingFieldsSchema } from '../types/schemas/GetPlayingFieldsSchema'
-import { GetPlayingFieldByIdResponse } from '../types/responses/GetPlayingFieldByIdResponse'
-import { CreatePlayingFieldResponse } from '../types/responses/CreatePlayingFieldResponse'
 
 export const getPlayingFields = async (
   playingFieldsSchema: GetPlayingFieldsSchema,
@@ -71,6 +75,30 @@ export const createPlayingField = async (
       return axiosResponse.data.data
     }
     throw new Error('Error creando el campo de juego')
+  } catch (error) {
+    throw error
+  }
+}
+
+export const updatePlayingFieldById = async (
+  playingFieldId: number,
+  updatePlayingField: UpdatePlayingField,
+  token: string
+): Promise<true | undefined> => {
+  try {
+    const axiosResponse = await axios.patch(
+      `/playing-fields/${playingFieldId}`,
+      { ...updatePlayingField },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (axiosResponse.status === 204) {
+      return true
+    }
+    throw new Error('Error actualizando datos del campo de juego')
   } catch (error) {
     throw error
   }
