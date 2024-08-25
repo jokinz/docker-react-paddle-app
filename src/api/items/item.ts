@@ -27,7 +27,9 @@ export const getAllItems = async (
       return axiosResponse.data.data.rows
     }
     throw new Error('Error buscando items')
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export const getItemById = async (
@@ -47,8 +49,9 @@ export const getItemById = async (
       return axiosResponse.data.data
     }
     throw new Error('Error descargando datos del item')
-  } catch (error) {}
-  return
+  } catch (error) {
+    throw error
+  }
 }
 
 export const createItem = async (

@@ -48,8 +48,9 @@ export const getPlayingFieldById = async (
       return axiosResponse.data.data
     }
     throw new Error('Error descargando datos del campo de juego')
-  } catch (error) {}
-  return
+  } catch (error) {
+    throw error
+  }
 }
 
 export const createPlayingField = async (
