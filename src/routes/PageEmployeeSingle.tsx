@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 
 import { useParams } from 'react-router-dom'
 
-import { Employee } from '../types/employee'
+import { Employee, EmployeeRoleResponse } from '../types/employee'
 
 import { getEmployeeById } from '../api/employees/employee'
 
@@ -10,6 +10,8 @@ import Drawer from '../components/Drawer'
 import EmployeeDetails from '../components/Employees/EmployeeDetails'
 import LoadingWrapper from '../components/LoadingWrapper'
 import { EmployeeContext } from '../contexts/EmployeeContext'
+import { getAllEmployeeRoles } from '../api/employees/employeeRole'
+import { enqueueSnackbar } from 'notistack'
 
 const PageEmployeeSingle = () => {
   const params = useParams<{ employeeId: string }>()
@@ -19,6 +21,7 @@ const PageEmployeeSingle = () => {
 
   const [loading, setLoading] = useState(true)
   const [employee, setEmployee] = useState<Employee | null>(null)
+  const [employeeRoles, setEmployeeRoles] = useState<EmployeeRoleResponse[]>([])
 
   const updateEmployee = (updatedEmployee: Employee) => {
     setEmployee(updatedEmployee)
@@ -42,6 +45,19 @@ const PageEmployeeSingle = () => {
       }
     }
     getEmployeeData()
+    const getEmployeeRoles = async () => {
+      if (token) {
+        try {
+          const response = await getAllEmployeeRoles(token)
+          if (response) {
+            setEmployeeRoles(response)
+          }
+        } catch (error) {
+          enqueueSnackbar(`Error cargando los roles`, { variant: 'error' })
+        }
+      }
+    }
+    getEmployeeRoles()
   }, [])
 
   return (
@@ -51,6 +67,7 @@ const PageEmployeeSingle = () => {
           <EmployeeDetails
             employee={employee}
             updateEmployee={updateEmployee}
+            employeeRoles={employeeRoles}
           />
         ) : (
           <h1>Trabajador no encontrado</h1>
