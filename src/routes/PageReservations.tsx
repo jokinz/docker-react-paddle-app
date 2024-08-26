@@ -13,6 +13,7 @@ import LoadingWrapper from '../components/LoadingWrapper'
 import ReservationsList from '../components/Reservations/ReservationsList'
 import SkeletonList from '../components/SkeletonList'
 import { EmployeeContext } from '../contexts/EmployeeContext'
+import { enqueueSnackbar } from 'notistack'
 
 const PageReservations = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -46,6 +47,7 @@ const PageReservations = () => {
       }
     } catch (error) {
       setReservationsList([])
+      enqueueSnackbar(`Error cargando reservas`, { variant: 'error' })
     } finally {
       setLoading(false)
     }

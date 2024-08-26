@@ -13,6 +13,7 @@ import EmployeesList from '../components/Employees/EmployeesList'
 import LoadingWrapper from '../components/LoadingWrapper'
 
 import { EmployeeContext } from '../contexts/EmployeeContext'
+import { enqueueSnackbar } from 'notistack'
 
 const PageEmployees = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -49,7 +50,8 @@ const PageEmployees = () => {
         }
       }
     } catch (error) {
-      setEmployeeList([])
+      enqueueSnackbar(`Error cargando trabajadores`, { variant: 'error' })
+      setEmployeesList([])
     } finally {
       setLoading(false)
     }
