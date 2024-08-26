@@ -8,7 +8,6 @@ export type Reservation = {
   establishmentId: number
   schedule: Schedule
   playingField: Pick<PlayingField, 'id' | 'name' | 'description' | 'thumbnail'>
-  // TODO: consultar icon
   reservationItems: ReservationItems[]
   itemsHanded: boolean
   payed: boolean
