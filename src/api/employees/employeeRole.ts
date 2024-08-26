@@ -20,6 +20,6 @@ export const getAllEmployeeRoles = async (
     }
     throw new Error('Error descargando los roles')
   } catch (error) {
-    throw Error
+    throw error
   }
 }

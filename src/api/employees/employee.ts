@@ -71,7 +71,7 @@ export const createEmployeeWithResponse = async (
       return axiosResponse.data.data
     }
   } catch (error) {
-    throw Error
+    throw error
   }
 }
 
