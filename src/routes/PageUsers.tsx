@@ -18,7 +18,7 @@ const PageUsers = () => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
-  const [userList, setUserList] = useState<User[]>([])
+  const [usersList, setUsersList] = useState<User[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [loading, setLoading] = useState(true)
 
@@ -39,13 +39,14 @@ const PageUsers = () => {
         setLoading(true)
         const result = await getUsers({ search: newValue }, token)
         if (result) {
-          setUserList(result)
+          setUsersList(result)
         } else {
-          setUserList([])
+          setUsersList([])
         }
       }
     } catch (error) {
-      setUserList([])
+      setUsersList([])
+      enqueueSnackbar(`Error cargando usuarios`, { variant: 'error' })
     } finally {
       setLoading(false)
     }
@@ -69,7 +70,7 @@ const PageUsers = () => {
         <h3>Empiece a escribir para buscar</h3>
       ) : (
         <LoadingWrapper loading={loading}>
-          <UsersList users={userList} />
+          <UsersList users={usersList} />
         </LoadingWrapper>
       )}
     </Drawer>
