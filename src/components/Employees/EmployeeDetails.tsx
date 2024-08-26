@@ -60,6 +60,18 @@ const EmployeeDetails = ({
     setShowModal(false)
   }
 
+  const isEmployeeValid = (): boolean => {
+    if (
+      employee.firstName === '' ||
+      employee.lastName === '' ||
+      employee.email === ''
+    ) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   const handleConfirmationClick = async () => {
     try {
       setUpdateLoading(true)
