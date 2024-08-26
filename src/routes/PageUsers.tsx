@@ -13,6 +13,7 @@ import LoadingWrapper from '../components/LoadingWrapper'
 import UsersList from '../components/Users/UsersList'
 
 import { EmployeeContext } from '../contexts/EmployeeContext'
+import { enqueueSnackbar } from 'notistack'
 
 const PageUsers = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -32,6 +33,20 @@ const PageUsers = () => {
     debouncedSearch(searchValue)
     return debouncedSearch.cancel
   }, [searchValue, debouncedSearch])
+
+  useEffect(() => {
+    const getFirstUsers = async () => {
+      if (token && token !== '') {
+        const result = await getUsers({ search: '', records: 5 }, token)
+        if (result) {
+          setUsersList(result)
+        } else {
+          setUsersList([])
+        }
+      }
+    }
+    getFirstUsers()
+  }, [])
 
   const handleSearchUsers = async (newValue: string) => {
     try {
