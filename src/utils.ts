@@ -1,3 +1,5 @@
+import { DataGridProps, GridColDef } from '@mui/x-data-grid'
+
 export const areValuesDifferent = <T>(
   obj: T,
   partialObj: Partial<T>
@@ -48,4 +50,18 @@ export const getDifferences = <T>(original: T, modified: T): Partial<T> => {
   }
 
   return differences
+}
+
+export const getDataGridProps = (
+  rows: any[],
+  columns: GridColDef<any>[]
+): DataGridProps => {
+  return {
+    rows,
+    columns,
+    pageSizeOptions: [10],
+    disableRowSelectionOnClick: true,
+    disableColumnMenu: true,
+    disableColumnResize: true,
+  }
 }
