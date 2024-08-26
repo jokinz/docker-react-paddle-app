@@ -20,7 +20,9 @@ export const getAllItemCategories = async (
       return axiosResponse.data.data.rows
     }
     throw new Error('Error descargando las categorías')
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export const createItemCategoryWithResponse = async (
@@ -42,7 +44,9 @@ export const createItemCategoryWithResponse = async (
       return axiosResponse.data.data
     }
     throw new Error('Error creando la categoría')
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export const createItemCategoryNoResponse = async (
@@ -64,5 +68,7 @@ export const createItemCategoryNoResponse = async (
       return true
     }
     throw new Error('Error creando la categoría')
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }

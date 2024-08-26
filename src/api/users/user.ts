@@ -26,7 +26,7 @@ export const getUsers = async (
     }
     throw new Error('Error buscando usuarios')
   } catch (error) {
-    console.error(error)
+    throw error
   }
 }
 
@@ -48,9 +48,8 @@ export const getUserById = async (
     }
     throw new Error('Error descargando datos de usuario')
   } catch (error) {
-    console.error(error)
+    throw error
   }
-  return
 }
 
 export const updateUserById = async (
@@ -73,6 +72,6 @@ export const updateUserById = async (
     }
     throw new Error('Error actualizando datos de usuario')
   } catch (error) {
-    console.error(error)
+    throw error
   }
 }
