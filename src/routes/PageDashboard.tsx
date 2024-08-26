@@ -1,5 +1,4 @@
 import Drawer from '../components/Drawer'
-import MenuLink from '../components/MenuLink'
 
 const PageDashboard = () => {
   return (
