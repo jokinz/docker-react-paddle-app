@@ -26,6 +26,7 @@ import { EmployeeContext } from '../../contexts/EmployeeContext'
 import { districtList } from '../../districtList'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import { useNavigate } from 'react-router-dom'
 
 type props = {
   user: User
@@ -35,7 +36,7 @@ type props = {
 const UserDetails = ({ user, updateUser }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
-
+  const navigate = useNavigate()
   const initialUser = useRef(user)
 
   const [showModal, setShowModal] = useState(false)
@@ -61,6 +62,7 @@ const UserDetails = ({ user, updateUser }: props) => {
         if (result) {
           setShowModal(false)
           enqueueSnackbar('Usuario actualizado', { variant: 'success' })
+          navigate(`/users`)
         }
       }
     } catch (error) {
