@@ -18,7 +18,11 @@ import {
 
 import { enqueueSnackbar } from 'notistack'
 
-import { Employee, EmployeeRole } from '../../types/employee'
+import {
+  Employee,
+  EmployeeRoleResponse,
+  UpdateEmployee,
+} from '../../types/employee'
 
 import { updateEmployeeById } from '../../api/employees/employee'
 
@@ -27,16 +31,22 @@ import { areValuesDifferent, getDifferences } from '../../utils'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import { useNavigate } from 'react-router-dom'
 
 type props = {
   employee: Employee
   updateEmployee: (updatedEmployee: Employee) => void
+  employeeRoles: EmployeeRoleResponse[]
 }
 
-const EmployeeDetails = ({ employee, updateEmployee }: props) => {
+const EmployeeDetails = ({
+  employee,
+  updateEmployee,
+  employeeRoles,
+}: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
-
+  const navigate = useNavigate()
   const initialEmployee = useRef(employee)
 
   const [showModal, setShowModal] = useState(false)
@@ -62,6 +72,7 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
         if (result) {
           setShowModal(false)
           enqueueSnackbar('Trabajador actualizado', { variant: 'success' })
+          navigate(`/employees`)
         }
       }
     } catch (error) {
@@ -73,16 +84,13 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
   }
 
   const handleRoleTypeChange = (event: SelectChangeEvent) => {
-    const id: number = parseInt(event.target.value)
-    const roleName: string =
-      id === 1 ? 'Recepción' : id === 2 ? 'Operador' : 'Administrador'
-    const accessLevel: string =
-      id === 1 ? 'Counter' : id === 2 ? 'Operator' : 'Admin'
-    const newRole: EmployeeRole = { id, roleName, accessLevel }
-    updateEmployee({ ...employee, role: newRole })
+    updateEmployee({
+      ...employee,
+      role: { ...employee.role, id: parseInt(event.target.value) },
+    })
   }
 
-  const handleEnabledClick = async () => {
+  const handleEnabledClick = () => {
     const updatedEnabled = !employee.enabled
     const updatedEmployee = { ...employee, enabled: updatedEnabled }
     updateEmployee(updatedEmployee)
@@ -140,9 +148,11 @@ const EmployeeDetails = ({ employee, updateEmployee }: props) => {
             label="Tipo"
             onChange={handleRoleTypeChange}
           >
-            <MenuItem value={1}>Recepción</MenuItem>
-            <MenuItem value={2}>Operador</MenuItem>
-            <MenuItem value={3}>Administrador</MenuItem>
+            {employeeRoles.map((role, index) => (
+              <MenuItem key={index} value={role.id}>
+                {role.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
