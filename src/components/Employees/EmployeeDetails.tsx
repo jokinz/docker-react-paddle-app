@@ -48,6 +48,7 @@ const EmployeeDetails = ({
   const token = employeeContext?.token
   const navigate = useNavigate()
   const initialEmployee = useRef(employee)
+  const [newPassword, setNewPassword] = useState('')
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
@@ -73,12 +74,30 @@ const EmployeeDetails = ({
   }
 
   const handleConfirmationClick = async () => {
+    const oldEmployee: UpdateEmployee = {
+      roleId: initialEmployee.current.role.id,
+      firstName: initialEmployee.current.firstName,
+      lastName: initialEmployee.current.lastName,
+      email: initialEmployee.current.email,
+      enabled: initialEmployee.current.enabled,
+    }
+    const newEmployee: UpdateEmployee = {
+      roleId: employee.role.id,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      email: employee.email,
+      enabled: employee.enabled,
+    }
+    const newEmployeeData: UpdateEmployee =
+      newPassword === ''
+        ? { ...getDifferences(oldEmployee, newEmployee) }
+        : { ...getDifferences(oldEmployee, newEmployee), password: newPassword }
     try {
       setUpdateLoading(true)
       if (token && token !== '') {
         const result = await updateEmployeeById(
           employee.id,
-          getDifferences(initialEmployee.current, employee),
+          newEmployeeData,
           token
         )
         if (result) {
@@ -148,6 +167,19 @@ const EmployeeDetails = ({
           fullWidth
         />
       </Grid>
+      <Grid item xs={12}>
+        <TextField
+          type="password"
+          id="newPassword"
+          label="Nueva contraseña"
+          variant="filled"
+          value={newPassword}
+          onChange={(e) => {
+            setNewPassword(e.target.value)
+          }}
+          fullWidth
+        />
+      </Grid>
       <Grid item xs={6}>
         <FormControl variant="standard">
           <InputLabel id="demo-simple-select-label">
@@ -183,7 +215,11 @@ const EmployeeDetails = ({
       </Grid>
       <Grid item xs={12}>
         <Button
-          disabled={!areValuesDifferent(employee, initialEmployee.current)}
+          disabled={
+            (!areValuesDifferent(employee, initialEmployee.current) ||
+              !isEmployeeValid()) &&
+            newPassword === ''
+          }
           variant="contained"
           onClick={handleUpdateButtonClick}
         >
