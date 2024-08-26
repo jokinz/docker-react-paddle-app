@@ -19,7 +19,7 @@ const PageEmployees = () => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
-  const [employeeList, setEmployeeList] = useState<Employee[]>([])
+  const [employeesList, setEmployeesList] = useState<Employee[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [loading, setLoading] = useState(true)
 
@@ -44,9 +44,9 @@ const PageEmployees = () => {
           token
         )
         if (result) {
-          setEmployeeList(result)
+          setEmployeesList(result)
         } else {
-          setEmployeeList([])
+          setEmployeesList([])
         }
       }
     } catch (error) {
@@ -72,13 +72,10 @@ const PageEmployees = () => {
           />
         </Grid>
       </Grid>
-      {searchValue === '' ? (
-        <h3>Empiece a escribir para buscar</h3>
-      ) : (
-        <LoadingWrapper loading={loading}>
-          <EmployeesList employees={employeeList} />
-        </LoadingWrapper>
-      )}
+      {/* {searchValue === '' && <h3>Empiece a escribir para buscar</h3>} */}
+      <LoadingWrapper loading={loading}>
+        <EmployeesList employees={employeesList} />
+      </LoadingWrapper>
     </Drawer>
   )
 }
