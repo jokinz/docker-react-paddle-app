@@ -34,6 +34,20 @@ const PageReservations = () => {
     return debouncedSearch.cancel
   }, [searchValue, debouncedSearch])
 
+  useEffect(() => {
+    const getFirstReservations = async () => {
+      if (token && token !== '') {
+        const result = await getReservations({ search: '', records: 5 }, token)
+        if (result) {
+          setReservationsList(result)
+        } else {
+          setReservationsList([])
+        }
+      }
+    }
+    getFirstReservations()
+  }, [])
+
   const handleSearchReservations = async (newValue: string) => {
     try {
       if (newValue !== '' && token && token !== '') {

@@ -35,6 +35,23 @@ const PageEmployees = () => {
     return debouncedSearch.cancel
   }, [searchValue, debouncedSearch])
 
+  useEffect(() => {
+    const getFirstEmployees = async () => {
+      if (token && token !== '') {
+        const result = await getEmployees(
+          { search: '', includeDisabled: 1, records: 5 },
+          token
+        )
+        if (result) {
+          setEmployeesList(result)
+        } else {
+          setEmployeesList([])
+        }
+      }
+    }
+    getFirstEmployees()
+  }, [])
+
   const handleSearchEmployees = async (newValue: string) => {
     try {
       if (newValue !== '' && token && token !== '') {
