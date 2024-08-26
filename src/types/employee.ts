@@ -12,6 +12,13 @@ export type NewEmployee = Pick<Employee, 'firstName' | 'lastName' | 'email'> & {
   roleId: number
 }
 
+export type UpdateEmployee = Partial<
+  Pick<Employee, 'firstName' | 'lastName' | 'email' | 'enabled'> & {
+    roleId: number
+    password: string
+  }
+>
+
 export type EmployeeRole = {
   id: number
   roleName: string
