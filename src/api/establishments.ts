@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios'
 import { Establishment } from '../types/establishment'
 import { GetEstablishmentsResponse } from '../types/responses/GetEstablishmentsResponse'
 
-export const getAllItemCategories = async (
+export const getAllEstablishments = async (
   token: string
 ): Promise<Pick<Establishment, 'id' | 'name'>[] | undefined> => {
   try {
