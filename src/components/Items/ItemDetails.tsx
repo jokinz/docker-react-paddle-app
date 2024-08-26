@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 
 import { Item, ItemCategory, UpdateItem } from '../../types/item'
 
@@ -27,22 +27,25 @@ import { areValuesDifferent, getDifferences } from '../../utils'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
-import { getAllItemCategories } from '../../api/items/itemCategory'
 
 type props = {
   item: Item
   updateItem: (updatedItem: Item) => void
+  itemCategories: ItemCategory[]
 }
 
-const ItemDetails = ({ item, updateItem }: props) => {
+const ItemDetails = ({ item, updateItem, itemCategories }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
   const initialItem = useRef(item)
-  const [itemCategories, setItemCategories] = useState<ItemCategory[]>([])
   const [newThumbnail, setNewThumbnail] = useState<string | null>(null)
 
-  const imgSrc = item.thumbnail ? (newThumbnail ? newThumbnail : item.thumbnail) : ''
+  const imgSrc = item.thumbnail
+    ? newThumbnail
+      ? newThumbnail
+      : item.thumbnail
+    : ''
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
@@ -62,22 +65,6 @@ const ItemDetails = ({ item, updateItem }: props) => {
       return true
     }
   }
-
-  useEffect(() => {
-    const getItemCategories = async () => {
-      if (token) {
-        try {
-          const response = await getAllItemCategories(token)
-          if (response) {
-            setItemCategories(response)
-          }
-        } catch (error) {
-          enqueueSnackbar(`Error cargando las categorías`, { variant: 'error' })
-        }
-      }
-    }
-    getItemCategories()
-  }, [])
 
   const handleConfirmationClick = async () => {
     const oldItem: UpdateItem = {
