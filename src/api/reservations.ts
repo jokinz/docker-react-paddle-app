@@ -53,7 +53,7 @@ export const updateReservationHandItemsById = async (
   token: string
 ): Promise<true | undefined> => {
   try {
-    const axiosResponse = await axios.patch(
+    const axiosResponse = await axios.post(
       `/reservation/${reservationId}/hand-items`,
       {},
       {
