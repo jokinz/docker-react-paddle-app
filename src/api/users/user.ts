@@ -67,7 +67,7 @@ export const updateUserById = async (
         },
       }
     )
-    if (axiosResponse.status === 200) {
+    if (axiosResponse.status === 204) {
       return true
     }
     throw new Error('Error actualizando datos de usuario')

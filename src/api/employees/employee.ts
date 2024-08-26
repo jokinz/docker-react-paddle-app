@@ -114,7 +114,7 @@ export const updateEmployeeById = async (
         },
       }
     )
-    if (axiosResponse.status === 200) {
+    if (axiosResponse.status === 204) {
       return true
     }
     throw Error('Error actualizando datos de trabajador')
