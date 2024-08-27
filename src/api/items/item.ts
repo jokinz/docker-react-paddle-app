@@ -69,15 +69,15 @@ export const createItem = async (
         },
       }
     )
+    if (axiosResponse.status === 204) {
+      return true
+    }
     if (
       returning &&
       axiosResponse.status === 200 &&
       axiosResponse.data.statusCode === 200
     ) {
       return axiosResponse.data.data
-    }
-    if (!returning && axiosResponse.status === 204) {
-      return true
     }
     throw new Error('Error creando el item')
   } catch (error) {
