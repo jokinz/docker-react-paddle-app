@@ -36,13 +36,24 @@ const PageUsers = () => {
 
   useEffect(() => {
     const getFirstUsers = async () => {
-      if (token && token !== '') {
-        const result = await getUsers({ search: '', records: 5 }, token)
-        if (result) {
-          setUsersList(result)
-        } else {
-          setUsersList([])
+      try {
+        if (token && token !== '') {
+          setLoading(true)
+          const result = await getUsers(
+            { search: searchValue, records: 5 },
+            token
+          )
+          if (result) {
+            setUsersList(result)
+          } else {
+            setUsersList([])
+          }
         }
+      } catch (error) {
+        setUsersList([])
+        enqueueSnackbar(`Error cargando usuarios`, { variant: 'error' })
+      } finally {
+        setLoading(false)
       }
     }
     getFirstUsers()
