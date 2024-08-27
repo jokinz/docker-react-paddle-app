@@ -18,7 +18,7 @@ import {
 
 import { enqueueSnackbar } from 'notistack'
 
-import { createEmployeeWithResponse } from '../../api/employees/employee'
+import { createEmployee } from '../../api/employees/employee'
 
 import { EmployeeRoleResponse, NewEmployee } from '../../types/employee'
 
@@ -96,7 +96,7 @@ const EmployeeCreate = () => {
     try {
       setUpdateLoading(true)
       if (token && token !== '') {
-        const response = await createEmployeeWithResponse(employee, token)
+        const response = await createEmployee(employee, token)
         if (response) {
           setShowModal(false)
           enqueueSnackbar('Trabajador creado', { variant: 'success' })

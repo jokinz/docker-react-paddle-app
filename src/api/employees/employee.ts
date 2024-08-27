@@ -52,38 +52,16 @@ export const getEmployeeById = async (
   }
 }
 
-export const createEmployeeWithResponse = async (
+export const createEmployee = async (
   employee: CreateEmployeeSchema,
-  token: string
-): Promise<EmployeeType | undefined> => {
+  token: string,
+  returning: boolean = false
+): Promise<EmployeeType | true | undefined> => {
   try {
     const axiosResponse: AxiosResponse<CreateEmployeeResponse> =
       await axios.post(
         `/employees`,
-        { ...employee, returning: true },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-  } catch (error) {
-    throw error
-  }
-}
-
-export const createEmployeeNoResponse = async (
-  employee: CreateEmployeeSchema,
-  token: string
-): Promise<true | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<CreateEmployeeResponse> =
-      await axios.post(
-        `/employees`,
-        { ...employee, returning: false },
+        { ...employee, returning },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -93,7 +71,9 @@ export const createEmployeeNoResponse = async (
     if (axiosResponse.status === 204) {
       return true
     }
-    throw Error(axiosResponse.data.message)
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data
+    }
   } catch (error) {
     throw error
   }
