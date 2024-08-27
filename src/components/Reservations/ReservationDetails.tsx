@@ -20,6 +20,7 @@ import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 import ReservationItemsAccordion from './ReservationItemsAccordion'
+import { useNavigate } from 'react-router-dom'
 
 type props = {
   reservation: Reservation
@@ -28,9 +29,10 @@ type props = {
 const ReservationDetails = ({ reservation }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
-
+  const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
+  const [handItems, setHandItems] = useState<boolean>(reservation.itemsHanded)
 
   const handleUpdateButtonClick = () => {
     setShowModal(true)
@@ -43,6 +45,7 @@ const ReservationDetails = ({ reservation }: props) => {
   const handleItemsHandedChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    setHandItems(event.target.checked)
   }
 
   const handleConfirmationClick = async () => {
@@ -54,12 +57,12 @@ const ReservationDetails = ({ reservation }: props) => {
           token
         )
         if (result) {
-          // TODO: add update changes
           enqueueSnackbar('Reserva actualizada', { variant: 'success' })
+          navigate(`/reservations`)
         }
       }
     } catch (error) {
-      enqueueSnackbar('Error actualizando', { variant: 'error' })
+      enqueueSnackbar('Error actualizando reserva', { variant: 'error' })
     } finally {
       setUpdateLoading(false)
       setShowModal(false)
@@ -163,7 +166,7 @@ const ReservationDetails = ({ reservation }: props) => {
             <Switch
               aria-label="Items entregados"
               disabled={reservation.itemsHanded}
-              checked={reservation.itemsHanded}
+              checked={handItems}
               onChange={handleItemsHandedChange}
             />
           }
@@ -185,7 +188,7 @@ const ReservationDetails = ({ reservation }: props) => {
           <Button
             variant="contained"
             onClick={handleUpdateButtonClick}
-            disabled={reservation.itemsHanded}
+            disabled={!handItems}
           >
             Actualizar reserva
           </Button>
