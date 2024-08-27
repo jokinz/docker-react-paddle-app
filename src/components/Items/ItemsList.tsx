@@ -1,51 +1,62 @@
 import { Item as ItemType } from '../../types/item'
 
-import { Grid, List, styled } from '@mui/material'
-
-import Item from './Item'
-import { updateItemEnabledById } from '../../api/items/item'
-import { useState } from 'react'
+import { DataGrid, DataGridProps, GridColDef } from '@mui/x-data-grid'
+import { getDataGridProps } from '../../utils'
+import Link from '../ResultsStyledLink'
+import { Avatar } from '@mui/material'
 
 type props = { items: ItemType[] }
 const ItemsList = ({ items }: props) => {
-  const [itemsData, setItemsData] = useState(items)
-  const Demo = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
-  }))
-  const handleItemEnabledUpdate = async (index: number, item: ItemType) => {
-    try {
-      const response = await updateItemEnabledById(item)
-      if (response) {
-        setItemsData((prev) => {
-          const updatedItemsData = [...prev]
-          const enabled = updatedItemsData[index].enabled
-          updatedItemsData[index].enabled = !enabled
-          return updatedItemsData
-        })
-      }
-    } catch (error) {
-      console.error(error)
+  const columns: GridColDef<(typeof rows)[number]>[] = [
+    {
+      field: 'thumbnail',
+      headerName: '',
+      renderCell: (params) => (
+        <Avatar src={params.row.thumbnail ? params.row.thumbnail : ''} />
+      ),
+      align: 'center',
+    },
+    {
+      field: 'name',
+      headerName: 'Nombre',
+      flex: 1,
+      renderCell: (params) => (
+        <Link to={`/items/${params.row.id}`}>{params.value}</Link>
+      ),
+    },
+    {
+      field: 'price',
+      headerName: 'Precio',
+      flex: 1,
+    },
+    {
+      field: 'enabled',
+      headerName: 'Habilitado',
+      flex: 1,
+    },
+    {
+      field: 'category',
+      headerName: 'Categoría',
+      flex: 1,
+    },
+  ]
+  const rows = items.map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      enabled: item.enabled ? 'Sí' : 'No',
+      category: item.itemCategory.name,
+      thumbnail: item.thumbnail,
     }
-  }
+  })
+  const dataGridProps: DataGridProps = getDataGridProps(rows, columns)
 
-  if (itemsData.length > 0) {
+  if (items.length > 0) {
     return (
       <div>
-        <h1>Lista de items</h1>
-        <Grid item xs={12} md={6}>
-          <Demo>
-            <List dense={false}>
-              {itemsData.map((item, index) => (
-                <Item
-                  key={index}
-                  index={index}
-                  item={item}
-                  handleItemEnabledUpdate={handleItemEnabledUpdate}
-                />
-              ))}
-            </List>
-          </Demo>
-        </Grid>
+        <h1>Resultado</h1>
+        <DataGrid {...dataGridProps} />
       </div>
     )
   }
