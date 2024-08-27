@@ -9,7 +9,7 @@ import { GetItemsResponse } from '../../types/responses/GetItemsResponse'
 import { CreateItemSchema } from '../../types/schemas/CreateItemSchema'
 import { GetItemsSchema } from '../../types/schemas/GetItemsSchema'
 
-export const getAllItems = async (
+export const getItems = async (
   itemsSchema: GetItemsSchema,
   token: string
 ): Promise<ItemType[] | undefined> => {
