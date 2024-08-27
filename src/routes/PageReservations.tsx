@@ -36,13 +36,23 @@ const PageReservations = () => {
 
   useEffect(() => {
     const getFirstReservations = async () => {
-      if (token && token !== '') {
-        const result = await getReservations({ search: '', records: 5 }, token)
-        if (result) {
-          setReservationsList(result)
-        } else {
-          setReservationsList([])
+      try {
+        if (token && token !== '') {
+          setLoading(true)
+          const result = await getReservations(
+            { search: searchValue, records: 5 },
+            token
+          )
+          if (result) {
+            setReservationsList(result)
+          } else {
+            throw Error
+          }
         }
+      } catch (error) {
+        enqueueSnackbar(`Error cargando reservas`, { variant: 'error' })
+      } finally {
+        setLoading(false)
       }
     }
     getFirstReservations()
