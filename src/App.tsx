@@ -33,6 +33,9 @@ import LoadingWrapper from './components/LoadingWrapper.tsx'
 import { BOHEMIA_PADEL_JWT } from './types/userCookie.ts'
 import PageItemSingle from './routes/PageItemSingle.tsx'
 import PageItemCreate from './routes/PageItemCreate.tsx'
+import PageCategorySingle from './routes/PageCategorySingle.tsx'
+import PageCategoryCreate from './routes/PageCategoryCreate.tsx'
+import PageCategories from './routes/PageCategories.tsx'
 
 const darkTheme = createTheme({
   palette: {
@@ -132,6 +135,30 @@ const App = () => {
       element: (
         <ForceLogin>
           <PageItemCreate />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: '/categories',
+      element: (
+        <ForceLogin>
+          <PageCategories />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: '/categories/:categoryId',
+      element: (
+        <ForceLogin>
+          <PageCategorySingle />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: '/categories/create',
+      element: (
+        <ForceLogin>
+          <PageCategoryCreate />
         </ForceLogin>
       ),
     },
