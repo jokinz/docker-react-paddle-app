@@ -15,7 +15,7 @@ import { NewItemCategory } from '../../types/item'
 
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 
-import { createItemCategoryWithResponse } from '../../api/items/itemCategory'
+import { createItemCategory } from '../../api/items/itemCategory'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 
@@ -73,7 +73,7 @@ const ItemCategoryCreate = () => {
     try {
       setUpdateLoading(true)
       if (token && token !== '') {
-        const response = await createItemCategoryWithResponse(
+        const response = await createItemCategory(
           itemCategory,
           token
         )

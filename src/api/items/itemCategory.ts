@@ -25,39 +25,16 @@ export const getAllItemCategories = async (
   }
 }
 
-export const createItemCategoryWithResponse = async (
+export const createItemCategory = async (
   itemCategory: NewItemCategory,
-  token: string
-): Promise<ItemCategory | undefined> => {
+  token: string,
+  returning: boolean = false
+): Promise<ItemCategory | true | undefined> => {
   try {
     const axiosResponse: AxiosResponse<CreateItemCategoryResponse> =
       await axios.post(
         `/item-categories`,
-        { ...itemCategory, returning: true },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-    throw new Error('Error creando la categoría')
-  } catch (error) {
-    throw error
-  }
-}
-
-export const createItemCategoryNoResponse = async (
-  itemCategory: NewItemCategory,
-  token: string
-): Promise<true | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<CreateItemCategoryResponse> =
-      await axios.post(
-        `/item-categories`,
-        { ...itemCategory, returning: false },
+        { ...itemCategory, returning },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,6 +43,9 @@ export const createItemCategoryNoResponse = async (
       )
     if (axiosResponse.status === 204) {
       return true
+    }
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data
     }
     throw new Error('Error creando la categoría')
   } catch (error) {
