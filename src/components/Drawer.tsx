@@ -21,6 +21,7 @@ const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
     { text: 'Reservas', url: '/reservations' },
     { text: 'Usuarios', url: '/users' },
     { text: 'Items', url: '/items', allowedRoles:[2,3] },
+    { text: 'Categorías', url: '/categories', allowedRoles:[2,3] },
     { text: 'Campos', url: '/playingfields', allowedRoles: [2,3] },
     { text: 'Trabajadores', url: '/employees', allowedRoles: [3] },
     { text: 'Establecimientos', url: '/establishments', allowedRoles: [3] },
