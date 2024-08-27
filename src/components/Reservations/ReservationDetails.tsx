@@ -23,10 +23,9 @@ import ReservationItemsAccordion from './ReservationItemsAccordion'
 
 type props = {
   reservation: Reservation
-  updateReservation: (updatedReservation: Reservation) => void
 }
 
-const ReservationDetails = ({ reservation, updateReservation }: props) => {
+const ReservationDetails = ({ reservation }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
@@ -44,7 +43,6 @@ const ReservationDetails = ({ reservation, updateReservation }: props) => {
   const handleItemsHandedChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    updateReservation({ ...reservation, itemsHanded: event.target.checked })
   }
 
   const handleConfirmationClick = async () => {

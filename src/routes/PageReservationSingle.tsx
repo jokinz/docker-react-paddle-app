@@ -20,10 +20,6 @@ const PageReservationSingle = () => {
   const [loading, setLoading] = useState(true)
   const [reservation, setReservation] = useState<Reservation | null>(null)
 
-  const updateReservation = (updatedReservation: Reservation) => {
-    setReservation(updatedReservation)
-  }
-
   useEffect(() => {
     const getReservationData = async () => {
       try {
@@ -48,10 +44,7 @@ const PageReservationSingle = () => {
     <Drawer>
       <LoadingWrapper loading={loading}>
         {reservation !== null ? (
-          <ReservationDetails
-            reservation={reservation}
-            updateReservation={updateReservation}
-          />
+          <ReservationDetails reservation={reservation} />
         ) : (
           <h1>Reserva no encontrada</h1>
         )}
