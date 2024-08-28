@@ -36,6 +36,9 @@ import PageItemCreate from './routes/PageItemCreate.tsx'
 import PageCategorySingle from './routes/PageCategorySingle.tsx'
 import PageCategoryCreate from './routes/PageCategoryCreate.tsx'
 import PageCategories from './routes/PageCategories.tsx'
+import PagePlayingFieldSingle from './routes/PagePlayingFieldSingle.tsx'
+import PagePlayingFieldCreate from './routes/PagePlayingFieldCreate.tsx'
+import PagePlayingFields from './routes/PagePlayingFields.tsx'
 
 const darkTheme = createTheme({
   palette: {
@@ -159,6 +162,30 @@ const App = () => {
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PageCategoryCreate />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: '/playing-fields',
+      element: (
+        <ForceLogin requiredRole={[2, 3]}>
+          <PagePlayingFields />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: '/playing-fields/create',
+      element: (
+        <ForceLogin requiredRole={[2, 3]}>
+          <PagePlayingFieldCreate />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: '/playing-fields/:playingFieldId',
+      element: (
+        <ForceLogin requiredRole={[2, 3]}>
+          <PagePlayingFieldSingle />
         </ForceLogin>
       ),
     },
