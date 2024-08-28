@@ -31,6 +31,11 @@ const ReservationsList = ({ reservations }: props) => {
       headerName: 'Pagado',
       flex: 1,
     },
+    {
+      field: 'itemsHanded',
+      headerName: 'Ítems entregados',
+      flex: 1,
+    },
   ]
   const rows = reservations.map((reservation) => {
     return {
@@ -39,6 +44,7 @@ const ReservationsList = ({ reservations }: props) => {
       date: reservation.schedule.date,
       time: `${reservation.schedule.startTime} - ${reservation.schedule.endTime}`,
       payed: reservation.payed ? 'Sí' : 'No',
+      itemsHanded: reservation.itemsHanded ? 'Sí' : 'No',
     }
   })
   const dataGridProps: DataGridProps = getDataGridProps(rows, columns)
