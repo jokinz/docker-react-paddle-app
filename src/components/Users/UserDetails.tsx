@@ -27,6 +27,7 @@ import { districtList } from '../../districtList'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 import { useNavigate } from 'react-router-dom'
+import GridTitle from '../GridTitle'
 
 type props = {
   user: User
@@ -82,9 +83,7 @@ const UserDetails = ({ user, updateUser }: props) => {
 
   return (
     <DetailsWrapper>
-      <Grid textAlign={'center'} item xs={12}>
-        <h1>Actualizar usuario</h1>
-      </Grid>
+      <GridTitle>Actualizar usuario</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="firstName"

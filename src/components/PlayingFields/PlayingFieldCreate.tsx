@@ -26,6 +26,7 @@ import { getAllEstablishments } from '../../api/establishments'
 import { Establishment } from '../../types/establishment'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import GridTitle from '../GridTitle'
 
 const starterNewPlayingField: NewPlayingField = {
   name: '',
@@ -142,9 +143,7 @@ const PlayingFieldCreate = () => {
   }
   return (
     <DetailsWrapper>
-      <Grid item xs={12}>
-        <h1>Crear campo de juego</h1>
-      </Grid>
+      <GridTitle>Crear campo de juego</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="name"

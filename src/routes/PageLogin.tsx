@@ -16,6 +16,7 @@ import { BOHEMIA_PADEL_JWT, UserCookie } from '../types/userCookie'
 import { auth } from '../api/auth'
 
 import LoadingWrapper from '../components/LoadingWrapper'
+import GridTitle from '../components/GridTitle'
 
 const PageLogin = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -68,9 +69,7 @@ const PageLogin = () => {
         rowGap={4}
         maxWidth={'30rem'}
       >
-        <Grid item xs={12}>
-          <h1 style={{ textAlign: 'center' }}>Bohemia Padle</h1>
-        </Grid>
+        <GridTitle>Bohemia Padle</GridTitle>
         <Grid item xs={12}>
           <TextField
             type="email"

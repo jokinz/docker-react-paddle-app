@@ -21,6 +21,7 @@ import { updateItemCategoryById } from '../../api/items/itemCategory'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import GridTitle from '../GridTitle'
 
 type props = {
   itemCategory: ItemCategory
@@ -112,9 +113,7 @@ const ItemDetails = ({ itemCategory, updateItemCategory }: props) => {
 
   return (
     <DetailsWrapper>
-      <Grid textAlign={'center'} item xs={12}>
-        <h1>Actualizar categoría</h1>
-      </Grid>
+      <GridTitle>Actualizar categoría</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="name"

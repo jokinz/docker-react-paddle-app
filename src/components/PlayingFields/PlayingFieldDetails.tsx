@@ -21,6 +21,7 @@ import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 import { updatePlayingFieldById } from '../../api/playingField'
+import GridTitle from '../GridTitle'
 
 type props = {
   playingField: PlayingField
@@ -91,7 +92,9 @@ const PlayingFieldDetails = ({ playingField, updatePlayingField }: props) => {
             token
           )
           if (result) {
-            enqueueSnackbar('Campo de juego actualizado', { variant: 'success' })
+            enqueueSnackbar('Campo de juego actualizado', {
+              variant: 'success',
+            })
           }
         } else {
           const result = await updatePlayingFieldById(
@@ -100,7 +103,9 @@ const PlayingFieldDetails = ({ playingField, updatePlayingField }: props) => {
             token
           )
           if (result) {
-            enqueueSnackbar('Campo de juego actualizado', { variant: 'success' })
+            enqueueSnackbar('Campo de juego actualizado', {
+              variant: 'success',
+            })
           }
         }
       }
@@ -133,9 +138,7 @@ const PlayingFieldDetails = ({ playingField, updatePlayingField }: props) => {
 
   return (
     <DetailsWrapper>
-      <Grid textAlign={'center'} item xs={12}>
-        <h1>Actualizar campo de juego</h1>
-      </Grid>
+      <GridTitle>Actualizar campo de juego</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="name"

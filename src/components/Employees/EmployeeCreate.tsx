@@ -13,7 +13,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  TextField,
+  TextField
 } from '@mui/material'
 
 import { enqueueSnackbar } from 'notistack'
@@ -22,10 +22,11 @@ import { createEmployee } from '../../api/employees/employee'
 
 import { EmployeeRoleResponse, NewEmployee } from '../../types/employee'
 
+import { getAllEmployeeRoles } from '../../api/employees/employeeRole'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
-import { getAllEmployeeRoles } from '../../api/employees/employeeRole'
+import GridTitle from '../GridTitle'
 
 const starterNewEmployee: NewEmployee = {
   firstName: '',
@@ -116,9 +117,7 @@ const EmployeeCreate = () => {
   }
   return (
     <DetailsWrapper>
-      <Grid textAlign={'center'} item xs={12}>
-        <h1>Crear Trabajador</h1>
-      </Grid>
+      <GridTitle>Crear Trabajador</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="firstName"

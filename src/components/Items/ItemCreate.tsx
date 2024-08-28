@@ -27,6 +27,7 @@ import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 import { getAllItemCategories } from '../../api/items/itemCategory'
+import GridTitle from '../GridTitle'
 
 const starterNewItem: NewItem = {
   name: '',
@@ -132,9 +133,7 @@ const ItemCreate = () => {
   }
   return (
     <DetailsWrapper>
-      <Grid item xs={12}>
-        <h1>Crear item</h1>
-      </Grid>
+      <GridTitle>Crear item</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="name"

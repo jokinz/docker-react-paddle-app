@@ -27,6 +27,7 @@ import { areValuesDifferent, getDifferences } from '../../utils'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import GridTitle from '../GridTitle'
 
 type props = {
   item: Item
@@ -140,9 +141,7 @@ const ItemDetails = ({ item, updateItem, itemCategories }: props) => {
 
   return (
     <DetailsWrapper>
-      <Grid textAlign={'center'} item xs={12}>
-        <h1>Actualizar item</h1>
-      </Grid>
+      <GridTitle>Actualizar item</GridTitle>
       <Grid item xs={6}>
         <FormControl variant="standard">
           <InputLabel id="demo-simple-select-label">Categoría</InputLabel>

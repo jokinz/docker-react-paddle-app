@@ -32,6 +32,7 @@ import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 import { useNavigate } from 'react-router-dom'
+import GridTitle from '../GridTitle'
 
 type props = {
   employee: Employee
@@ -129,9 +130,7 @@ const EmployeeDetails = ({
 
   return (
     <DetailsWrapper>
-      <Grid textAlign={'center'} item xs={12}>
-        <h1>Actualizar trabajador</h1>
-      </Grid>
+      <GridTitle>Actualizar trabajador</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="firstName"

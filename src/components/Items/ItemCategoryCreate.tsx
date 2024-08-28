@@ -18,6 +18,7 @@ import { EmployeeContext } from '../../contexts/EmployeeContext'
 import { createItemCategory } from '../../api/items/itemCategory'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
+import GridTitle from '../GridTitle'
 
 const starterNewItemCategory: NewItemCategory = { name: '', icon: null }
 
@@ -73,10 +74,7 @@ const ItemCategoryCreate = () => {
     try {
       setUpdateLoading(true)
       if (token && token !== '') {
-        const response = await createItemCategory(
-          itemCategory,
-          token
-        )
+        const response = await createItemCategory(itemCategory, token)
         if (response) {
           setShowModal(false)
           enqueueSnackbar('Categoría creada', { variant: 'success' })
@@ -96,9 +94,7 @@ const ItemCategoryCreate = () => {
   }
   return (
     <DetailsWrapper>
-      <Grid textAlign={'center'} item xs={12}>
-        <h1>Crear Categoría</h1>
-      </Grid>
+      <GridTitle>Crear Categoría</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="firstName"

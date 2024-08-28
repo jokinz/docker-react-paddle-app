@@ -21,6 +21,7 @@ import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
 import ReservationItemsAccordion from './ReservationItemsAccordion'
 import { useNavigate } from 'react-router-dom'
+import GridTitle from '../GridTitle'
 
 type props = {
   reservation: Reservation
@@ -71,9 +72,7 @@ const ReservationDetails = ({ reservation }: props) => {
 
   return (
     <DetailsWrapper>
-      <Grid textAlign={'center'} item xs={12}>
-        <h1>Detalles de reserva N° {reservation.id}</h1>
-      </Grid>
+      <GridTitle>Detalles de reserva N° {reservation.id}</GridTitle>
       <Grid item xs={6}>
         <TextField
           id="code"
