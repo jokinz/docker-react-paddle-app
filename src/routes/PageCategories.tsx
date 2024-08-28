@@ -82,13 +82,13 @@ const PageCategories = () => {
 
   return (
     <Drawer>
-      <h1>Página Ítems</h1>
+      <h1>Página Categorías</h1>
       <Grid container>
         <Grid item xs={12}>
           <TextField
             fullWidth
             id="searchValue"
-            label="Nombre del ítem"
+            label="Nombre"
             variant="filled"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
