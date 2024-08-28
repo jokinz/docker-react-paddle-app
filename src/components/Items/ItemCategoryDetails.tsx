@@ -156,7 +156,7 @@ const ItemDetails = ({ itemCategory, updateItemCategory }: props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'¿Actualizar el estado del item?'}
+          {'¿Actualizar la categoría?'}
         </DialogTitle>
         <DialogActions>
           <Button

@@ -233,7 +233,7 @@ const EmployeeDetails = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'¿Actualizar el estado del trabajador?'}
+          {'¿Actualizar el trabajador?'}
         </DialogTitle>
         <DialogActions>
           <Button

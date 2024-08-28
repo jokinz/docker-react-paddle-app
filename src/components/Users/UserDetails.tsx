@@ -194,7 +194,7 @@ const UserDetails = ({ user, updateUser }: props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'¿Actualizar el estado del usuario?'}
+          {'¿Actualizar el usuario?'}
         </DialogTitle>
         <DialogActions>
           <Button

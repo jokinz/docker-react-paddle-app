@@ -238,7 +238,7 @@ const ItemDetails = ({ item, updateItem, itemCategories }: props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'¿Actualizar el estado del item?'}
+          {'¿Actualizar el ítem?'}
         </DialogTitle>
         <DialogActions>
           <Button
