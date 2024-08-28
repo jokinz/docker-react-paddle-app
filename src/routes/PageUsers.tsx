@@ -14,6 +14,7 @@ import UsersList from '../components/Users/UsersList'
 
 import { EmployeeContext } from '../contexts/EmployeeContext'
 import { enqueueSnackbar } from 'notistack'
+import SkeletonTable from '../components/SkeletonTable'
 
 const PageUsers = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -92,13 +93,9 @@ const PageUsers = () => {
           />
         </Grid>
       </Grid>
-      {searchValue === '' ? (
-        <h3>Empiece a escribir para buscar</h3>
-      ) : (
-        <LoadingWrapper loading={loading}>
-          <UsersList users={usersList} />
-        </LoadingWrapper>
-      )}
+      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
+        <UsersList users={usersList} />
+      </LoadingWrapper>
     </Drawer>
   )
 }

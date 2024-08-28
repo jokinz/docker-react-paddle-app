@@ -15,6 +15,7 @@ import { getPlayingFields } from '../api/playingField'
 import Drawer from '../components/Drawer'
 import PlayingFieldsList from '../components/PlayingFields/PlayingFieldsList'
 import LoadingWrapper from '../components/LoadingWrapper'
+import SkeletonTable from '../components/SkeletonTable'
 
 const PagePlayingFields = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -128,7 +129,7 @@ const PagePlayingFields = () => {
         </Grid>
       </Grid>
       {/* {searchValue === '' && <h3>Empiece a escribir para buscar</h3>} */}
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
         <PlayingFieldsList playingFields={playingFieldsList} />
       </LoadingWrapper>
     </Drawer>

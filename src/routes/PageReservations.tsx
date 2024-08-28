@@ -8,12 +8,12 @@ import { Grid, TextField } from '@mui/material'
 
 import { Reservation } from '../types/reservation'
 
+import { enqueueSnackbar } from 'notistack'
 import Drawer from '../components/Drawer'
 import LoadingWrapper from '../components/LoadingWrapper'
 import ReservationsList from '../components/Reservations/ReservationsList'
-import SkeletonList from '../components/SkeletonList'
+import SkeletonTable from '../components/SkeletonTable'
 import { EmployeeContext } from '../contexts/EmployeeContext'
-import { enqueueSnackbar } from 'notistack'
 
 const PageReservations = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -92,7 +92,7 @@ const PageReservations = () => {
           />
         </Grid>
       </Grid>
-      <LoadingWrapper loading={loading} skeleton={<SkeletonList />}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
         <ReservationsList reservations={reservationsList} />
       </LoadingWrapper>
     </Drawer>

@@ -14,6 +14,7 @@ import { getAllItemCategories } from '../api/items/itemCategory'
 import Drawer from '../components/Drawer'
 import ItemCategoriesList from '../components/Items/ItemCategoriesList'
 import LoadingWrapper from '../components/LoadingWrapper'
+import SkeletonTable from '../components/SkeletonTable'
 
 const PageCategories = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -96,7 +97,7 @@ const PageCategories = () => {
         </Grid>
       </Grid>
       {/* {searchValue === '' && <h3>Empiece a escribir para buscar</h3>} */}
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
         <ItemCategoriesList categories={itemCategoriesList} />
       </LoadingWrapper>
     </Drawer>

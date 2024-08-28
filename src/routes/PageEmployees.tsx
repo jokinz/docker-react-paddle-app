@@ -25,6 +25,7 @@ import LoadingWrapper from '../components/LoadingWrapper'
 import { EmployeeContext } from '../contexts/EmployeeContext'
 import { enqueueSnackbar } from 'notistack'
 import { getAllEmployeeRoles } from '../api/employees/employeeRole'
+import SkeletonTable from '../components/SkeletonTable'
 
 const PageEmployees = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -177,7 +178,7 @@ const PageEmployees = () => {
         </Grid>
       </Grid>
       {/* {searchValue === '' && <h3>Empiece a escribir para buscar</h3>} */}
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
         <EmployeesList employees={employeesList} />
       </LoadingWrapper>
     </Drawer>
