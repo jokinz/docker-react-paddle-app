@@ -34,7 +34,7 @@ const EmployeesList = ({ employees }: props) => {
   const rows = employees.map((employee) => {
     return {
       id: employee.id,
-      fullName: `${employee.firstName} - ${employee.lastName}`,
+      fullName: `${employee.firstName} ${employee.lastName}`,
       email: employee.email,
       enabled: employee.enabled ? 'Sí' : 'No',
       role: employee.role.roleName,
