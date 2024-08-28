@@ -91,7 +91,7 @@ const PlayingFieldDetails = ({ playingField, updatePlayingField }: props) => {
             token
           )
           if (result) {
-            enqueueSnackbar('PlayingField actualizado', { variant: 'success' })
+            enqueueSnackbar('Campo de juego actualizado', { variant: 'success' })
           }
         } else {
           const result = await updatePlayingFieldById(
@@ -100,7 +100,7 @@ const PlayingFieldDetails = ({ playingField, updatePlayingField }: props) => {
             token
           )
           if (result) {
-            enqueueSnackbar('PlayingField actualizado', { variant: 'success' })
+            enqueueSnackbar('Campo de juego actualizado', { variant: 'success' })
           }
         }
       }
