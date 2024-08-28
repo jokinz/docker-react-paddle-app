@@ -39,7 +39,7 @@ const UsersList = ({ users }: props) => {
   const rows = users.map((user) => {
     return {
       id: user.id,
-      fullName: `${user.firstName} - ${user.lastName}`,
+      fullName: `${user.firstName} ${user.lastName}`,
       email: user.email,
       phone: user.phone,
       avatar: user.profileImage,
