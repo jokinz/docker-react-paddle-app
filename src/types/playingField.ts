@@ -23,7 +23,6 @@ export type UpdatePlayingField = Partial<
     | 'price'
     | 'enabled'
   > & {
-    itemCategoryId: number
     returning: boolean
   }
 >
