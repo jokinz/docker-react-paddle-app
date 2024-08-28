@@ -117,7 +117,7 @@ const App = () => {
     {
       path: '/items',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[2, 3]}>
           <PageItems />
         </ForceLogin>
       ),
@@ -125,7 +125,7 @@ const App = () => {
     {
       path: '/items/:itemId',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[2, 3]}>
           <PageItemSingle />
         </ForceLogin>
       ),
@@ -133,7 +133,7 @@ const App = () => {
     {
       path: '/items/create',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[2, 3]}>
           <PageItemCreate />
         </ForceLogin>
       ),
@@ -141,7 +141,7 @@ const App = () => {
     {
       path: '/categories',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[2, 3]}>
           <PageCategories />
         </ForceLogin>
       ),
@@ -149,7 +149,7 @@ const App = () => {
     {
       path: '/categories/:categoryId',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[2, 3]}>
           <PageCategorySingle />
         </ForceLogin>
       ),
@@ -157,7 +157,7 @@ const App = () => {
     {
       path: '/categories/create',
       element: (
-        <ForceLogin>
+        <ForceLogin requiredRole={[2, 3]}>
           <PageCategoryCreate />
         </ForceLogin>
       ),
