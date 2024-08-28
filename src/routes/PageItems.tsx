@@ -120,7 +120,7 @@ const PageItems = () => {
                 onClick={handleIncludeDisabledClick}
               />
             }
-            label="Buscar desactivados"
+            label="Incluir desactivados"
             labelPlacement="start"
           />
         </Grid>
