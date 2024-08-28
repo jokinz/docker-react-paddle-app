@@ -1,0 +1,138 @@
+import { useCallback, useContext, useEffect, useState } from 'react'
+
+import _ from 'lodash'
+
+import { FormControlLabel, Grid, Switch, TextField } from '@mui/material'
+
+import { enqueueSnackbar } from 'notistack'
+
+import { EmployeeContext } from '../contexts/EmployeeContext'
+
+import { PlayingField } from '../types/playingField'
+
+import { getPlayingFields } from '../api/playingField'
+
+import Drawer from '../components/Drawer'
+import PlayingFieldsList from '../components/PlayingFields/PlayingFieldsList'
+import LoadingWrapper from '../components/LoadingWrapper'
+
+const PagePlayingFields = () => {
+  const employeeContext = useContext(EmployeeContext)
+  const token = employeeContext?.token
+
+  const [playingFieldsList, setPlayingFieldsList] = useState<PlayingField[]>([])
+  const [searchValue, setSearchValue] = useState('')
+  const [includeDisabled, setIncludeDisabled] = useState<boolean>(true)
+  const [loading, setLoading] = useState(true)
+
+  const debouncedSearch = useCallback(
+    _.debounce(async (newValue: string) => {
+      await handleSearchPlayingFields(newValue)
+    }, 1000),
+    []
+  )
+
+  useEffect(() => {
+    debouncedSearch(searchValue)
+    return debouncedSearch.cancel
+  }, [searchValue, debouncedSearch])
+
+  useEffect(() => {
+    const getData = async () => {
+      if (token && token !== '') {
+        try {
+          setLoading(true)
+          const result = await getPlayingFields(
+            {
+              search: searchValue,
+              includeDisabled: includeDisabled ? 1 : 0,
+              records: 50,
+            },
+            token
+          )
+          if (result) {
+            setPlayingFieldsList(result)
+          } else {
+            setPlayingFieldsList([])
+          }
+        } catch (error) {
+          enqueueSnackbar('Error descargando campos de juego', {
+            variant: 'error',
+          })
+        } finally {
+          setLoading(false)
+        }
+      } else {
+        enqueueSnackbar('Error token no encontrado', { variant: 'error' })
+      }
+    }
+    getData()
+  }, [includeDisabled])
+
+  const handleSearchPlayingFields = async (newValue: string) => {
+    try {
+      if (newValue !== '' && token && token !== '') {
+        setLoading(true)
+        const result = await getPlayingFields(
+          {
+            search: newValue,
+            includeDisabled: includeDisabled ? 1 : 0,
+            records: 5,
+          },
+          token
+        )
+        if (result) {
+          setPlayingFieldsList(result)
+        } else {
+          setPlayingFieldsList([])
+        }
+      }
+    } catch (error) {
+      enqueueSnackbar(`Error cargando campos de juego`, { variant: 'error' })
+      setPlayingFieldsList([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleIncludeDisabledClick = () => {
+    setIncludeDisabled((prev) => !prev)
+  }
+
+  return (
+    <Drawer>
+      <h1>Página campos de juego</h1>
+      <Grid container>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            id="searchValue"
+            label="Nombre del campos de juego"
+            variant="filled"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormControlLabel
+            control={
+              <Switch
+                aria-label="Activado"
+                checked={includeDisabled}
+                onClick={handleIncludeDisabledClick}
+              />
+            }
+            label="Incluir desactivados"
+            labelPlacement="start"
+          />
+        </Grid>
+      </Grid>
+      {/* {searchValue === '' && <h3>Empiece a escribir para buscar</h3>} */}
+      <LoadingWrapper loading={loading}>
+        <PlayingFieldsList playingFields={playingFieldsList} />
+      </LoadingWrapper>
+    </Drawer>
+  )
+}
+
+export default PagePlayingFields
