@@ -30,35 +30,6 @@ const PageUsers = () => {
     }, 1000),
     []
   )
-  useEffect(() => {
-    debouncedSearch(searchValue)
-    return debouncedSearch.cancel
-  }, [searchValue, debouncedSearch])
-
-  useEffect(() => {
-    const getFirstUsers = async () => {
-      try {
-        if (token && token !== '') {
-          setLoading(true)
-          const result = await getUsers(
-            { search: searchValue, records: 5 },
-            token
-          )
-          if (result) {
-            setUsersList(result)
-          } else {
-            setUsersList([])
-          }
-        }
-      } catch (error) {
-        setUsersList([])
-        enqueueSnackbar(`Error cargando usuarios`, { variant: 'error' })
-      } finally {
-        setLoading(false)
-      }
-    }
-    getFirstUsers()
-  }, [])
 
   const handleSearchUsers = async (newValue: string) => {
     try {
@@ -78,6 +49,39 @@ const PageUsers = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (token && token !== '') {
+          setLoading(true)
+          if (searchValue === '') {
+            const result = await getUsers(
+              { search: searchValue, records: 5 },
+              token
+            )
+            if (result) {
+              setUsersList(result)
+            } else {
+              setUsersList([])
+            }
+          } else {
+            debouncedSearch(searchValue)
+          }
+        }
+      } catch (error) {
+        setUsersList([])
+        enqueueSnackbar(`Error cargando usuarios`, { variant: 'error' })
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [searchValue, debouncedSearch])
+
   return (
     <Drawer>
       <h1>Página Usuarios</h1>

@@ -33,41 +33,6 @@ const PageItems = () => {
     []
   )
 
-  useEffect(() => {
-    debouncedSearch(searchValue)
-    return debouncedSearch.cancel
-  }, [searchValue, debouncedSearch])
-
-  useEffect(() => {
-    const getData = async () => {
-      if (token && token !== '') {
-        try {
-          setLoading(true)
-          const result = await getItems(
-            {
-              search: searchValue,
-              includeDisabled: includeDisabled ? 1 : 0,
-              records: 5,
-            },
-            token
-          )
-          if (result) {
-            setItemsList(result)
-          } else {
-            setItemsList([])
-          }
-        } catch (error) {
-          enqueueSnackbar('Error descargando items', { variant: 'error' })
-        } finally {
-          setLoading(false)
-        }
-      } else {
-        enqueueSnackbar('Error token no encontrado', { variant: 'error' })
-      }
-    }
-    getData()
-  }, [includeDisabled])
-
   const handleSearchItems = async (newValue: string) => {
     try {
       if (newValue !== '' && token && token !== '') {
@@ -87,12 +52,45 @@ const PageItems = () => {
         }
       }
     } catch (error) {
-      enqueueSnackbar(`Error cargando ítems`, { variant: 'error' })
       setItemsList([])
+      enqueueSnackbar(`Error cargando ítems`, { variant: 'error' })
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (token && token !== '') {
+          setLoading(true)
+          if (searchValue === '') {
+            const result = await getItems(
+              {
+                search: searchValue,
+                includeDisabled: includeDisabled ? 1 : 0,
+                records: 5,
+              },
+              token
+            )
+            if (result) {
+              setItemsList(result)
+            } else {
+              setItemsList([])
+            }
+          } else {
+            debouncedSearch(searchValue)
+          }
+        }
+      } catch (error) {
+        setItemsList([])
+        enqueueSnackbar('Error cargando items', { variant: 'error' })
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [searchValue, debouncedSearch, includeDisabled])
 
   const handleIncludeDisabledClick = () => {
     setIncludeDisabled((prev) => !prev)
@@ -126,8 +124,10 @@ const PageItems = () => {
           />
         </Grid>
       </Grid>
-      {/* {searchValue === '' && <h3>Empiece a escribir para buscar</h3>} */}
-      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
+      <LoadingWrapper
+        loading={loading}
+        skeleton={<SkeletonTable numColumns={4} />}
+      >
         <ItemsList items={itemsList} />
       </LoadingWrapper>
     </Drawer>

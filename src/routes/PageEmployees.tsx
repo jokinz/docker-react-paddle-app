@@ -47,11 +47,6 @@ const PageEmployees = () => {
   )
 
   useEffect(() => {
-    debouncedSearch(searchValue)
-    return debouncedSearch.cancel
-  }, [searchValue, debouncedSearch])
-
-  useEffect(() => {
     const getEmployeeRoles = async () => {
       if (token) {
         try {
@@ -66,36 +61,6 @@ const PageEmployees = () => {
     }
     getEmployeeRoles()
   }, [])
-
-  useEffect(() => {
-    const getFirstEmployees = async () => {
-      try {
-        if (token && token !== '') {
-          setLoading(true)
-          const result = await getEmployees(
-            {
-              search: searchValue,
-              includeDisabled: includeDisabled ? 1 : 0,
-              records: 5,
-              ...(selectedRole !== 0 ? { roleId: selectedRole } : {}),
-            },
-            token
-          )
-          if (result) {
-            setEmployeesList(result)
-          } else {
-            setEmployeesList([])
-          }
-        }
-      } catch (error) {
-        enqueueSnackbar(`Error cargando trabajadores`, { variant: 'error' })
-        setEmployeesList([])
-      } finally {
-        setLoading(false)
-      }
-    }
-    getFirstEmployees()
-  }, [selectedRole, includeDisabled])
 
   const handleSearchEmployees = async (newValue: string) => {
     try {
@@ -118,6 +83,43 @@ const PageEmployees = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (token && token !== '') {
+          setLoading(true)
+          if (searchValue === '') {
+            const result = await getEmployees(
+              {
+                search: searchValue,
+                includeDisabled: includeDisabled ? 1 : 0,
+                records: 5,
+                ...(selectedRole !== 0 ? { roleId: selectedRole } : {}),
+              },
+              token
+            )
+            if (result) {
+              setEmployeesList(result)
+            } else {
+              setEmployeesList([])
+            }
+          } else {
+            debouncedSearch(searchValue)
+          }
+        }
+      } catch (error) {
+        setEmployeesList([])
+        enqueueSnackbar(`Error cargando trabajadores`, { variant: 'error' })
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [searchValue, debouncedSearch, selectedRole, includeDisabled])
 
   const handleIncludeDisabledClick = () => {
     setIncludeDisabled((prev) => !prev)

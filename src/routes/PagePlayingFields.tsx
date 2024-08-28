@@ -33,43 +33,6 @@ const PagePlayingFields = () => {
     []
   )
 
-  useEffect(() => {
-    debouncedSearch(searchValue)
-    return debouncedSearch.cancel
-  }, [searchValue, debouncedSearch])
-
-  useEffect(() => {
-    const getData = async () => {
-      if (token && token !== '') {
-        try {
-          setLoading(true)
-          const result = await getPlayingFields(
-            {
-              search: searchValue,
-              includeDisabled: includeDisabled ? 1 : 0,
-              records: 50,
-            },
-            token
-          )
-          if (result) {
-            setPlayingFieldsList(result)
-          } else {
-            setPlayingFieldsList([])
-          }
-        } catch (error) {
-          enqueueSnackbar('Error descargando campos de juego', {
-            variant: 'error',
-          })
-        } finally {
-          setLoading(false)
-        }
-      } else {
-        enqueueSnackbar('Error token no encontrado', { variant: 'error' })
-      }
-    }
-    getData()
-  }, [includeDisabled])
-
   const handleSearchPlayingFields = async (newValue: string) => {
     try {
       if (newValue !== '' && token && token !== '') {
@@ -95,6 +58,39 @@ const PagePlayingFields = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (token && token !== '') {
+          setLoading(true)
+          const result = await getPlayingFields(
+            {
+              search: searchValue,
+              includeDisabled: includeDisabled ? 1 : 0,
+              records: 50,
+            },
+            token
+          )
+          if (result) {
+            setPlayingFieldsList(result)
+          } else {
+            setPlayingFieldsList([])
+          }
+        }
+      } catch (error) {
+        enqueueSnackbar('Error cargando campos de juego', {
+          variant: 'error',
+        })
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [searchValue, debouncedSearch, includeDisabled])
 
   const handleIncludeDisabledClick = () => {
     setIncludeDisabled((prev) => !prev)

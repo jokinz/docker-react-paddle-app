@@ -29,34 +29,6 @@ const PageReservations = () => {
     }, 1000),
     []
   )
-  useEffect(() => {
-    debouncedSearch(searchValue)
-    return debouncedSearch.cancel
-  }, [searchValue, debouncedSearch])
-
-  useEffect(() => {
-    const getFirstReservations = async () => {
-      try {
-        if (token && token !== '') {
-          setLoading(true)
-          const result = await getReservations(
-            { search: searchValue, records: 5 },
-            token
-          )
-          if (result) {
-            setReservationsList(result)
-          } else {
-            throw Error
-          }
-        }
-      } catch (error) {
-        enqueueSnackbar(`Error cargando reservas`, { variant: 'error' })
-      } finally {
-        setLoading(false)
-      }
-    }
-    getFirstReservations()
-  }, [])
 
   const handleSearchReservations = async (newValue: string) => {
     try {
@@ -77,6 +49,37 @@ const PageReservations = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (token && token !== '') {
+          setLoading(true)
+          if (searchValue === '') {
+            const result = await getReservations(
+              { search: searchValue, records: 5 },
+              token
+            )
+            if (result) {
+              setReservationsList(result)
+            } else {
+              setReservationsList([])
+            }
+          } else {
+            debouncedSearch(searchValue)
+          }
+        }
+      } catch (error) {
+        enqueueSnackbar(`Error cargando reservas`, { variant: 'error' })
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [searchValue, debouncedSearch])
+
   return (
     <Drawer>
       <h1>Página Reservas</h1>
@@ -92,7 +95,10 @@ const PageReservations = () => {
           />
         </Grid>
       </Grid>
-      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
+      <LoadingWrapper
+        loading={loading}
+        skeleton={<SkeletonTable numColumns={3} />}
+      >
         <ReservationsList reservations={reservationsList} />
       </LoadingWrapper>
     </Drawer>
