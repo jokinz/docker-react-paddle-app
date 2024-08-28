@@ -10,8 +10,8 @@ export type PlayingField = {
 
 export type NewPlayingField = Pick<
   PlayingField,
-  'establishmentId' | 'name' | 'description' | 'thumbnail' | 'price'
->
+  'establishmentId' | 'name' | 'description' | 'price'
+> & { thumbnail: string }
 
 export type UpdatePlayingField = Partial<
   Pick<
