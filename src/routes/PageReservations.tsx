@@ -97,7 +97,7 @@ const PageReservations = () => {
       </Grid>
       <LoadingWrapper
         loading={loading}
-        skeleton={<SkeletonTable numColumns={3} />}
+        skeleton={<SkeletonTable numColumns={5} />}
       >
         <ReservationsList reservations={reservationsList} />
       </LoadingWrapper>

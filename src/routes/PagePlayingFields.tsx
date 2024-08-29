@@ -124,7 +124,7 @@ const PagePlayingFields = () => {
           />
         </Grid>
       </Grid>
-      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonTable numColumns={3} showAvatar/>}>
         <PlayingFieldsList playingFields={playingFieldsList} />
       </LoadingWrapper>
     </Drawer>

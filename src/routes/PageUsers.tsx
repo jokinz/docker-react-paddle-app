@@ -12,9 +12,9 @@ import Drawer from '../components/Drawer'
 import LoadingWrapper from '../components/LoadingWrapper'
 import UsersList from '../components/Users/UsersList'
 
-import { EmployeeContext } from '../contexts/EmployeeContext'
 import { enqueueSnackbar } from 'notistack'
 import SkeletonTable from '../components/SkeletonTable'
+import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const PageUsers = () => {
   const employeeContext = useContext(EmployeeContext)
@@ -97,7 +97,10 @@ const PageUsers = () => {
           />
         </Grid>
       </Grid>
-      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
+      <LoadingWrapper
+        loading={loading}
+        skeleton={<SkeletonTable numColumns={3} showAvatar />}
+      >
         <UsersList users={usersList} />
       </LoadingWrapper>
     </Drawer>

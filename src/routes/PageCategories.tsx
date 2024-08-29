@@ -96,7 +96,10 @@ const PageCategories = () => {
           />
         </Grid>
       </Grid>
-      <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
+      <LoadingWrapper
+        loading={loading}
+        skeleton={<SkeletonTable numColumns={1} showAvatar />}
+      >
         <ItemCategoriesList categories={itemCategoriesList} />
       </LoadingWrapper>
     </Drawer>

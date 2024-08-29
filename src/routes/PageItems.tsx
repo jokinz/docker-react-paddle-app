@@ -126,7 +126,7 @@ const PageItems = () => {
       </Grid>
       <LoadingWrapper
         loading={loading}
-        skeleton={<SkeletonTable numColumns={4} />}
+        skeleton={<SkeletonTable numColumns={4} showAvatar />}
       >
         <ItemsList items={itemsList} />
       </LoadingWrapper>
