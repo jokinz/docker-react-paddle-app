@@ -31,7 +31,6 @@ import { areValuesDifferent, getDifferences } from '../../utils'
 import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import LoadingWrapper from '../LoadingWrapper'
-import { useNavigate } from 'react-router-dom'
 import GridTitle from '../GridTitle'
 
 type props = {
@@ -47,7 +46,6 @@ const EmployeeDetails = ({
 }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
-  const navigate = useNavigate()
   const initialEmployee = useRef(employee)
   const [newPassword, setNewPassword] = useState('')
 
@@ -102,9 +100,8 @@ const EmployeeDetails = ({
           token
         )
         if (result) {
-          setShowModal(false)
           enqueueSnackbar('Trabajador actualizado', { variant: 'success' })
-          navigate(`/employees`)
+          setShowModal(false)
         }
       }
     } catch (error) {
