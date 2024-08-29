@@ -104,7 +104,7 @@ const PagePlayingFields = () => {
           <TextField
             fullWidth
             id="searchValue"
-            label="Nombre del campos de juego"
+            label="Nombre"
             variant="filled"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
