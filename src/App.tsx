@@ -39,6 +39,7 @@ import PageCategories from './routes/PageCategories.tsx'
 import PagePlayingFieldSingle from './routes/PagePlayingFieldSingle.tsx'
 import PagePlayingFieldCreate from './routes/PagePlayingFieldCreate.tsx'
 import PagePlayingFields from './routes/PagePlayingFields.tsx'
+import { url } from './url.ts'
 
 const darkTheme = createTheme({
   palette: {
@@ -49,7 +50,7 @@ const darkTheme = createTheme({
 const App = () => {
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: `/`,
       element: (
         <ForceLogin>
           <PageDashboard />
@@ -58,11 +59,11 @@ const App = () => {
       errorElement: <PageNotFound />,
     },
     {
-      path: '/login',
+      path: `/${url.web.login}`,
       element: <PageLogin />,
     },
     {
-      path: '/reservations',
+      path: `/${url.web.reservations}`,
       element: (
         <ForceLogin>
           <PageReservations />
@@ -70,7 +71,7 @@ const App = () => {
       ),
     },
     {
-      path: '/reservations/:reservationId',
+      path: `/${url.web.reservations}/:reservationId`,
       element: (
         <ForceLogin>
           <PageReservationSingle />
@@ -78,7 +79,7 @@ const App = () => {
       ),
     },
     {
-      path: '/users',
+      path: `/${url.web.users}`,
       element: (
         <ForceLogin>
           <PageUsers />
@@ -86,7 +87,7 @@ const App = () => {
       ),
     },
     {
-      path: '/users/:userId',
+      path: `/${url.web.users}/:userId`,
       element: (
         <ForceLogin>
           <PageUserSingle />
@@ -94,7 +95,7 @@ const App = () => {
       ),
     },
     {
-      path: '/employees',
+      path: `/${url.web.employees}`,
       element: (
         <ForceLogin requiredRole={[3]}>
           <PageEmployees />
@@ -102,7 +103,7 @@ const App = () => {
       ),
     },
     {
-      path: '/employees/:employeeId',
+      path: `/${url.web.employees}/:employeeId`,
       element: (
         <ForceLogin requiredRole={[3]}>
           <PageEmployeeSingle />
@@ -110,7 +111,7 @@ const App = () => {
       ),
     },
     {
-      path: '/employees/create',
+      path: `/${url.web.employees}/create`,
       element: (
         <ForceLogin requiredRole={[3]}>
           <PageEmployeeCreate />
@@ -118,7 +119,7 @@ const App = () => {
       ),
     },
     {
-      path: '/items',
+      path: `/${url.web.items}`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PageItems />
@@ -126,7 +127,7 @@ const App = () => {
       ),
     },
     {
-      path: '/items/:itemId',
+      path: `/${url.web.items}/:itemId`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PageItemSingle />
@@ -134,7 +135,7 @@ const App = () => {
       ),
     },
     {
-      path: '/items/create',
+      path: `/${url.web.items}/create`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PageItemCreate />
@@ -142,7 +143,7 @@ const App = () => {
       ),
     },
     {
-      path: '/categories',
+      path: `/${url.web.categories}`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PageCategories />
@@ -150,7 +151,7 @@ const App = () => {
       ),
     },
     {
-      path: '/categories/:categoryId',
+      path: `/${url.web.categories}/:categoryId`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PageCategorySingle />
@@ -158,7 +159,7 @@ const App = () => {
       ),
     },
     {
-      path: '/categories/create',
+      path: `/${url.web.categories}/create`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PageCategoryCreate />
@@ -166,7 +167,7 @@ const App = () => {
       ),
     },
     {
-      path: '/playing-fields',
+      path: `/${url.web.playingFields}`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PagePlayingFields />
@@ -174,7 +175,7 @@ const App = () => {
       ),
     },
     {
-      path: '/playing-fields/create',
+      path: `/${url.web.playingFields}/create`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PagePlayingFieldCreate />
@@ -182,7 +183,7 @@ const App = () => {
       ),
     },
     {
-      path: '/playing-fields/:playingFieldId',
+      path: `/${url.web.playingFields}/:playingFieldId`,
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PagePlayingFieldSingle />

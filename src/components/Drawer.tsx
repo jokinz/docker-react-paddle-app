@@ -14,17 +14,18 @@ import { EmployeeContext } from '../contexts/EmployeeContext'
 
 import ButtonLogout from './ButtonLogout'
 import MenuLink from './MenuLink'
+import { url } from '../url'
 
 const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
   [
-    { text: 'Inicio', url: '/' },
-    { text: 'Reservas', url: '/reservations' },
-    { text: 'Usuarios', url: '/users' },
-    { text: 'Items', url: '/items', allowedRoles:[2,3] },
-    { text: 'Categorías', url: '/categories', allowedRoles:[2,3] },
-    { text: 'Campos', url: '/playing-fields', allowedRoles: [2,3] },
-    { text: 'Trabajadores', url: '/employees', allowedRoles: [3] },
-    { text: 'Establecimientos', url: '/establishments', allowedRoles: [3] },
+    { text: 'Inicio', url: `/` },
+    { text: 'Reservas', url: `/${url.web.reservations}` },
+    { text: 'Usuarios', url: `/${url.web.users}` },
+    { text: 'Items', url: `/${url.web.items}`, allowedRoles: [2, 3] },
+    { text: 'Categorías', url: `/${url.web.categories}`, allowedRoles: [2, 3] },
+    { text: 'Campos', url: `/${url.web.playingFields}`, allowedRoles: [2, 3] },
+    { text: 'Trabajadores', url: `/${url.web.employees}`, allowedRoles: [3] },
+    { text: 'Establecimientos', url: `/${url.web.establishments}`, allowedRoles: [3] },
   ]
 
 const drawerWidth = 250
