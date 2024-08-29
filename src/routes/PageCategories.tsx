@@ -35,32 +35,30 @@ const PageCategories = () => {
   )
 
   useEffect(() => {
-    debouncedSearch(searchValue)
-    return debouncedSearch.cancel
-  }, [searchValue, debouncedSearch])
-
-  useEffect(() => {
-    const getData = async () => {
-      if (token && token !== '') {
-        try {
+    const fetchData = async () => {
+      try {
+        if (token && token !== '') {
           setLoading(true)
-          const result = await getAllItemCategories(token)
-          if (result) {
-            setItemCategoriesList(result)
+          if (searchValue === '') {
+            const result = await getAllItemCategories(token)
+            if (result) {
+              setItemCategoriesList(result)
+            } else {
+              setItemCategoriesList([])
+            }
           } else {
-            setItemCategoriesList([])
+            debouncedSearch(searchValue)
           }
-        } catch (error) {
-          enqueueSnackbar('Error descargando categorías', { variant: 'error' })
-        } finally {
-          setLoading(false)
         }
-      } else {
-        enqueueSnackbar('Error token no encontrado', { variant: 'error' })
+      } catch (error) {
+        enqueueSnackbar('Error descargando categorías', { variant: 'error' })
+        setItemCategoriesList([])
+      } finally {
+        setLoading(false)
       }
     }
-    getData()
-  }, [])
+    fetchData()
+  }, [searchValue, debouncedSearch])
 
   const handleSearchCategories = async (newValue: string) => {
     try {
