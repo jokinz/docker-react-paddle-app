@@ -12,6 +12,7 @@ import LoadingWrapper from '../components/LoadingWrapper'
 import { EmployeeContext } from '../contexts/EmployeeContext'
 import { getAllEmployeeRoles } from '../api/employees/employeeRole'
 import { enqueueSnackbar } from 'notistack'
+import SkeletonDetails from '../components/SkeletonDetails'
 
 const PageEmployeeSingle = () => {
   const params = useParams<{ employeeId: string }>()
@@ -62,7 +63,7 @@ const PageEmployeeSingle = () => {
 
   return (
     <Drawer>
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonDetails />}>
         {employee !== null ? (
           <EmployeeDetails
             employee={employee}

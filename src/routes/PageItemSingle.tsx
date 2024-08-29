@@ -12,6 +12,7 @@ import { EmployeeContext } from '../contexts/EmployeeContext'
 import LoadingWrapper from '../components/LoadingWrapper'
 import { getAllItemCategories } from '../api/items/itemCategory'
 import { enqueueSnackbar } from 'notistack'
+import SkeletonDetails from '../components/SkeletonDetails'
 
 const PageItemSingle = () => {
   const params = useParams<{ itemId: string }>()
@@ -52,7 +53,7 @@ const PageItemSingle = () => {
 
   return (
     <Drawer>
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonDetails />}>
         {item !== null ? (
           <ItemDetails
             item={item}

@@ -10,6 +10,7 @@ import Drawer from '../components/Drawer'
 import ReservationDetails from '../components/Reservations/ReservationDetails'
 import LoadingWrapper from '../components/LoadingWrapper'
 import { EmployeeContext } from '../contexts/EmployeeContext'
+import SkeletonDetails from '../components/SkeletonDetails'
 
 const PageReservationSingle = () => {
   const params = useParams<{ reservationId: string }>()
@@ -42,7 +43,7 @@ const PageReservationSingle = () => {
 
   return (
     <Drawer>
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonDetails />}>
         {reservation !== null ? (
           <ReservationDetails reservation={reservation} />
         ) : (

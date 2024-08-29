@@ -10,6 +10,7 @@ import Drawer from '../components/Drawer'
 import PlayingFieldDetails from '../components/PlayingFields/PlayingFieldDetails'
 import LoadingWrapper from '../components/LoadingWrapper'
 import { EmployeeContext } from '../contexts/EmployeeContext'
+import SkeletonDetails from '../components/SkeletonDetails'
 
 const PagePlayingFieldSingle = () => {
   const params = useParams<{ playingFieldId: string }>()
@@ -46,7 +47,7 @@ const PagePlayingFieldSingle = () => {
 
   return (
     <Drawer>
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonDetails />}>
         {playingField !== null ? (
           <PlayingFieldDetails
             playingField={playingField}

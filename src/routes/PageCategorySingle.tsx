@@ -10,6 +10,7 @@ import Drawer from '../components/Drawer'
 import ItemCategoryDetails from '../components/Items/ItemCategoryDetails'
 import { EmployeeContext } from '../contexts/EmployeeContext'
 import LoadingWrapper from '../components/LoadingWrapper'
+import SkeletonDetails from '../components/SkeletonDetails'
 
 const PageCategorySingle = () => {
   const params = useParams<{ categoryId: string }>()
@@ -46,7 +47,7 @@ const PageCategorySingle = () => {
 
   return (
     <Drawer>
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonDetails />}>
         {itemCategory !== null ? (
           <ItemCategoryDetails
             itemCategory={itemCategory}

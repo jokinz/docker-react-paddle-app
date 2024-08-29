@@ -10,6 +10,7 @@ import Drawer from '../components/Drawer'
 import LoadingWrapper from '../components/LoadingWrapper'
 import UserDetails from '../components/Users/UserDetails'
 import { EmployeeContext } from '../contexts/EmployeeContext'
+import SkeletonDetails from '../components/SkeletonDetails'
 
 const PageUserSingle = () => {
   const params = useParams<{ userId: string }>()
@@ -43,7 +44,7 @@ const PageUserSingle = () => {
 
   return (
     <Drawer>
-      <LoadingWrapper loading={loading}>
+      <LoadingWrapper loading={loading} skeleton={<SkeletonDetails />}>
         {user !== null ? (
           <UserDetails user={user} updateUser={updateUser} />
         ) : (
