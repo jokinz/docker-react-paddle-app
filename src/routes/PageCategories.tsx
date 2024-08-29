@@ -96,7 +96,6 @@ const PageCategories = () => {
           />
         </Grid>
       </Grid>
-      {/* {searchValue === '' && <h3>Empiece a escribir para buscar</h3>} */}
       <LoadingWrapper loading={loading} skeleton={<SkeletonTable />}>
         <ItemCategoriesList categories={itemCategoriesList} />
       </LoadingWrapper>
