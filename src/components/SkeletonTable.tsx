@@ -1,7 +1,7 @@
+import { Typography } from '@mui/material'
 import Skeleton from '@mui/material/Skeleton'
 import { DataGrid, DataGridProps, GridColDef } from '@mui/x-data-grid'
 import { getDataGridProps } from '../utils'
-import { Avatar, Typography } from '@mui/material'
 
 type SkeletonTableProps = {
   numColumns?: number
