@@ -3,6 +3,7 @@ import { Employee as EmployeeType } from '../../types/employee'
 import { DataGrid, DataGridProps, GridColDef } from '@mui/x-data-grid'
 import { getDataGridProps } from '../../utils'
 import Link from '../ResultsStyledLink'
+import { url } from '../../url'
 
 type props = { employees: EmployeeType[] }
 const EmployeesList = ({ employees }: props) => {
@@ -12,7 +13,7 @@ const EmployeesList = ({ employees }: props) => {
       headerName: 'Nombre',
       flex: 1,
       renderCell: (params) => (
-        <Link to={`/employees/${params.row.id}`}>{params.value}</Link>
+        <Link to={`/${url.api.employees}/${params.row.id}`}>{params.value}</Link>
       ),
     },
     {

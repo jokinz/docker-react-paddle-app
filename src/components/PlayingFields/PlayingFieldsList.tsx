@@ -4,6 +4,7 @@ import { DataGrid, DataGridProps, GridColDef } from '@mui/x-data-grid'
 import { getDataGridProps } from '../../utils'
 import Link from '../ResultsStyledLink'
 import { Avatar } from '@mui/material'
+import { url } from '../../url'
 
 type props = { playingFields: PlayingField[] }
 const PlayingFieldsList = ({ playingFields }: props) => {
@@ -21,7 +22,7 @@ const PlayingFieldsList = ({ playingFields }: props) => {
       headerName: 'Nombre',
       flex: 1,
       renderCell: (params) => (
-        <Link to={`/playing-fields/${params.row.id}`}>{params.value}</Link>
+        <Link to={`/${url.api.playingFields}/${params.row.id}`}>{params.value}</Link>
       ),
     },
     {

@@ -4,6 +4,7 @@ import { DataGrid, DataGridProps, GridColDef } from '@mui/x-data-grid'
 import { getDataGridProps } from '../../utils'
 import Link from '../ResultsStyledLink'
 import { Avatar } from '@mui/material'
+import { url } from '../../url'
 
 type props = { categories: ItemCategory[] }
 const ItemCategoriesList = ({ categories }: props) => {
@@ -22,7 +23,7 @@ const ItemCategoriesList = ({ categories }: props) => {
       headerName: 'Nombre',
       flex: 1,
       renderCell: (params) => (
-        <Link to={`/categories/${params.row.id}`}>{params.value}</Link>
+        <Link to={`/${url.api.itemCategories}/${params.row.id}`}>{params.value}</Link>
       ),
     },
   ]

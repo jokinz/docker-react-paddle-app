@@ -3,6 +3,7 @@ import { Reservation as ReservationType } from '../../types/reservation'
 import { DataGrid, DataGridProps, GridColDef } from '@mui/x-data-grid'
 import { getDataGridProps } from '../../utils'
 import Link from '../ResultsStyledLink'
+import { url } from '../../url'
 
 type props = { reservations: ReservationType[] }
 
@@ -13,7 +14,7 @@ const ReservationsList = ({ reservations }: props) => {
       headerName: 'Código',
       flex: 1,
       renderCell: (params) => (
-        <Link to={`/reservations/${params.row.id}`}>{params.value}</Link>
+        <Link to={`/${url.api.reservations}/${params.row.id}`}>{params.value}</Link>
       ),
     },
     {

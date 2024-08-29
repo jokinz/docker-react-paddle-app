@@ -5,6 +5,7 @@ import { User as UserType } from '../../types/user'
 import { DataGrid, DataGridProps, GridColDef } from '@mui/x-data-grid'
 import { getDataGridProps } from '../../utils'
 import Link from '../ResultsStyledLink'
+import { url } from '../../url'
 
 type props = { users: UserType[] }
 const UsersList = ({ users }: props) => {
@@ -22,7 +23,7 @@ const UsersList = ({ users }: props) => {
       headerName: 'Nombre',
       flex: 1,
       renderCell: (params) => (
-        <Link to={`/users/${params.row.id}`}>{params.value}</Link>
+        <Link to={`/${url.api.users}/${params.row.id}`}>{params.value}</Link>
       ),
     },
     {
