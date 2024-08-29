@@ -6,13 +6,14 @@ import { ItemCategory, NewItemCategory } from '../../types/item'
 import { CreateItemCategoryResponse } from '../../types/responses/CreateItemCategoryResponse'
 import { GetItemCategoriesResponse } from '../../types/responses/GetItemCategoriesResponse'
 import { GetItemCategoryByIdResponse } from '../../types/responses/GetItemCategoryByIdResponse'
+import { url } from '../../url'
 
 export const getAllItemCategories = async (
   token: string
 ): Promise<ItemCategory[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetItemCategoriesResponse> =
-      await axios.get('/item-categories', {
+      await axios.get(`/${url.api.itemCategories}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -32,7 +33,7 @@ export const getItemCategoryById = async (
 ): Promise<ItemCategory | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetItemCategoryByIdResponse> =
-      await axios.get(`/item-categories/${itemCategoryId}`, {
+      await axios.get(`/${url.api.itemCategories}/${itemCategoryId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -54,7 +55,7 @@ export const createItemCategory = async (
   try {
     const axiosResponse: AxiosResponse<CreateItemCategoryResponse> =
       await axios.post(
-        `/item-categories`,
+        `/${url.api.itemCategories}`,
         { ...itemCategory, returning },
         {
           headers: {
@@ -81,7 +82,7 @@ export const updateItemCategoryById = async (
 ): Promise<true | undefined> => {
   try {
     const axiosResponse = await axios.patch(
-      `/itemCategorys/${itemCategoryId}`,
+      `/${url.api.itemCategories}/${itemCategoryId}`,
       { ...itemCategory },
       {
         headers: {

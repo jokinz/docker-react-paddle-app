@@ -6,6 +6,7 @@ import { Reservation as ReservationType } from '../types/reservation'
 import { GetReservationByIdResponse } from '../types/responses/GetReservationByIdResponse'
 import { GetReservationsResponse } from '../types/responses/GetReservationsResponse'
 import { GetReservationsSchema } from '../types/schemas/GetReservationsSchema'
+import { url } from '../url'
 
 export const getReservations = async (
   reservationsSchema: GetReservationsSchema,
@@ -13,7 +14,7 @@ export const getReservations = async (
 ): Promise<ReservationType[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetReservationsResponse> =
-      await axios.get('/reservations', {
+      await axios.get(`${url.api.reservations}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,7 +35,7 @@ export const getReservationById = async (
 ): Promise<ReservationType | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetReservationByIdResponse> =
-      await axios.get(`/reservations/${reservationId}`, {
+      await axios.get(`/${url.api.reservations}/${reservationId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -54,7 +55,7 @@ export const updateReservationHandItemsById = async (
 ): Promise<true | undefined> => {
   try {
     const axiosResponse = await axios.post(
-      `/reservation/${reservationId}/hand-items`,
+      `/${url.api.reservations}/${reservationId}/hand-items`,
       {},
       {
         headers: {

@@ -4,13 +4,14 @@ import { AxiosResponse } from 'axios'
 
 import { Establishment } from '../types/establishment'
 import { GetEstablishmentsResponse } from '../types/responses/GetEstablishmentsResponse'
+import { url } from '../url'
 
 export const getAllEstablishments = async (
   token: string
 ): Promise<Pick<Establishment, 'id' | 'name'>[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetEstablishmentsResponse> =
-      await axios.get('/establishments/value', {
+      await axios.get(`/${url.api.establishments}/value`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

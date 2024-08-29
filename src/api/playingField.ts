@@ -11,6 +11,7 @@ import { CreatePlayingFieldResponse } from '../types/responses/CreatePlayingFiel
 import { GetPlayingFieldByIdResponse } from '../types/responses/GetPlayingFieldByIdResponse'
 import { GetPlayingFieldsResponse } from '../types/responses/GetPlayingFieldsResponse'
 import { GetPlayingFieldsSchema } from '../types/schemas/GetPlayingFieldsSchema'
+import { url } from '../url'
 
 export const getPlayingFields = async (
   playingFieldsSchema: GetPlayingFieldsSchema,
@@ -18,7 +19,7 @@ export const getPlayingFields = async (
 ): Promise<PlayingField[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetPlayingFieldsResponse> =
-      await axios.get('/playing-fields', {
+      await axios.get(`/${url.api.playingFields}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +40,7 @@ export const getPlayingFieldById = async (
 ): Promise<PlayingField | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetPlayingFieldByIdResponse> =
-      await axios.get(`/playing-fields/${playingFieldId}`, {
+      await axios.get(`/${url.api.playingFields}/${playingFieldId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -61,7 +62,7 @@ export const createPlayingField = async (
   try {
     const axiosResponse: AxiosResponse<CreatePlayingFieldResponse> =
       await axios.post(
-        `/playing-fields`,
+        `/${url.api.playingFields}`,
         { ...playingField, returning },
         {
           headers: {
@@ -88,7 +89,7 @@ export const updatePlayingFieldById = async (
 ): Promise<true | undefined> => {
   try {
     const axiosResponse = await axios.patch(
-      `/playing-fields/${playingFieldId}`,
+      `/${url.api.playingFields}/${playingFieldId}`,
       { ...updatePlayingField },
       {
         headers: {

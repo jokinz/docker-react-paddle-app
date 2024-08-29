@@ -6,6 +6,7 @@ import { GetUsersSchema } from '../../types/schemas/GetUsersSchema'
 import { User as UserType } from '../../types/user'
 import { GetUsersResponse } from '../../types/responses/GetUsersResponse'
 import { GetUserByIdResponse } from '../../types/responses/GetUserByIdResponse'
+import { url } from '../../url'
 
 export const getUsers = async (
   usersSchema: GetUsersSchema,
@@ -13,7 +14,7 @@ export const getUsers = async (
 ): Promise<UserType[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetUsersResponse> = await axios.get(
-      '/users',
+      `/${url.api.users}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -36,7 +37,7 @@ export const getUserById = async (
 ): Promise<UserType | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetUserByIdResponse> = await axios.get(
-      `/users/${userId}`,
+      `/${url.api.users}/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -59,7 +60,7 @@ export const updateUserById = async (
 ): Promise<true | undefined> => {
   try {
     const axiosResponse = await axios.patch(
-      `/users/${userId}`,
+      `/${url.api.users}/${userId}`,
       { ...user },
       {
         headers: {

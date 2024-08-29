@@ -8,6 +8,7 @@ import { GetItemByIdResponse } from '../../types/responses/GetItemByIdResponse'
 import { GetItemsResponse } from '../../types/responses/GetItemsResponse'
 import { CreateItemSchema } from '../../types/schemas/CreateItemSchema'
 import { GetItemsSchema } from '../../types/schemas/GetItemsSchema'
+import { url } from '../../url'
 
 export const getItems = async (
   itemsSchema: GetItemsSchema,
@@ -15,7 +16,7 @@ export const getItems = async (
 ): Promise<ItemType[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetItemsResponse> = await axios.get(
-      '/items',
+      `/${url.api.items}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -38,7 +39,7 @@ export const getItemById = async (
 ): Promise<ItemType | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetItemByIdResponse> = await axios.get(
-      `/items/${itemId}`,
+      `/${url.api.items}/${itemId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,7 +62,7 @@ export const createItem = async (
 ): Promise<ItemType | true | undefined> => {
   try {
     const axiosResponse: AxiosResponse<CreateItemResponse> = await axios.post(
-      `/items`,
+      `/${url.api.items}`,
       { ...item, returning },
       {
         headers: {
@@ -92,7 +93,7 @@ export const updateItemById = async (
 ): Promise<true | undefined> => {
   try {
     const axiosResponse = await axios.patch(
-      `/items/${itemId}`,
+      `/${url.api.items}/${itemId}`,
       { ...updateItem },
       {
         headers: {

@@ -1,4 +1,5 @@
 import { AuthResponse } from '../types/responses/AuthResponse'
+import { url } from '../url'
 import axios from './axios'
 
 export const auth = async (
@@ -7,7 +8,7 @@ export const auth = async (
   type: string = 'Employee'
 ): Promise<AuthResponse | undefined> => {
   try {
-    const axiosResponse = await axios.post('/auth', {
+    const axiosResponse = await axios.post(`/${url.api.auth}`, {
       email,
       password,
       type,

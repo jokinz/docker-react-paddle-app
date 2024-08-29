@@ -8,6 +8,7 @@ import { GetEmployeesResponse } from '../../types/responses/GetEmployeesResponse
 import { CreateEmployeeSchema } from '../../types/schemas/CreateEmployeeSchema'
 import { GetEmployeesSchema } from '../../types/schemas/GetEmployeesSchema'
 import { GetEmployeeByIdResponse } from '../../types/responses/GetEmployeeByIdResponse'
+import { url } from '../../url'
 
 export const getEmployees = async (
   employeesSchema: GetEmployeesSchema,
@@ -15,7 +16,7 @@ export const getEmployees = async (
 ): Promise<EmployeeType[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetEmployeesResponse> = await axios.get(
-      '/employees',
+      `/${url.api.employees}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -38,7 +39,7 @@ export const getEmployeeById = async (
 ): Promise<EmployeeType | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetEmployeeByIdResponse> =
-      await axios.get(`/employees/${employeeId}`, {
+      await axios.get(`/${url.api.employees}/${employeeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -60,7 +61,7 @@ export const createEmployee = async (
   try {
     const axiosResponse: AxiosResponse<CreateEmployeeResponse> =
       await axios.post(
-        `/employees`,
+        `/${url.api.employees}`,
         { ...employee, returning },
         {
           headers: {
@@ -86,7 +87,7 @@ export const updateEmployeeById = async (
 ): Promise<true | undefined> => {
   try {
     const axiosResponse = await axios.patch(
-      `/employees/${employeeId}`,
+      `/${url.api.employees}/${employeeId}`,
       { ...employee },
       {
         headers: {
