@@ -1,11 +1,20 @@
-export type Establishment={
+import { PriceBracket } from './priceBracket'
+
+export type Establishment = {
   id: number
-    name: string
-    description: string
-    thumbnail: string
-    address: string
-    latitude: string
-    longitud: string
-    openTime: Date
-    closeTime: Date
+  name: string
+  description: string
+  address: string
+  startTime: string
+  endTime: string
+  latitude: string
+  longitud: string
+}
+
+export type UpdateEstablishment = Pick<
+  Establishment,
+  'id' | 'startTime' | 'endTime'
+> & {
+  priceBracket: Pick<PriceBracket, 'startTime' | 'endTime' | 'priceOffset'>[]
+  returning?: boolean
 }
