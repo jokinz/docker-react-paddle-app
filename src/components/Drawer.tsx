@@ -25,7 +25,7 @@ const menuLinksList: { text: string; url: string; allowedRoles?: number[] }[] =
     { text: 'Categorías', url: `/${url.web.categories}`, allowedRoles: [2, 3] },
     { text: 'Campos', url: `/${url.web.playingFields}`, allowedRoles: [2, 3] },
     { text: 'Trabajadores', url: `/${url.web.employees}`, allowedRoles: [3] },
-    { text: 'Establecimientos', url: `/${url.web.establishments}`, allowedRoles: [3] },
+    { text: 'Establecimiento', url: `/${url.web.establishments}/1`, allowedRoles: [3] },
   ]
 
 const drawerWidth = 250
