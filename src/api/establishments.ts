@@ -32,7 +32,7 @@ export const getEstablishmentById = async (
 ): Promise<UpdateEstablishment | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetEstablishmentByIdResponse> =
-      await axios.get(`/${url.api.establishments}/${establishmentId}`, {
+      await axios.get(`/${url.api.establishments}/${establishmentId}/config`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -53,7 +53,7 @@ export const updateEstablishmentById = async (
 ): Promise<true | undefined> => {
   try {
     const axiosResponse = await axios.patch(
-      `/${url.api.establishments}/${establishmentId}`,
+      `/${url.api.establishments}/${establishmentId}/config`,
       { ...updateEstablishment },
       {
         headers: {
