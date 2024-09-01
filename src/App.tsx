@@ -40,6 +40,7 @@ import PagePlayingFieldSingle from './routes/PagePlayingFieldSingle.tsx'
 import PagePlayingFieldCreate from './routes/PagePlayingFieldCreate.tsx'
 import PagePlayingFields from './routes/PagePlayingFields.tsx'
 import { url } from './url.ts'
+import PageEstablishmentSingle from './routes/PageEstablishmentSingle.tsx'
 
 const darkTheme = createTheme({
   palette: {
@@ -187,6 +188,14 @@ const App = () => {
       element: (
         <ForceLogin requiredRole={[2, 3]}>
           <PagePlayingFieldSingle />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: `/${url.web.establishments}/:establishmentId`,
+      element: (
+        <ForceLogin requiredRole={[3]}>
+          <PageEstablishmentSingle />
         </ForceLogin>
       ),
     },
