@@ -15,6 +15,6 @@ export type UpdateEstablishment = Pick<
   Establishment,
   'id' | 'startTime' | 'endTime'
 > & {
-  priceBracket: Pick<PriceBracket, 'startTime' | 'endTime' | 'priceOffset'>[]
+  priceBrackets: Pick<PriceBracket, 'startTime' | 'endTime' | 'priceOffset'>[]
   returning?: boolean
 }
