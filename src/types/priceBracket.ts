@@ -1,8 +1,8 @@
 export type PriceBracket = {
   id: number
   establishmentId: number
-  startTime: Date
-  endTime: Date
+  startTime: string
+  endTime: string
   priceOffset: number
   enabled: boolean
 }
