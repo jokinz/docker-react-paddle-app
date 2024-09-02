@@ -42,7 +42,7 @@ const PageLogin = () => {
           token: response.data.token,
           data: response.data.employee,
         }
-        setCookie(BOHEMIA_PADEL_JWT, cookieData, { maxAge: 365 })
+        setCookie(BOHEMIA_PADEL_JWT, cookieData, { maxAge: 604800 })
       }
       throw Error
     } catch (error) {
