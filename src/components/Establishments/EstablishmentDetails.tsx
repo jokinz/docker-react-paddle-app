@@ -76,14 +76,14 @@ props) => {
     //   priceBracket: [],
     // }
     const priceBrackets = bracketsStartTimes.map((bracket, index) => {
-      const id = index + 1
       const startTime = bracket?.format('HH:mm:ss') as string
       const endTime = bracketsStartTimes[index + 1]?.format(
         'HH:mm:ss'
       ) as string
       const priceOffset = prices[index]
-      return { id, startTime, endTime, priceOffset }
+      return { startTime, endTime, priceOffset }
     })
+    priceBrackets.length = priceBrackets.length - 1
     try {
       setUpdateLoading(true)
       if (token && token !== '') {
