@@ -13,12 +13,24 @@ export type Reservation = {
   payed: boolean
 }
 
+export type Calendar = {
+  establishmentId: number
+  days: Day[]
+}
+
 type Schedule = {
   id: number
   date: string
   timeInterval: number
   startTime: string
   endTime: string
+}
+
+type Day = {
+  date: string
+  endTime: string
+  interval: string
+  startTime: string
 }
 
 export type ReservationItems = Pick<
