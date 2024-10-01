@@ -41,6 +41,7 @@ import PagePlayingFieldCreate from './routes/PagePlayingFieldCreate.tsx'
 import PagePlayingFields from './routes/PagePlayingFields.tsx'
 import { url } from './url.ts'
 import PageEstablishmentSingle from './routes/PageEstablishmentSingle.tsx'
+import PageCreateReservation from './routes/PageCreateReservation.tsx'
 
 const darkTheme = createTheme({
   palette: {
@@ -68,6 +69,14 @@ const App = () => {
       element: (
         <ForceLogin>
           <PageReservations />
+        </ForceLogin>
+      ),
+    },
+    {
+      path: `/${url.web.createReservation}`,
+      element: (
+        <ForceLogin>
+          <PageCreateReservation />
         </ForceLogin>
       ),
     },

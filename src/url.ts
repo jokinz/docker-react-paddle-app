@@ -13,6 +13,7 @@ export const url = {
   web: {
     login: 'login',
     reservations: 'reservations',
+    createReservation: 'create-reservation',
     users: 'users',
     employees: 'employees',
     items: 'items',
