@@ -29,7 +29,7 @@ export const getReservations = async (
   }
 }
 
-export const getCourtsReservations = async (establishmentsId: number, paramsPor: any, token: string) : Promise<ReservationType[] | undefined> => {
+export const getCourtsReservations = async (establishmentsId: number, paramsReservation: any, token: string) : Promise<ReservationType[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetReservationsResponse> =
       await axios.get(`${url.api.establishments}/${establishmentsId}/playing-fields`, {
@@ -37,7 +37,7 @@ export const getCourtsReservations = async (establishmentsId: number, paramsPor:
           Authorization: `Bearer ${token}`,
         },
         params: {
-          ...paramsPor,
+          ...paramsReservation,
         },
       })
     if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {

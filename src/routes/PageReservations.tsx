@@ -19,16 +19,6 @@ import { EmployeeContext } from '../contexts/EmployeeContext'
 
 const PageReservations = () => {
   const navigate = useNavigate()
-  const itemDates = [
-    {
-      id: 1,
-      name: '3 meses',
-    },
-    {
-      id: 2,
-      name: '6 meses',
-    }
-  ]
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
