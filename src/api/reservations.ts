@@ -2,7 +2,7 @@ import axios from './axios'
 
 import { AxiosResponse } from 'axios'
 
-import { Reservation as ReservationType, Calendar as CalendarType } from '../types/reservation'
+import { Reservation as ReservationType, Calendar as CalendarType, GetDaysReservation, ParamsLocationReservation } from '../types/reservation'
 import { GetReservationByIdResponse } from '../types/responses/GetReservationByIdResponse'
 import { GetReservationsResponse } from '../types/responses/GetReservationsResponse'
 import { GetReservationsSchema } from '../types/schemas/GetReservationsSchema'
@@ -29,7 +29,7 @@ export const getReservations = async (
   }
 }
 
-export const getCourtsReservations = async (establishmentsId: number, paramsReservation: any, token: string) : Promise<ReservationType[] | undefined> => {
+export const getCourtsReservations = async (establishmentsId: number, paramsLocation: ParamsLocationReservation, token: string) : Promise<ReservationType[] | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetReservationsResponse> =
       await axios.get(`${url.api.establishments}/${establishmentsId}/playing-fields`, {
@@ -37,7 +37,7 @@ export const getCourtsReservations = async (establishmentsId: number, paramsRese
           Authorization: `Bearer ${token}`,
         },
         params: {
-          ...paramsReservation,
+          ...paramsLocation,
         },
       })
     if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
@@ -48,7 +48,7 @@ export const getCourtsReservations = async (establishmentsId: number, paramsRese
   }
 }
 
-export const getDaysHabilitationReservation = async (paramsGet: any, token: string): Promise<CalendarType | undefined> => {
+export const getDaysHabilitationReservation = async (paramsGet: GetDaysReservation, token: string): Promise<CalendarType | undefined> => {
   try {
     const axiosResponse: AxiosResponse<GetReservationsResponse> =
       await axios.get(`${url.api.establishments}/calendar`, {
@@ -66,11 +66,13 @@ export const getDaysHabilitationReservation = async (paramsGet: any, token: stri
   }
 }
 
-export const saveReservations = async () => {
+export const saveReservations = async (paramsSaveReservation: any, token: string) => {
   try {
     const axiosResponse = await axios.post(
-      `/${url.api.reservations}/${reservationId}/hand-items`,
-      {},
+      `/${url.api.reservations}`,
+      {
+        ...paramsSaveReservation,
+      },
       {
         headers: {
           Authorization: `Bearer ${token}`,

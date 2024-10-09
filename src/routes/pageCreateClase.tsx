@@ -4,13 +4,13 @@ import { useEffect, useContext, useState } from 'react'
 import { getDaysHabilitationReservation, getCourtsReservations, saveReservations } from '../api/reservations'
 import AddIcon from '@mui/icons-material/Add';
 import { enqueueSnackbar } from 'notistack'
+import { useNavigate } from 'react-router-dom'
 import { getItems } from '../api/items/item'
 import { EmployeeContext } from '../contexts/EmployeeContext'
 import LoadingWrapper from '../components/LoadingWrapper'
 import { getUsers } from '../api/users/user'
 import { NewReservation, ClientReservation, Day, GetLocationReservation } from '../types/reservation'
 import { Item } from '../types/item'
-import { useNavigate } from 'react-router-dom'
 
 import {
     Box,
@@ -41,7 +41,7 @@ const objetReservation: NewReservation = {
   }
 
   const objectCient: ClientReservation = {
-    firstName: '',
+    name: '',
     lastName: '',
     documentType: '',
     email: null,
@@ -54,14 +54,13 @@ const PageCreateReservation = () => {
     const [establishmentNumber, setEstablishment] = useState<number>(0)
     const [playingLocationList, setPlaying] = useState<GetLocationReservation[]>([])
     const [dayinit, setDayItem] = useState<string>('')
-    const [ startTime, setStartTime ] = useState<string>('')
+    // const [ startTime, setStartTime ] = useState<string>('')
     const [location, setLocation] = useState<string | null>(null)
-    const [priceBracketId, setPriceBracket] = useState<number | null>(null)
     const [intervalItem, setIntervalItem] = useState<number | null>(null)
     const [itemsList, setItemsList] = useState<Item[]>([])
     const employeeContext = useContext(EmployeeContext)
     const token = employeeContext?.token
-    const [horas, setHoras] = useState<String[]>([]);
+    const [horas, setHoras] = useState([]);
     const [showModal, setShowModal] = useState(false)
     const [loading, setLoading] = useState<boolean>(false);
     const [loadingLocation, setLoadingLocation] = useState<boolean>(false);
@@ -69,7 +68,19 @@ const PageCreateReservation = () => {
     const [client, setClient] = useState(objectCient);
     const [productsAdd, setProductsAdd] = useState([]);
     const [ showClient, setShowClient ] = useState<boolean>(false);
-    const navigate = useNavigate()
+    const [clientes, setClientes] = useState<any>([]);
+
+    const agregarCliente = () => {
+      // Agregar un nuevo cliente con campos vacíos
+      setClientes([...clientes, { nombre: '', email: '' }]);
+    };
+
+    const manejarCambio = (index: number, campo: any, valor: any) => {
+        const nuevosClientes = [...clientes];
+        nuevosClientes[index][campo] = valor;
+        setClientes(nuevosClientes);
+      };
+
 
     useEffect(() => {
         const getDays = async () => {
@@ -90,19 +101,19 @@ const PageCreateReservation = () => {
             getDays()
     }, [])
 
+
     const handleRegister = async () => {
         try {
             if (token && token !== '') {
                 setUpdateLoading(true)
                 const result = await saveReservations({
-                    participants: [client],
+                    users: [client],
                     establishmentId: establishmentNumber,
                     playingFieldId: location,
-                    priceBracketId: priceBracketId,
-                    date: dayinit,
-                    amount: objectReservation.priceFinal,
-                    startTime: startTime,
-                    interval: intervalItem,
+                    priceBracketId: objectReservation.priceFinal,
+                    date: objectReservation.dayinit,
+                    startTime: objectReservation.startTime,
+                    interval: objectReservation.intervalItem,
                     evidence: objectReservation.documentUrl,
                     course: false,
                     returning: false,
@@ -113,10 +124,9 @@ const PageCreateReservation = () => {
                         }
                     }),
                 }, token);
+                console.log(result)
                 if (result) {
                     enqueueSnackbar('Reserva creada correctamente.', { variant: 'success' })
-                    setShowModal(false)
-                    navigate(`/reservations`)
                 }
             }
         } catch (error) {
@@ -135,6 +145,11 @@ const PageCreateReservation = () => {
       };
 
     const setDay = (newValue: Day) => {
+        debugger;
+        setItem({ ...objectReservation, startTime: newValue.startTime });
+        setItem({ ...objectReservation, dayinit: newValue.date });
+        setItem({ ...objectReservation, intervalItem: newValue.interval });
+        // setStartTime(newValue.startTime);
         setDayItem(newValue.date);
         setIntervalItem(newValue.interval)
         const startDate = convertDateFormat(newValue.startTime);
@@ -155,10 +170,10 @@ const PageCreateReservation = () => {
         });
       };
 
-    const setHour = async (newValue: String) => {
-        setStartTime(`${newValue}:00`);
+    const setHour = async (newValue: number) => {
         if (token) {
             try {
+                debugger;
                 setLoadingLocation(true);
                 const response = await getCourtsReservations(establishmentNumber, {
                     establishmentId: establishmentNumber,
@@ -199,7 +214,6 @@ const PageCreateReservation = () => {
 
     const setPlayingLocation = async (item: GetLocationReservation) => {
         setLocation(item.id)
-        setPriceBracket(item.priceBracket.id)
         setShowClient(true);
         setItem({ ...objetReservation, priceFinal: item.price + item.priceBracket.priceOffset });
     }
@@ -266,28 +280,26 @@ const PageCreateReservation = () => {
     }
 
     const handleSearchUsers = async () => {
-        if (client.documentNumber && token) {
-            try {
-                const result = await getUsers({ search: client.documentNumber }, token);
-                if (result && result.length > 0) {
-                    const responseClient = result[0];
-                    setClient(
-                        {
-                            firstName: responseClient.firstName,
-                            lastName: responseClient.lastName,
-                            documentType: responseClient.documentType,
-                            email:  responseClient.email,
-                            documentNumber: responseClient.documentNumber,
-                        }
-                    );
-                } else { 
-                    setClient(objectCient);
-                    enqueueSnackbar('No se encontraron resultados.', { variant: 'warning' })
-                }
-    
-            } catch (error) {
-                throw error
+        try {
+            const result = await getUsers({ search: client.documentNumber }, token);
+            if (result) {
+                const responseClient = result[0];
+                setClient(
+                    {
+                        firstName: responseClient.firstName,
+                        lastName: responseClient.lastName,
+                        documentType: responseClient.documentType,
+                        email:  responseClient.email,
+                        documentNumber: responseClient.documentNumber,
+                    }
+                );
+            } else { 
+                setClient({});
+                enqueueSnackbar('No se encontraron resultados.', { variant: 'warning' })
             }
+
+        } catch (error) {
+            throw error
         }
     }
 
@@ -402,6 +414,79 @@ const PageCreateReservation = () => {
                 </Box>
             )}
       </LoadingWrapper>
+            <button onClick={agregarCliente}>Agregar Cliente</button>
+            {clientes.map((cliente, index) => (
+                <Box key={index}>
+                <Grid container spacing={2} mt={2}>
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="standard">
+                        <InputLabel id="demo-simple-select-label">
+                            Tipo de documento
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            label="Tipo Documento"
+                            value={cliente.documentType}
+                            onChange={(e) => manejarCambio(index, 'documentType', e.target.value)}
+                        >
+                            <MenuItem value={'DNI'}>DNI</MenuItem>
+                            <MenuItem value={'CE'}>Carnet Extranjeria</MenuItem>
+                            <MenuItem value={'Pasaporte'}>Pasaporte</MenuItem>
+                        </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                        fullWidth
+                        id="documentNumber"
+                        value={cliente.documentNumber}
+                        label="Número de Documento"
+                        variant="filled"
+                        type="number"
+                        required
+                        onChange={(e) => manejarCambio(index, 'documentNumber', e.target.value)}
+                        onBlur={handleSearchUsers} 
+                        />
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <TextField
+                        value={cliente.firstName}
+                        fullWidth
+                        id="firstName"
+                        label="Nombre"
+                        variant="filled"
+                        required
+                        onChange={(e) => manejarCambio(index, 'firstName', e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                        fullWidth
+                        value={cliente.lastName}
+                        id="lastName"
+                        label="Apellido"
+                        variant="filled"
+                        required
+                        onChange={(e) => manejarCambio(index, 'lastName', e.target.value)}
+                        />
+                    </Grid>
+                </Grid>
+                <Grid item xs={4} mt={2}>
+                    <TextField
+                    type="email"
+                    id="email"
+                    label="Correo electrónico"
+                    variant="filled"
+                    value={cliente.email}
+                    fullWidth
+                    onChange={(e) => manejarCambio(index, 'email', e.target.value)}
+                    />
+                </Grid>
+                </Box>
+            ))}
             { showClient && (
             <Box>
                 <h1>Registrar Cliente</h1>
