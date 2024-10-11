@@ -63,7 +63,7 @@ const PageReservations = () => {
           setLoading(true)
           if (searchValue === '') {
             const result = await getReservations(
-              { search: searchValue, records: 5, page: 1 },
+              { search: searchValue, records: 5, page: 1, includeUnPayed: 1 },
               token
             )
             if (result) {
@@ -99,6 +99,13 @@ const PageReservations = () => {
           onClick={handleNavigate}
         >
           Crear reserva
+        </Button>
+        <Button
+         sx={{ ml: 2 }}
+          variant="contained"
+          onClick={() => navigate('/create-class')}
+        >
+          Crear Clase
         </Button>
       </Box>
       <Grid container>

@@ -48,6 +48,7 @@ export type GetLocationReservation = {
   id: string
   establishmentId: number
   priceBracket: {
+    id: number,
     priceOffset: number,
   }
 }

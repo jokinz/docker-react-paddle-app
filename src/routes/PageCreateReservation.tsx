@@ -55,7 +55,7 @@ const PageCreateReservation = () => {
     const [playingLocationList, setPlaying] = useState<GetLocationReservation[]>([])
     const [dayinit, setDayItem] = useState<string>('')
     const [ startTime, setStartTime ] = useState<string>('')
-    const [location, setLocation] = useState<string | null>(null)
+    const [location, setLocation] = useState<number | null>(null)
     const [priceBracketId, setPriceBracket] = useState<number | null>(null)
     const [intervalItem, setIntervalItem] = useState<number | null>(null)
     const [itemsList, setItemsList] = useState<Item[]>([])
@@ -198,6 +198,7 @@ const PageCreateReservation = () => {
     }
 
     const setPlayingLocation = async (item: GetLocationReservation) => {
+        debugger;
         setLocation(item.id)
         setPriceBracket(item.priceBracket.id)
         setShowClient(true);
@@ -265,10 +266,25 @@ const PageCreateReservation = () => {
         })
     }
 
+    const isReservationValid = (): boolean => {
+        if (
+            location === null ||
+          establishmentNumber === 0 ||
+          priceBracketId === 0 ||
+          dayinit === '' ||
+          startTime === '' ||
+          objectReservation.documentUrl === null
+        ) {
+          return false
+        } else {
+          return true
+        }
+      }
+
     const handleSearchUsers = async () => {
         if (client.documentNumber && token) {
             try {
-                const result = await getUsers({ search: client.documentNumber }, token);
+                const result = await getUsers({ search: client.documentNumber, includeUnRegistered: 1 }, token);
                 if (result && result.length > 0) {
                     const responseClient = result[0];
                     setClient(
@@ -281,7 +297,9 @@ const PageCreateReservation = () => {
                         }
                     );
                 } else { 
-                    setClient(objectCient);
+                    setClient((prev) => {
+                        return { ...prev, documentNumber: client.documentNumber }
+                    });
                     enqueueSnackbar('No se encontraron resultados.', { variant: 'warning' })
                 }
     
@@ -516,6 +534,7 @@ const PageCreateReservation = () => {
             <Grid item xs={12} textAlign={'center'} mt={8}>
                 <Button
                     variant="contained"
+                    disabled={!isReservationValid()}
                     onClick={() => setShowModal(true)}
                 >
                     Registrar reserva

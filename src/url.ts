@@ -14,6 +14,7 @@ export const url = {
     login: 'login',
     reservations: 'reservations',
     createReservation: 'create-reservation',
+    createClass: 'create-class',
     users: 'users',
     employees: 'employees',
     items: 'items',
