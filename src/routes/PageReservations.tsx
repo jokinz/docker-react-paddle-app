@@ -4,18 +4,21 @@ import _ from 'lodash'
 
 import { getReservations } from '../api/reservations'
 
-import { Grid, TextField } from '@mui/material'
+import { Grid, TextField, Select, MenuItem, InputLabel, FormControl, Button, Box } from '@mui/material'
 
 import { Reservation } from '../types/reservation'
 
 import { enqueueSnackbar } from 'notistack'
 import Drawer from '../components/Drawer'
+import { useNavigate } from 'react-router-dom'
 import LoadingWrapper from '../components/LoadingWrapper'
 import ReservationsList from '../components/Reservations/ReservationsList'
 import SkeletonTable from '../components/SkeletonTable'
 import { EmployeeContext } from '../contexts/EmployeeContext'
 
+
 const PageReservations = () => {
+  const navigate = useNavigate()
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
@@ -49,6 +52,10 @@ const PageReservations = () => {
     }
   }
 
+  const handleNavigate = () => {
+    navigate('/create-reservation');
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,7 +63,7 @@ const PageReservations = () => {
           setLoading(true)
           if (searchValue === '') {
             const result = await getReservations(
-              { search: searchValue, records: 5 },
+              { search: searchValue, records: 5, page: 1, includeUnPayed: 1 },
               token
             )
             if (result) {
@@ -82,9 +89,27 @@ const PageReservations = () => {
 
   return (
     <Drawer>
+      <Box
+        display={'flex'}
+        alignItems={'center'}>
       <h1>Página Reservas</h1>
+      <Button
+      sx={{ ml: 2 }}
+          variant="contained"
+          onClick={handleNavigate}
+        >
+          Crear reserva
+        </Button>
+        <Button
+         sx={{ ml: 2 }}
+          variant="contained"
+          onClick={() => navigate('/create-class')}
+        >
+          Crear Clase
+        </Button>
+      </Box>
       <Grid container>
-        <Grid item xs={12}>
+        <Grid item xs={4}>
           <TextField
             fullWidth
             id="searchValue"

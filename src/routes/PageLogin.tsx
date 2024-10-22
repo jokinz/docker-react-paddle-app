@@ -51,7 +51,6 @@ const PageLogin = () => {
       setLoading(false)
     }
   }
-  }
 
   return (
     <Box
@@ -105,7 +104,6 @@ const PageLogin = () => {
         <Grid item xs={12}>
           <Button
             variant="contained"
-            onClick={handleLoginClickDisabled}
             fullWidth
             disabled={loading}
           >

@@ -13,12 +13,69 @@ export type Reservation = {
   payed: boolean
 }
 
+export type Calendar = {
+  establishmentId: number
+  days: Day[]
+}
+
 type Schedule = {
   id: number
   date: string
   timeInterval: number
   startTime: string
   endTime: string
+}
+
+
+export type Day = {
+  date: string
+  endTime: string
+  interval: number
+  startTime: string
+}
+
+
+export type GetDaysReservation = {
+  establishmentId: number
+  count?: number
+  interval?: number
+}
+
+export type GetLocationReservation = {
+  name: string
+  price: number
+  thumbnail: string
+  id: string
+  establishmentId: number
+  priceBracket: {
+    id: number,
+    priceOffset: number,
+  }
+}
+
+export type ParamsLocationReservation = {
+  establishmentId: number
+  date?: string
+  startTime: string
+  interval?: number | null
+}
+
+export type NewReservation = {
+  dateInit: string
+  priceFinal: number
+  documentUrl: string | null
+  startTime: string
+  dayinit: string
+  intervalItem: number | null
+  establishmentId: number | null
+}
+
+export type ClientReservation = {
+  firstName: string
+  lastName: string
+  documentType: string
+  documentNumber: string | null
+  email: string | null
 }
 
 export type ReservationItems = Pick<

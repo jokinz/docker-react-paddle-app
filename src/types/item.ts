@@ -6,6 +6,7 @@ export type Item = {
   price: number
   enabled: boolean
   itemCategory: ItemCategory
+  quantity?: number
 }
 
 export type NewItem = Pick<

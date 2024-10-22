@@ -2,7 +2,7 @@ import axios from './axios'
 
 import { AxiosResponse } from 'axios'
 
-import { Reservation as ReservationType } from '../types/reservation'
+import { Reservation as ReservationType, Calendar as CalendarType, GetDaysReservation, ParamsLocationReservation } from '../types/reservation'
 import { GetReservationByIdResponse } from '../types/responses/GetReservationByIdResponse'
 import { GetReservationsResponse } from '../types/responses/GetReservationsResponse'
 import { GetReservationsSchema } from '../types/schemas/GetReservationsSchema'
@@ -24,6 +24,64 @@ export const getReservations = async (
       return axiosResponse.data.data.rows
     }
     throw Error('Error descargando reservaciones')
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getCourtsReservations = async (establishmentsId: number, paramsLocation: ParamsLocationReservation, token: string) : Promise<ReservationType[] | undefined> => {
+  try {
+    const axiosResponse: AxiosResponse<GetReservationsResponse> =
+      await axios.get(`${url.api.establishments}/${establishmentsId}/playing-fields`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          ...paramsLocation,
+        },
+      })
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getDaysHabilitationReservation = async (paramsGet: GetDaysReservation, token: string): Promise<CalendarType | undefined> => {
+  try {
+    const axiosResponse: AxiosResponse<GetReservationsResponse> =
+      await axios.get(`${url.api.establishments}/calendar`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: { ...paramsGet },
+      })
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data;
+    }
+    throw Error('Error al obtener las fechas')
+  } catch (error) {
+    throw error
+  }
+}
+
+export const saveReservations = async (paramsSaveReservation: any, token: string) => {
+  try {
+    const axiosResponse = await axios.post(
+      `/${url.api.reservations}`,
+      {
+        ...paramsSaveReservation,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (axiosResponse.status === 204) {
+      return true
+    }
   } catch (error) {
     throw error
   }
@@ -66,7 +124,10 @@ export const updateReservationHandItemsById = async (
     if (axiosResponse.status === 204) {
       return true
     }
-    throw new Error('Error actualizando la entrega de ítems')
+    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+      return axiosResponse.data.data
+    }
+    throw new Error('Error registrando la reserva')
   } catch (error) {
     throw error
   }
