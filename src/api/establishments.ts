@@ -10,40 +10,32 @@ import { GetEstablishmentByIdResponse } from '../types/responses/GetEstablishmen
 export const getAllEstablishments = async (
   token: string
 ): Promise<Pick<Establishment, 'id' | 'name'>[] | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetEstablishmentsResponse> =
-      await axios.get(`/${url.api.establishments}/value`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-    throw new Error('Error descargando los establecimientos')
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<GetEstablishmentsResponse> =
+    await axios.get(`/${url.api.establishments}/value`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data
   }
+  throw new Error('Error descargando los establecimientos')
 }
 
 export const getEstablishmentById = async (
   establishmentId: number,
   token: string
 ): Promise<UpdateEstablishment | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetEstablishmentByIdResponse> =
-      await axios.get(`/${url.api.establishments}/${establishmentId}/config`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-    throw new Error('Error descargando datos del establecimiento')
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<GetEstablishmentByIdResponse> =
+    await axios.get(`/${url.api.establishments}/${establishmentId}/config`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data
   }
+  throw new Error('Error descargando datos del establecimiento')
 }
 
 export const updateEstablishmentById = async (
@@ -51,21 +43,17 @@ export const updateEstablishmentById = async (
   updateEstablishment: Partial<Omit<UpdateEstablishment, 'id'>>,
   token: string
 ): Promise<true | undefined> => {
-  try {
-    const axiosResponse = await axios.patch(
-      `/${url.api.establishments}/${establishmentId}/config`,
-      { ...updateEstablishment },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (axiosResponse.status === 204) {
-      return true
+  const axiosResponse = await axios.patch(
+    `/${url.api.establishments}/${establishmentId}/config`,
+    { ...updateEstablishment },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-    throw new Error('Error actualizando el establecimiento')
-  } catch (error) {
-    throw error
+  )
+  if (axiosResponse.status === 204) {
+    return true
   }
+  throw new Error('Error actualizando el establecimiento')
 }

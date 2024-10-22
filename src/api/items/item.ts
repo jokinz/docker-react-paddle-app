@@ -14,45 +14,37 @@ export const getItems = async (
   itemsSchema: GetItemsSchema,
   token: string
 ): Promise<ItemType[] | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetItemsResponse> = await axios.get(
-      `/${url.api.items}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: { ...itemsSchema },
-      }
-    )
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data.rows
+  const axiosResponse: AxiosResponse<GetItemsResponse> = await axios.get(
+    `/${url.api.items}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { ...itemsSchema },
     }
-    throw new Error('Error buscando items')
-  } catch (error) {
-    throw error
+  )
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data.rows
   }
+  throw new Error('Error buscando items')
 }
 
 export const getItemById = async (
   itemId: number,
   token: string
 ): Promise<ItemType | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetItemByIdResponse> = await axios.get(
-      `/${url.api.items}/${itemId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
+  const axiosResponse: AxiosResponse<GetItemByIdResponse> = await axios.get(
+    `/${url.api.items}/${itemId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-    throw new Error('Error descargando datos del item')
-  } catch (error) {
-    throw error
+  )
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data
   }
+  throw new Error('Error descargando datos del item')
 }
 
 export const createItem = async (
@@ -60,30 +52,26 @@ export const createItem = async (
   token: string,
   returning: boolean = false
 ): Promise<ItemType | true | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<CreateItemResponse> = await axios.post(
-      `/${url.api.items}`,
-      { ...item, returning },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (axiosResponse.status === 204) {
-      return true
+  const axiosResponse: AxiosResponse<CreateItemResponse> = await axios.post(
+    `/${url.api.items}`,
+    { ...item, returning },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-    if (
-      returning &&
-      axiosResponse.status === 200 &&
-      axiosResponse.data.statusCode === 200
-    ) {
-      return axiosResponse.data.data
-    }
-    throw new Error('Error creando el item')
-  } catch (error) {
-    throw error
+  )
+  if (axiosResponse.status === 204) {
+    return true
   }
+  if (
+    returning &&
+    axiosResponse.status === 200 &&
+    axiosResponse.data.statusCode === 200
+  ) {
+    return axiosResponse.data.data
+  }
+  throw new Error('Error creando el item')
 }
 
 export const updateItemById = async (
@@ -91,21 +79,17 @@ export const updateItemById = async (
   updateItem: UpdateItem,
   token: string
 ): Promise<true | undefined> => {
-  try {
-    const axiosResponse = await axios.patch(
-      `/${url.api.items}/${itemId}`,
-      { ...updateItem },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (axiosResponse.status === 204) {
-      return true
+  const axiosResponse = await axios.patch(
+    `/${url.api.items}/${itemId}`,
+    { ...updateItem },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-    throw new Error('Error actualizando datos del item')
-  } catch (error) {
-    throw error
+  )
+  if (axiosResponse.status === 204) {
+    return true
   }
+  throw new Error('Error actualizando datos del item')
 }

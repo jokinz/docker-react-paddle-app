@@ -17,41 +17,33 @@ export const getPlayingFields = async (
   playingFieldsSchema: GetPlayingFieldsSchema,
   token: string
 ): Promise<PlayingField[] | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetPlayingFieldsResponse> =
-      await axios.get(`/${url.api.playingFields}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: { ...playingFieldsSchema },
-      })
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data.rows
-    }
-    throw Error('Error descargando campos de juego')
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<GetPlayingFieldsResponse> =
+    await axios.get(`/${url.api.playingFields}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { ...playingFieldsSchema },
+    })
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data.rows
   }
+  throw Error('Error descargando campos de juego')
 }
 
 export const getPlayingFieldById = async (
   playingFieldId: number,
   token: string
 ): Promise<PlayingField | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetPlayingFieldByIdResponse> =
-      await axios.get(`/${url.api.playingFields}/${playingFieldId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-    throw new Error('Error descargando datos del campo de juego')
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<GetPlayingFieldByIdResponse> =
+    await axios.get(`/${url.api.playingFields}/${playingFieldId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data
   }
+  throw new Error('Error descargando datos del campo de juego')
 }
 
 export const createPlayingField = async (
@@ -59,27 +51,23 @@ export const createPlayingField = async (
   token: string,
   returning: boolean = false
 ): Promise<PlayingField | true | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<CreatePlayingFieldResponse> =
-      await axios.post(
-        `/${url.api.playingFields}`,
-        { ...playingField, returning },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-    if (axiosResponse.status === 204) {
-      return true
-    }
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-    throw new Error('Error creando el campo de juego')
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<CreatePlayingFieldResponse> =
+    await axios.post(
+      `/${url.api.playingFields}`,
+      { ...playingField, returning },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+  if (axiosResponse.status === 204) {
+    return true
   }
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data
+  }
+  throw new Error('Error creando el campo de juego')
 }
 
 export const updatePlayingFieldById = async (
@@ -87,21 +75,17 @@ export const updatePlayingFieldById = async (
   updatePlayingField: UpdatePlayingField,
   token: string
 ): Promise<true | undefined> => {
-  try {
-    const axiosResponse = await axios.patch(
-      `/${url.api.playingFields}/${playingFieldId}`,
-      { ...updatePlayingField },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (axiosResponse.status === 204) {
-      return true
+  const axiosResponse = await axios.patch(
+    `/${url.api.playingFields}/${playingFieldId}`,
+    { ...updatePlayingField },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-    throw new Error('Error actualizando datos del campo de juego')
-  } catch (error) {
-    throw error
+  )
+  if (axiosResponse.status === 204) {
+    return true
   }
+  throw new Error('Error actualizando datos del campo de juego')
 }

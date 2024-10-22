@@ -12,78 +12,63 @@ export const getReservations = async (
   reservationsSchema: GetReservationsSchema,
   token: string
 ): Promise<ReservationType[] | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetReservationsResponse> =
-      await axios.get(`${url.api.reservations}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: { ...reservationsSchema },
-      })
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data.rows
-    }
-    throw Error('Error descargando reservaciones')
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<GetReservationsResponse> =
+    await axios.get(`${url.api.reservations}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { ...reservationsSchema },
+    })
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data.rows
   }
+  throw Error('Error descargando reservaciones')
 }
 
 export const getCourtsReservations = async (establishmentsId: number, paramsLocation: ParamsLocationReservation, token: string) : Promise<ReservationType[] | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetReservationsResponse> =
-      await axios.get(`${url.api.establishments}/${establishmentsId}/playing-fields`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ...paramsLocation,
-        },
-      })
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<GetReservationsResponse> =
+    await axios.get(`${url.api.establishments}/${establishmentsId}/playing-fields`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        ...paramsLocation,
+      },
+    })
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data
   }
+  throw Error('Error descargando reservaciones')
 }
 
 export const getDaysHabilitationReservation = async (paramsGet: GetDaysReservation, token: string): Promise<CalendarType | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetReservationsResponse> =
-      await axios.get(`${url.api.establishments}/calendar`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: { ...paramsGet },
-      })
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data;
-    }
-    throw Error('Error al obtener las fechas')
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<GetReservationsResponse> =
+    await axios.get(`${url.api.establishments}/calendar`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { ...paramsGet },
+    })
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data;
   }
+  throw Error('Error al obtener las fechas')
 }
 
 export const saveReservations = async (paramsSaveReservation: any, token: string) => {
-  try {
-    const axiosResponse = await axios.post(
-      `/${url.api.reservations}`,
-      {
-        ...paramsSaveReservation,
+  const axiosResponse = await axios.post(
+    `/${url.api.reservations}`,
+    {
+      ...paramsSaveReservation,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (axiosResponse.status === 204) {
-      return true
     }
-  } catch (error) {
-    throw error
+  )
+  if (axiosResponse.status === 204) {
+    return true
   }
 }
 
@@ -91,44 +76,36 @@ export const getReservationById = async (
   reservationId: number,
   token: string
 ): Promise<ReservationType | undefined> => {
-  try {
-    const axiosResponse: AxiosResponse<GetReservationByIdResponse> =
-      await axios.get(`/${url.api.reservations}/${reservationId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-    throw new Error('Error descargando datos de la reserva')
-  } catch (error) {
-    throw error
+  const axiosResponse: AxiosResponse<GetReservationByIdResponse> =
+    await axios.get(`/${url.api.reservations}/${reservationId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data
   }
+  throw new Error('Error descargando datos de la reserva')
 }
 
 export const updateReservationHandItemsById = async (
   reservationId: number,
   token: string
 ): Promise<true | undefined> => {
-  try {
-    const axiosResponse = await axios.post(
-      `/${url.api.reservations}/${reservationId}/hand-items`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (axiosResponse.status === 204) {
-      return true
+  const axiosResponse = await axios.post(
+    `/${url.api.reservations}/${reservationId}/hand-items`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-    if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
-      return axiosResponse.data.data
-    }
-    throw new Error('Error registrando la reserva')
-  } catch (error) {
-    throw error
+  )
+  if (axiosResponse.status === 204) {
+    return true
   }
+  if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
+    return axiosResponse.data.data
+  }
+  throw new Error('Error registrando la reserva')
 }

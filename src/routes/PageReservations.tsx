@@ -1,13 +1,8 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
-
 import _ from 'lodash'
-
 import { getReservations } from '../api/reservations'
-
-import { Grid, TextField, Select, MenuItem, InputLabel, FormControl, Button, Box } from '@mui/material'
-
+import { Grid, TextField, Button, Box } from '@mui/material'
 import { Reservation } from '../types/reservation'
-
 import { enqueueSnackbar } from 'notistack'
 import Drawer from '../components/Drawer'
 import { useNavigate } from 'react-router-dom'

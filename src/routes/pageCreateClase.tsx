@@ -60,7 +60,7 @@ const PageCreateReservation = () => {
     const [itemsList, setItemsList] = useState<Item[]>([])
     const employeeContext = useContext(EmployeeContext)
     const token = employeeContext?.token
-    const [horas, setHoras] = useState<String[]>([]);
+    const [horas, setHoras] = useState<string[]>([]);
     const [showModal, setShowModal] = useState(false)
     const [loading, setLoading] = useState<boolean>(false);
     const [loadingLocation, setLoadingLocation] = useState<boolean>(false);

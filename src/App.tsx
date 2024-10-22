@@ -1,20 +1,12 @@
 import { useEffect, useState } from 'react'
-
 import './App.css'
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
 import { SnackbarProvider } from 'notistack'
-
 import CssBaseline from '@mui/material/CssBaseline'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-
 import { EmployeeContext } from './contexts/EmployeeContext.ts'
-
 import { Employee } from './types/employee.ts'
-
 import { useCookies } from 'react-cookie'
-
 import PageDashboard from './routes/PageDashboard.tsx'
 import PageEmployeeCreate from './routes/PageEmployeeCreate.tsx'
 import PageEmployees from './routes/PageEmployees.tsx'
@@ -26,10 +18,8 @@ import PageReservations from './routes/PageReservations.tsx'
 import PageReservationSingle from './routes/PageReservationSingle.tsx'
 import PageUsers from './routes/PageUsers.tsx'
 import PageUserSingle from './routes/PageUserSingle.tsx'
-
 import ForceLogin from './components/ForceLogin.tsx'
 import LoadingWrapper from './components/LoadingWrapper.tsx'
-
 import { BOHEMIA_PADEL_JWT } from './types/userCookie.ts'
 import PageItemSingle from './routes/PageItemSingle.tsx'
 import PageItemCreate from './routes/PageItemCreate.tsx'

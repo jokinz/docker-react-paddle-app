@@ -61,7 +61,7 @@ const PageCreateReservation = () => {
     const [itemsList, setItemsList] = useState<Item[]>([])
     const employeeContext = useContext(EmployeeContext)
     const token = employeeContext?.token
-    const [horas, setHoras] = useState<String[]>([]);
+    const [horas, setHoras] = useState<string[]>([]);
     const [showModal, setShowModal] = useState(false)
     const [loading, setLoading] = useState<boolean>(false);
     const [loadingLocation, setLoadingLocation] = useState<boolean>(false);
@@ -155,7 +155,7 @@ const PageCreateReservation = () => {
         });
       };
 
-    const setHour = async (newValue: String) => {
+    const setHour = async (newValue: string) => {
         setStartTime(`${newValue}:00`);
         if (token) {
             try {
@@ -283,28 +283,23 @@ const PageCreateReservation = () => {
 
     const handleSearchUsers = async () => {
         if (client.documentNumber && token) {
-            try {
-                const result = await getUsers({ search: client.documentNumber, includeUnRegistered: 1 }, token);
-                if (result && result.length > 0) {
-                    const responseClient = result[0];
-                    setClient(
-                        {
-                            firstName: responseClient.firstName,
-                            lastName: responseClient.lastName,
-                            documentType: responseClient.documentType,
-                            email:  responseClient.email,
-                            documentNumber: responseClient.documentNumber,
-                        }
-                    );
-                } else { 
-                    setClient((prev) => {
-                        return { ...prev, documentNumber: client.documentNumber }
-                    });
-                    enqueueSnackbar('No se encontraron resultados.', { variant: 'warning' })
-                }
-    
-            } catch (error) {
-                throw error
+            const result = await getUsers({ search: client.documentNumber, includeUnRegistered: 1 }, token);
+            if (result && result.length > 0) {
+                const responseClient = result[0];
+                setClient(
+                    {
+                        firstName: responseClient.firstName,
+                        lastName: responseClient.lastName,
+                        documentType: responseClient.documentType,
+                        email:  responseClient.email,
+                        documentNumber: responseClient.documentNumber,
+                    }
+                );
+            } else { 
+                setClient((prev) => {
+                    return { ...prev, documentNumber: client.documentNumber }
+                });
+                enqueueSnackbar('No se encontraron resultados.', { variant: 'warning' })
             }
         }
     }
