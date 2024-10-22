@@ -1,46 +1,35 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { Establishment, UpdateEstablishment } from '../../types/establishment'
+import { UpdateEstablishment } from '../../types/establishment'
 
 import {
   Button,
   Dialog,
   DialogActions,
   DialogTitle,
-  FormControlLabel,
   Grid,
-  Switch,
   TextField,
 } from '@mui/material'
 
 import { enqueueSnackbar } from 'notistack'
 
-import { areValuesDifferent, getDifferences } from '../../utils'
-
-import { EmployeeContext } from '../../contexts/EmployeeContext'
-import DetailsWrapper from '../DetailsWrapper'
-import LoadingWrapper from '../LoadingWrapper'
-import { updateEstablishmentById } from '../../api/establishments'
-import GridTitle from '../GridTitle'
-import { PriceBracket } from '../../types/priceBracket'
 import { TimeField } from '@mui/x-date-pickers'
 import dayjs, { Dayjs } from 'dayjs'
+import { updateEstablishmentById } from '../../api/establishments'
+import { EmployeeContext } from '../../contexts/EmployeeContext'
+import DetailsWrapper from '../DetailsWrapper'
+import GridTitle from '../GridTitle'
+import LoadingWrapper from '../LoadingWrapper'
 
 type props = {
   establishment: UpdateEstablishment
-  //   updateEstablishment?: (updatedEstablishment: Establishment) => void
 }
 
 const minDifference: number = 120
 
-const EstablishmentDetails = ({
-  establishment,
-}: //   updateEstablishment,
-props) => {
+const EstablishmentDetails = ({ establishment }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
-
-  //   const initialEstablishment = useRef(establishment)
 
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
@@ -65,16 +54,6 @@ props) => {
   }
 
   const handleConfirmationClick = async () => {
-    // const oldEstablishment: Omit<UpdateEstablishment, 'id'> = {
-    //   startTime: initialEstablishment.current.startTime,
-    //   endTime: initialEstablishment.current.endTime,
-    //   priceBracket: initialEstablishment.current.priceBracket,
-    // }
-    // const newEstablishment: Omit<UpdateEstablishment, 'id'> = {
-    //   startTime,
-    //   endTime,
-    //   priceBracket: [],
-    // }
     const priceBrackets = bracketsStartTimes.map((bracket, index) => {
       const startTime = bracket?.format('HH:mm:ss') as string
       const endTime = bracketsStartTimes[index + 1]?.format(
