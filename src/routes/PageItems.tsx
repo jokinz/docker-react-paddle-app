@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
-import { FormControlLabel, Grid, Switch, TextField } from '@mui/material'
+import { Box, Button, FormControlLabel, Grid, Switch, TextField } from '@mui/material'
 
 import { enqueueSnackbar } from 'notistack'
 
@@ -16,8 +16,11 @@ import Drawer from '../components/Drawer'
 import ItemsList from '../components/Items/ItemsList'
 import LoadingWrapper from '../components/LoadingWrapper'
 import SkeletonTable from '../components/SkeletonTable'
+import { url } from '../url'
+import { useNavigate } from 'react-router-dom'
 
 const PageItems = () => {
+  const navigate = useNavigate()
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
@@ -98,7 +101,16 @@ const PageItems = () => {
 
   return (
     <Drawer>
-      <h1>Página Ítems</h1>
+      <Box display={'flex'} alignItems={'center'}>
+        <h1>Página Ítems</h1>
+        <Button
+          sx={{ ml: 2 }}
+          variant="contained"
+          onClick={() => navigate(`/${url.web.items}/create`)}
+        >
+          Crear Ítem
+        </Button>
+      </Box>
       <Grid container gap={2}>
         <Grid item xs={12}>
           <TextField

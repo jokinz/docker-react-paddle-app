@@ -2,7 +2,14 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
-import { FormControlLabel, Grid, Switch, TextField } from '@mui/material'
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Grid,
+  Switch,
+  TextField,
+} from '@mui/material'
 
 import { enqueueSnackbar } from 'notistack'
 
@@ -16,8 +23,11 @@ import Drawer from '../components/Drawer'
 import PlayingFieldsList from '../components/PlayingFields/PlayingFieldsList'
 import LoadingWrapper from '../components/LoadingWrapper'
 import SkeletonTable from '../components/SkeletonTable'
+import { url } from '../url'
+import { useNavigate } from 'react-router-dom'
 
 const PagePlayingFields = () => {
+  const navigate = useNavigate()
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
@@ -98,7 +108,16 @@ const PagePlayingFields = () => {
 
   return (
     <Drawer>
-      <h1>Página campos de juego</h1>
+      <Box display={'flex'} alignItems={'center'}>
+        <h1>Página campos de juego</h1>
+        <Button
+          sx={{ ml: 2 }}
+          variant="contained"
+          onClick={() => navigate(`/${url.web.playingFields}/create`)}
+        >
+          Crear campo de juego
+        </Button>
+      </Box>
       <Grid container gap={2}>
         <Grid item xs={12}>
           <TextField
@@ -124,7 +143,10 @@ const PagePlayingFields = () => {
           />
         </Grid>
       </Grid>
-      <LoadingWrapper loading={loading} skeleton={<SkeletonTable numColumns={3} showAvatar/>}>
+      <LoadingWrapper
+        loading={loading}
+        skeleton={<SkeletonTable numColumns={3} showAvatar />}
+      >
         <PlayingFieldsList playingFields={playingFieldsList} />
       </LoadingWrapper>
     </Drawer>

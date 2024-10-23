@@ -3,6 +3,8 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 import _ from 'lodash'
 
 import {
+  Box,
+  Button,
   FormControl,
   FormControlLabel,
   Grid,
@@ -26,8 +28,11 @@ import { EmployeeContext } from '../contexts/EmployeeContext'
 import { enqueueSnackbar } from 'notistack'
 import { getAllEmployeeRoles } from '../api/employees/employeeRole'
 import SkeletonTable from '../components/SkeletonTable'
+import { url } from '../url'
+import { useNavigate } from 'react-router-dom'
 
 const PageEmployees = () => {
+  const navigate = useNavigate()
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
@@ -131,7 +136,16 @@ const PageEmployees = () => {
 
   return (
     <Drawer>
-      <h1>Página trabajadores</h1>
+      <Box display={'flex'} alignItems={'center'}>
+        <h1>Página trabajadores</h1>
+        <Button
+          sx={{ ml: 2 }}
+          variant="contained"
+          onClick={() => navigate(`/${url.web.employees}/create`)}
+        >
+          Crear trabajador
+        </Button>
+      </Box>
       <Grid container gap={2}>
         <Grid item xs={12}>
           <TextField

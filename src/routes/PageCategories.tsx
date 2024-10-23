@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 
 import _ from 'lodash'
 
-import { Grid, TextField } from '@mui/material'
+import { Box, Button, Grid, TextField } from '@mui/material'
 
 import { enqueueSnackbar } from 'notistack'
 
@@ -15,8 +15,11 @@ import Drawer from '../components/Drawer'
 import ItemCategoriesList from '../components/Items/ItemCategoriesList'
 import LoadingWrapper from '../components/LoadingWrapper'
 import SkeletonTable from '../components/SkeletonTable'
+import { useNavigate } from 'react-router-dom'
+import { url } from '../url'
 
 const PageCategories = () => {
+  const navigate = useNavigate()
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
 
@@ -81,7 +84,16 @@ const PageCategories = () => {
 
   return (
     <Drawer>
-      <h1>Página Categorías</h1>
+      <Box display={'flex'} alignItems={'center'}>
+        <h1>Página Categorías</h1>
+        <Button
+          sx={{ ml: 2 }}
+          variant="contained"
+          onClick={() => navigate(`/${url.web.categories}/create`)}
+        >
+          Crear Categoría
+        </Button>
+      </Box>
       <Grid container>
         <Grid item xs={12}>
           <TextField
