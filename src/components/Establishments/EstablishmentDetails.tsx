@@ -65,8 +65,10 @@ const EstablishmentDetails = ({ establishment }: props) => {
   )
   const [bracketsStartTimes, setBracketsStartTimes] = useState<
     (Dayjs | null)[]
-  >([startTime, endTime])
-  const [prices, setPrices] = useState<number[]>([0])
+  >(getStartTimes(establishment.priceBrackets))
+  const [prices, setPrices] = useState<number[]>(
+    getPrices(establishment.priceBrackets)
+  )
 
   const handleUpdateButtonClick = () => {
     setShowModal(true)
