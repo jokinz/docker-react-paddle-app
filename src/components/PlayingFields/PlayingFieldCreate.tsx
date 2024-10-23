@@ -156,6 +156,7 @@ const PlayingFieldCreate = () => {
               return { ...prev, name: e.target.value }
             })
           }
+          fullWidth
         />
       </Grid>
       <Grid item xs={6}>
@@ -169,6 +170,7 @@ const PlayingFieldCreate = () => {
               return { ...prev, description: e.target.value }
             })
           }
+          fullWidth
         />
       </Grid>
       <Grid item xs={6}>
@@ -188,10 +190,11 @@ const PlayingFieldCreate = () => {
               }
             })
           }
+          fullWidth
         />
       </Grid>
       <Grid item xs={6}>
-        <FormControl variant="standard">
+        <FormControl variant="standard" fullWidth>
           <InputLabel id="demo-simple-select-label">Establecimiento</InputLabel>
           <Select
             required
