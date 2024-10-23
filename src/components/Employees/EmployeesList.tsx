@@ -13,7 +13,7 @@ const EmployeesList = ({ employees }: props) => {
       headerName: 'Nombre',
       flex: 1,
       renderCell: (params) => (
-        <Link to={`/${url.api.employees}/${params.row.id}`}>{params.value}</Link>
+        <Link to={`/${url.web.employees}/${params.row.id}`}>{params.value}</Link>
       ),
     },
     {
