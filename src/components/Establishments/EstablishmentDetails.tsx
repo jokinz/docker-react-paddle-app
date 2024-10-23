@@ -34,10 +34,10 @@ const EstablishmentDetails = ({ establishment }: props) => {
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
 
-  const [startTime, setStartTime] = useState<Dayjs | null>(
+  const [startTime, setStartTime] = useState<Dayjs>(
     dayjs(establishment.startTime, 'HH:mm')
   )
-  const [endTime, setEndTime] = useState<Dayjs | null>(
+  const [endTime, setEndTime] = useState<Dayjs>(
     dayjs(establishment.endTime, 'HH:mm')
   )
   const [bracketsStartTimes, setBracketsStartTimes] = useState<
@@ -208,7 +208,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
         <TimeField
           label="Hora de apertura"
           value={startTime}
-          onChange={(newTime) => setStartTime(newTime)}
+          onChange={(newTime) => setStartTime(dayjs(newTime, 'HH:mm'))}
           format="HH:mm"
           ampm={false}
           minutesStep={30}
@@ -219,7 +219,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
         <TimeField
           label="Hora de cierre"
           value={endTime}
-          onChange={(newTime) => setEndTime(newTime)}
+          onChange={(newTime) => setEndTime(dayjs(newTime, 'HH:mm'))}
           format="HH:mm"
           ampm={false}
           minutesStep={30}
