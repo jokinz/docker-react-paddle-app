@@ -99,7 +99,7 @@ const PageItems = () => {
   return (
     <Drawer>
       <h1>Página Ítems</h1>
-      <Grid container>
+      <Grid container gap={2}>
         <Grid item xs={12}>
           <TextField
             fullWidth

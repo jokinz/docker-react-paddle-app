@@ -132,7 +132,7 @@ const PageEmployees = () => {
   return (
     <Drawer>
       <h1>Página trabajadores</h1>
-      <Grid container>
+      <Grid container gap={2}>
         <Grid item xs={12}>
           <TextField
             fullWidth
@@ -152,12 +152,12 @@ const PageEmployees = () => {
                 onClick={handleIncludeDisabledClick}
               />
             }
-            label="Incluir desactivados"
+            label="Incluir deshabilitados"
             labelPlacement="start"
           />
         </Grid>
-        <Grid item xs={6}>
-          <FormControl variant="standard">
+        <Grid item xs={3}>
+          <FormControl variant="standard" fullWidth>
             <InputLabel id="demo-simple-select-label">
               Rol del trabajador
             </InputLabel>
