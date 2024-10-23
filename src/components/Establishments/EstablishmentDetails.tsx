@@ -20,12 +20,35 @@ import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import GridTitle from '../GridTitle'
 import LoadingWrapper from '../LoadingWrapper'
+import { PriceBracket } from '../../types/priceBracket'
 
 type props = {
   establishment: UpdateEstablishment
 }
 
 const minDifference: number = 120
+
+const getStartTimes = (
+  priceBrackets: Pick<PriceBracket, 'startTime' | 'endTime' | 'priceOffset'>[]
+): Dayjs[] => {
+  const startTimes: Dayjs[] = priceBrackets.map((priceBracket) =>
+    dayjs(priceBracket.startTime, 'HH:mm')
+  )
+  const times: Dayjs[] = [
+    ...startTimes,
+    dayjs(priceBrackets[priceBrackets.length - 1].endTime, 'HH:mm'),
+  ]
+  return times
+}
+
+const getPrices = (
+  priceBrackets: Pick<PriceBracket, 'startTime' | 'endTime' | 'priceOffset'>[]
+): number[] => {
+  const prices: number[] = priceBrackets.map(
+    (priceBracket) => priceBracket.priceOffset
+  )
+  return prices
+}
 
 const EstablishmentDetails = ({ establishment }: props) => {
   const employeeContext = useContext(EmployeeContext)
