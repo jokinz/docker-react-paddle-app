@@ -155,7 +155,6 @@ const PageCreateReservation = () => {
     };
 
     const setHour = async (newValue: string) => {
-        debugger;
         setStartTime(`${newValue}:00`);
         if (token) {
             try {

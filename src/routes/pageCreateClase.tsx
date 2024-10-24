@@ -168,7 +168,6 @@ const PageCreateReservation = () => {
         setIntervalItem(newValue.interval)
         const startDate = convertDateFormat(newValue.startTime);
         const endDate = convertDateFormat(newValue.endTime);
-        debugger;
         const horasGeneradas = generarHoras(startDate.toString(), endDate.toString(), newValue.interval);
         setHoras(horasGeneradas);
     }
@@ -306,7 +305,6 @@ const PageCreateReservation = () => {
     }
 
     const handleDelete = (row: ClientReservation) => {
-        debugger;
         const updatedClients = [...clientes];
         const index = updatedClients.findIndex(client => client.id == row.id);
         if (index !== -1) {
@@ -457,7 +455,7 @@ const PageCreateReservation = () => {
       { showClient && (
         <Box>
             <h1>Registrar Cliente</h1>
-            <Button onClick={agregarCliente}>Agregar Cliente</Button>
+            <Button variant="contained" onClick={agregarCliente}>Agregar Cliente</Button>
             {clientes.map((cliente: ClientReservation, index: number) => (
                 <Box key={index}>
                 <Grid container spacing={2} mt={2}>

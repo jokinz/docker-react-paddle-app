@@ -49,7 +49,6 @@ export const getDaysHabilitationReservation = async (paramsGet: GetDaysReservati
       },
       params: { ...paramsGet },
     })
-    debugger;
   if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
     return axiosResponse.data.data;
   }
