@@ -50,6 +50,15 @@ const getPrices = (
   return prices
 }
 
+const getEndTime = (endTime: string): Dayjs => {
+  const parsedEndTime: Dayjs = dayjs(endTime, 'HH:mm')
+  if (parsedEndTime?.get('hour') === 0 && parsedEndTime?.get('minute') === 0) {
+    return parsedEndTime.add(1, 'day').hour(0).minute(0)
+  } else {
+    return parsedEndTime
+  }
+}
+
 const EstablishmentDetails = ({ establishment }: props) => {
   const employeeContext = useContext(EmployeeContext)
   const token = employeeContext?.token
