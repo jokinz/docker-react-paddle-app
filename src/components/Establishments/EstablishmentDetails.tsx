@@ -127,19 +127,19 @@ const EstablishmentDetails = ({ establishment }: props) => {
   }
 
   useEffect(() => {
-    if (isLessThanMinDifference(startTime, endTime)) {
-      const newEndTime = startTime.add(minDifference, 'minute')
-      setEndTime(newEndTime)
-      setBracketsStartTimes([startTime, newEndTime])
-      setPrices([0])
-    } else {
-      if (
-        !dayjs(establishment.startTime, 'HH:mm').isSame(startTime, 'second') ||
-        !dayjs(establishment.endTime, 'HH:mm').isSame(endTime, 'second')
-      ) {
-        setBracketsStartTimes([startTime, endTime])
-        setPrices([0])
+    const originalStartTime = dayjs(establishment.startTime, 'HH:mm')
+    const originalEndTime = getEndTime(establishment.endTime)
+    if (
+      originalTimesChanged ||
+      !originalStartTime.isSame(startTime, 'second') ||
+      !originalEndTime.isSame(endTime, 'second')
+    ) {
+      if (isLessThanMinutesApart(startTime, endTime)) {
+        setEndTime(startTime.add(minMinutesDifference, 'minutes'))
       }
+      setBracketsStartTimes([startTime, endTime])
+      setPrices([0])
+      setOriginalTimesChanged(true)
     }
   }, [startTime, endTime])
 
