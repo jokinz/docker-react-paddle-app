@@ -1,11 +1,11 @@
 import { DataGridProps, GridColDef } from '@mui/x-data-grid'
 
-export const areValuesDifferent = <T>(
+export const areValuesDifferent = <T extends object>(
   obj: T,
   partialObj: Partial<T>
 ): boolean => {
   for (const key in partialObj) {
-    if (partialObj.hasOwnProperty(key)) {
+    if (Object.hasOwn(partialObj, key)) {
       const value = partialObj[key]
       const originalValue = obj[key]
 
@@ -14,7 +14,7 @@ export const areValuesDifferent = <T>(
         value !== null &&
         originalValue !== null
       ) {
-        if (areValuesDifferent(originalValue, value)) {
+        if (areValuesDifferent(originalValue as T, value as Partial<T>)) {
           return true
         }
       } else if (value !== originalValue) {
@@ -25,11 +25,11 @@ export const areValuesDifferent = <T>(
   return false
 }
 
-export const getDifferences = <T>(original: T, modified: T): Partial<T> => {
+export const getDifferences = <T extends object>(original: T, modified: T): Partial<T> => {
   const differences: Partial<T> = {}
 
   for (const key in modified) {
-    if (modified.hasOwnProperty(key)) {
+    if (Object.hasOwn(modified, key)) {
       const originalValue = original[key]
       const modifiedValue = modified[key]
 
@@ -38,10 +38,9 @@ export const getDifferences = <T>(original: T, modified: T): Partial<T> => {
         modifiedValue !== null &&
         originalValue !== null
       ) {
-        // Recursively get differences for nested objects
-        const nestedDifferences = getDifferences(originalValue, modifiedValue)
+        const nestedDifferences = getDifferences(originalValue as T, modifiedValue as T)
         if (Object.keys(nestedDifferences).length > 0) {
-          differences[key] = nestedDifferences as any
+          differences[key] = nestedDifferences as T[Extract<keyof T, string>]
         }
       } else if (modifiedValue !== originalValue) {
         differences[key] = modifiedValue
@@ -52,9 +51,9 @@ export const getDifferences = <T>(original: T, modified: T): Partial<T> => {
   return differences
 }
 
-export const getDataGridProps = (
-  rows: any[],
-  columns: GridColDef<any>[]
+export const getDataGridProps = <T extends object>(
+  rows: T[],
+  columns: GridColDef<T>[]
 ): DataGridProps => {
   return {
     rows,
