@@ -1,6 +1,7 @@
 import Drawer from '../components/Drawer'
 import React from 'react';
 import { useEffect, useContext, useState } from 'react'
+import dayjs from 'dayjs'
 import { getDaysHabilitationReservation, getCourtsReservations, saveReservations } from '../api/reservations'
 import AddIcon from '@mui/icons-material/Add';
 import { enqueueSnackbar } from 'notistack'
@@ -46,6 +47,7 @@ const objetReservation: NewReservation = {
     documentType: '',
     email: null,
     documentNumber: null,
+    id: null,
   }
 
 const PageCreateReservation = () => {
@@ -144,16 +146,13 @@ const PageCreateReservation = () => {
     }
 
     const generarHoras = (inicio: string, fin: string, intervalo: number) => {
-        const fechaInicio = new Date(inicio);
-        const fechaFin = new Date(fin);
-        const totalIntervalos = Math.floor((fechaFin - fechaInicio) / (intervalo * 60 * 1000)) + 1;
-    
+        const fechaInicio = dayjs(inicio);
+        const fechaFin = dayjs(fin);
+        const totalIntervalos = Math.floor(fechaFin.diff(fechaInicio, 'minute') / intervalo) + 1;
         return Array.from({ length: totalIntervalos }, (_, index) => {
-          const nuevaFecha = new Date(fechaInicio);
-          nuevaFecha.setMinutes(nuevaFecha.getMinutes() + index * intervalo);
-          return nuevaFecha.toTimeString().slice(0, 5);
+            return fechaInicio.add(index * intervalo, 'minute').format('HH:mm');
         });
-      };
+    };
 
     const setHour = async (newValue: string) => {
         setStartTime(`${newValue}:00`);
@@ -198,7 +197,6 @@ const PageCreateReservation = () => {
     }
 
     const setPlayingLocation = async (item: GetLocationReservation) => {
-        debugger;
         setLocation(item.id)
         setPriceBracket(item.priceBracket.id)
         setShowClient(true);
@@ -293,6 +291,7 @@ const PageCreateReservation = () => {
                         documentType: responseClient.documentType,
                         email:  responseClient.email,
                         documentNumber: responseClient.documentNumber,
+                        id: 1,
                     }
                 );
             } else { 
@@ -323,7 +322,7 @@ const PageCreateReservation = () => {
             {horas.length > 0 && (
                 <Box>
                     <h1>Horario</h1>
-                    {horas.map((item, index) => (
+                    {horas.map((item: string, index: number) => (
                         <Button
                         key={index}
                         autoFocus
