@@ -26,7 +26,7 @@ type props = {
   establishment: UpdateEstablishment
 }
 
-const minDifference: number = 120
+const minMinutesDifference: number = 120
 
 const getStartTimes = (
   priceBrackets: Pick<PriceBracket, 'startTime' | 'endTime' | 'priceOffset'>[]
@@ -156,7 +156,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
       newBrackets.splice(
         1,
         0,
-        dayjs(prev[0]?.add(minDifference, 'minutes'), 'HH:mm')
+        dayjs(prev[0]?.add(minMinutesDifference, 'minutes'), 'HH:mm')
       )
       newBrackets[newBrackets.length - 1] = endTime
       return newBrackets
@@ -189,7 +189,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
 
   const maxBrackets = (time1: Dayjs, time2: Dayjs): number => {
     const minutesDifference = Math.abs(time1.diff(time2, 'minute'))
-    const result = Math.trunc(minutesDifference / minDifference)
+    const result = Math.trunc(minutesDifference / minMinutesDifference)
     return result
   }
 
@@ -198,20 +198,12 @@ const EstablishmentDetails = ({ establishment }: props) => {
   }
 
   const getTimeMinusDiff = (time: Dayjs): Dayjs => {
-    const minTime = dayjs()
-      .set('hour', time.hour())
-      .set('minute', time.minute())
-      .set('second', 0)
-      .subtract(minDifference, 'minute')
+    const minTime = time.subtract(minMinutesDifference, 'minute')
     return minTime
   }
 
   const getTimePlusDiff = (time: Dayjs): Dayjs => {
-    const maxTime = dayjs()
-      .set('hour', time.hour())
-      .set('minute', time.minute())
-      .set('second', 0)
-      .add(minDifference, 'minute')
+    const maxTime = time.add(minMinutesDifference, 'minute')
     return maxTime
   }
 
@@ -224,7 +216,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
 
       const difference = currentTime?.diff(previousTime, 'minute') as number
 
-      if (difference < minDifference) {
+      if (difference < minMinutesDifference) {
         return false
       }
     }
