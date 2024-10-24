@@ -314,6 +314,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
                   format="HH:mm"
                   ampm={false}
                   disabled={index === bracketsStartTimes.length - 2}
+                  disableIgnoringDatePartForTimeValidation
                   minutesStep={30}
                   minTime={getTimePlusDiff(bracketsStartTimes[index] as Dayjs)}
                   maxTime={
