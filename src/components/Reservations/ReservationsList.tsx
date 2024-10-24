@@ -14,7 +14,7 @@ const ReservationsList = ({ reservations }: props) => {
       headerName: 'Código',
       flex: 1,
       renderCell: (params) => (
-        <Link to={`/${url.api.reservations}/${params.row.id}`}>{params.value}</Link>
+        <Link to={`/${url.web.reservations}/${params.row.id}`}>{params.value}</Link>
       ),
     },
     {

@@ -44,7 +44,6 @@ const PageLogin = () => {
         }
         setCookie(BOHEMIA_PADEL_JWT, cookieData, { maxAge: 604800 })
       }
-      throw Error
     } catch (error) {
       enqueueSnackbar('Error al iniciar sesión', { variant: 'error' })
     } finally {

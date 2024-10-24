@@ -20,12 +20,35 @@ import { EmployeeContext } from '../../contexts/EmployeeContext'
 import DetailsWrapper from '../DetailsWrapper'
 import GridTitle from '../GridTitle'
 import LoadingWrapper from '../LoadingWrapper'
+import { PriceBracket } from '../../types/priceBracket'
 
 type props = {
   establishment: UpdateEstablishment
 }
 
 const minDifference: number = 120
+
+const getStartTimes = (
+  priceBrackets: Pick<PriceBracket, 'startTime' | 'endTime' | 'priceOffset'>[]
+): Dayjs[] => {
+  const startTimes: Dayjs[] = priceBrackets.map((priceBracket) =>
+    dayjs(priceBracket.startTime, 'HH:mm')
+  )
+  const times: Dayjs[] = [
+    ...startTimes,
+    dayjs(priceBrackets[priceBrackets.length - 1].endTime, 'HH:mm'),
+  ]
+  return times
+}
+
+const getPrices = (
+  priceBrackets: Pick<PriceBracket, 'startTime' | 'endTime' | 'priceOffset'>[]
+): number[] => {
+  const prices: number[] = priceBrackets.map(
+    (priceBracket) => priceBracket.priceOffset
+  )
+  return prices
+}
 
 const EstablishmentDetails = ({ establishment }: props) => {
   const employeeContext = useContext(EmployeeContext)
@@ -34,16 +57,18 @@ const EstablishmentDetails = ({ establishment }: props) => {
   const [showModal, setShowModal] = useState(false)
   const [updateLoading, setUpdateLoading] = useState(false)
 
-  const [startTime, setStartTime] = useState<Dayjs | null>(
+  const [startTime, setStartTime] = useState<Dayjs>(
     dayjs(establishment.startTime, 'HH:mm')
   )
-  const [endTime, setEndTime] = useState<Dayjs | null>(
+  const [endTime, setEndTime] = useState<Dayjs>(
     dayjs(establishment.endTime, 'HH:mm')
   )
   const [bracketsStartTimes, setBracketsStartTimes] = useState<
     (Dayjs | null)[]
-  >([startTime, endTime])
-  const [prices, setPrices] = useState<number[]>([0])
+  >(getStartTimes(establishment.priceBrackets))
+  const [prices, setPrices] = useState<number[]>(
+    getPrices(establishment.priceBrackets)
+  )
 
   const handleUpdateButtonClick = () => {
     setShowModal(true)
@@ -90,10 +115,20 @@ const EstablishmentDetails = ({ establishment }: props) => {
   }
 
   useEffect(() => {
-    if (startTime && endTime && isLessThanMinDifference(startTime, endTime)) {
-      setEndTime(startTime.add(minDifference, 'minute'))
+    if (isLessThanMinDifference(startTime, endTime)) {
+      const newEndTime = startTime.add(minDifference, 'minute')
+      setEndTime(newEndTime)
+      setBracketsStartTimes([startTime, newEndTime])
+      setPrices([0])
+    } else {
+      if (
+        !dayjs(establishment.startTime, 'HH:mm').isSame(startTime, 'second') ||
+        !dayjs(establishment.endTime, 'HH:mm').isSame(endTime, 'second')
+      ) {
+        setBracketsStartTimes([startTime, endTime])
+        setPrices([0])
+      }
     }
-    setBracketsStartTimes([startTime, endTime])
   }, [startTime, endTime])
 
   const handleBracketTimeChange = (newTime: Dayjs | null, index: number) => {
@@ -208,7 +243,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
         <TimeField
           label="Hora de apertura"
           value={startTime}
-          onChange={(newTime) => setStartTime(newTime)}
+          onChange={(newTime) => setStartTime(dayjs(newTime, 'HH:mm'))}
           format="HH:mm"
           ampm={false}
           minutesStep={30}
@@ -219,7 +254,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
         <TimeField
           label="Hora de cierre"
           value={endTime}
-          onChange={(newTime) => setEndTime(newTime)}
+          onChange={(newTime) => setEndTime(dayjs(newTime, 'HH:mm'))}
           format="HH:mm"
           ampm={false}
           minutesStep={30}

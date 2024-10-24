@@ -128,6 +128,7 @@ const EmployeeCreate = () => {
             setEmployee({ ...employee, firstName: e.target.value })
           }}
           required
+          fullWidth
         />
       </Grid>
       <Grid item xs={6}>
@@ -140,6 +141,7 @@ const EmployeeCreate = () => {
             setEmployee({ ...employee, lastName: e.target.value })
           }}
           required
+          fullWidth
         />
       </Grid>
       <Grid item xs={12}>
@@ -170,8 +172,8 @@ const EmployeeCreate = () => {
           required
         />
       </Grid>
-      <Grid item xs={6}>
-        <FormControl variant="standard">
+      <Grid item xs={3}>
+        <FormControl variant="standard" fullWidth>
           <InputLabel id="demo-simple-select-label">
             Rol del trabajador
           </InputLabel>
