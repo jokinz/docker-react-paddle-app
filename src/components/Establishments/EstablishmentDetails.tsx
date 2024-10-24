@@ -237,6 +237,14 @@ const EstablishmentDetails = ({ establishment }: props) => {
     return prices.every((value) => value === 0)
   }
 
+  const handleEndTimeChange = (newTime: Dayjs | null) => {
+    if (newTime?.get('hour') === 0 && newTime?.get('minute') === 0) {
+      setEndTime(startTime.add(1, 'day').hour(0).minute(0))
+    } else {
+      setEndTime(dayjs(newTime, 'HH:mm').day(startTime.get('day')))
+    }
+  }
+
   return (
     <DetailsWrapper>
       <GridTitle>Actualizar establecimiento</GridTitle>
@@ -255,7 +263,7 @@ const EstablishmentDetails = ({ establishment }: props) => {
         <TimeField
           label="Hora de cierre"
           value={endTime}
-          onChange={(newTime) => setEndTime(dayjs(newTime, 'HH:mm'))}
+          onChange={(newTime) => handleEndTimeChange(newTime)}
           format="HH:mm"
           ampm={false}
           minutesStep={30}
