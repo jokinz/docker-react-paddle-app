@@ -1,6 +1,7 @@
 import Drawer from '../components/Drawer'
 import React from 'react';
 import { useEffect, useContext, useState } from 'react'
+import dayjs from 'dayjs'
 import { getDaysHabilitationReservation, getCourtsReservations, saveReservations } from '../api/reservations'
 import AddIcon from '@mui/icons-material/Add';
 import { enqueueSnackbar } from 'notistack'
@@ -55,7 +56,7 @@ const PageCreateReservation = () => {
     const [playingLocationList, setPlaying] = useState<GetLocationReservation[]>([])
     const [dayinit, setDayItem] = useState<string>('')
     const [ startTime, setStartTime ] = useState<string>('')
-    const [location, setLocation] = useState<string | null>(null)
+    const [location, setLocation] = useState<number | null>(null)
     const [intervalItem, setIntervalItem] = useState<number | null>(null)
     const [itemsList, setItemsList] = useState<Item[]>([])
     const employeeContext = useContext(EmployeeContext)
@@ -69,27 +70,30 @@ const PageCreateReservation = () => {
     const [productsAdd, setProductsAdd] = useState([]);
     const [ showClient, setShowClient ] = useState<boolean>(false);
     const [priceBracketId, setPriceBracket] = useState<number | null>(null)
-    const [clientes, setClients] = useState<any>([{
+    const [clientes, setClients] = useState<ClientReservation[]>([{
         firstName: '',
         lastName: '',
         documentType: '',
         email: null,
         documentNumber: null,
+        id: null,
     }]);
     const navigate = useNavigate()
 
     const agregarCliente = () => {
+        const indexClient = clientes.length + 1;
         setClients([...clientes, {
             firstName: '',
             lastName: '',
             documentType: '',
             email: null,
-            documentNumber: null
+            documentNumber: null,
+            id: indexClient,
         }]);
     };
 
-    const setModelClient = (index: number, campo: any, valor: any) => {
-        const nuevosClientes = [...clientes];
+    const setModelClient = (index: number, campo: keyof ClientReservation, valor: string) => {
+        const nuevosClientes: ClientReservation[]  = [...clientes];
         nuevosClientes[index][campo] = valor;
         setClients(nuevosClientes);
       };
@@ -164,23 +168,21 @@ const PageCreateReservation = () => {
         setIntervalItem(newValue.interval)
         const startDate = convertDateFormat(newValue.startTime);
         const endDate = convertDateFormat(newValue.endTime);
+        debugger;
         const horasGeneradas = generarHoras(startDate.toString(), endDate.toString(), newValue.interval);
         setHoras(horasGeneradas);
     }
 
-    const generarHoras = (inicio: string, fin: string, intervalo: number) => {
-        const fechaInicio = new Date(inicio);
-        const fechaFin = new Date(fin);
-        const totalIntervalos = Math.floor((fechaFin - fechaInicio) / (intervalo * 60 * 1000)) + 1;
-    
+      const generarHoras = (inicio: string, fin: string, intervalo: number) => {
+        const fechaInicio = dayjs(inicio);
+        const fechaFin = dayjs(fin);
+        const totalIntervalos = Math.floor(fechaFin.diff(fechaInicio, 'minute') / intervalo) + 1;
         return Array.from({ length: totalIntervalos }, (_, index) => {
-          const nuevaFecha = new Date(fechaInicio);
-          nuevaFecha.setMinutes(nuevaFecha.getMinutes() + index * intervalo);
-          return nuevaFecha.toTimeString().slice(0, 5);
+            return fechaInicio.add(index * intervalo, 'minute').format('HH:mm');
         });
-      };
+    };
 
-    const setHour = async (newValue: number) => {
+    const setHour = async (newValue: string) => {
         setStartTime(`${newValue}:00`);
         if (token) {
             try {
@@ -303,9 +305,10 @@ const PageCreateReservation = () => {
         }
     }
 
-    const handleDelete = (id: number) => {
+    const handleDelete = (row: ClientReservation) => {
+        debugger;
         const updatedClients = [...clientes];
-        const index = updatedClients.findIndex(client => client.id === id);
+        const index = updatedClients.findIndex(client => client.id == row.id);
         if (index !== -1) {
             updatedClients.splice(index, 1);
             setClients(updatedClients);
@@ -454,8 +457,8 @@ const PageCreateReservation = () => {
       { showClient && (
         <Box>
             <h1>Registrar Cliente</h1>
-            <button onClick={agregarCliente}>Agregar Cliente</button>
-            {clientes.map((cliente, index) => (
+            <Button onClick={agregarCliente}>Agregar Cliente</Button>
+            {clientes.map((cliente: ClientReservation, index: number) => (
                 <Box key={index}>
                 <Grid container spacing={2} mt={2}>
                     <Grid item xs={6}>
@@ -525,7 +528,7 @@ const PageCreateReservation = () => {
                     onChange={(e) => setModelClient(index, 'email', e.target.value)}
                     />
                 </Grid>
-                <IconButton onClick={() => handleDelete(cliente.id)}>
+                <IconButton onClick={() => handleDelete(cliente)}>
                     <DeleteIcon />
                 </IconButton>
                 </Box>

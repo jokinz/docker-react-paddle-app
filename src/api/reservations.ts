@@ -2,9 +2,9 @@ import axios from './axios'
 
 import { AxiosResponse } from 'axios'
 
-import { Reservation as ReservationType, Calendar as CalendarType, GetDaysReservation, ParamsLocationReservation } from '../types/reservation'
+import { Reservation as ReservationType, Calendar as CalendarType, GetDaysReservation, ParamsLocationReservation, GetLocationReservation as LocationPlaying  } from '../types/reservation'
 import { GetReservationByIdResponse } from '../types/responses/GetReservationByIdResponse'
-import { GetReservationsResponse } from '../types/responses/GetReservationsResponse'
+import { GetReservationsResponse, GetCourtsResponse, CalendarResponse } from '../types/responses/GetReservationsResponse'
 import { GetReservationsSchema } from '../types/schemas/GetReservationsSchema'
 import { url } from '../url'
 
@@ -25,8 +25,8 @@ export const getReservations = async (
   throw Error('Error descargando reservaciones')
 }
 
-export const getCourtsReservations = async (establishmentsId: number, paramsLocation: ParamsLocationReservation, token: string) : Promise<ReservationType[] | undefined> => {
-  const axiosResponse: AxiosResponse<GetReservationsResponse> =
+export const getCourtsReservations = async (establishmentsId: number, paramsLocation: ParamsLocationReservation, token: string) : Promise<LocationPlaying[] | undefined> => {
+  const axiosResponse: AxiosResponse<GetCourtsResponse> =
     await axios.get(`${url.api.establishments}/${establishmentsId}/playing-fields`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -42,13 +42,14 @@ export const getCourtsReservations = async (establishmentsId: number, paramsLoca
 }
 
 export const getDaysHabilitationReservation = async (paramsGet: GetDaysReservation, token: string): Promise<CalendarType | undefined> => {
-  const axiosResponse: AxiosResponse<GetReservationsResponse> =
+  const axiosResponse: AxiosResponse<CalendarResponse> =
     await axios.get(`${url.api.establishments}/calendar`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       params: { ...paramsGet },
     })
+    debugger;
   if (axiosResponse.status === 200 && axiosResponse.data.statusCode === 200) {
     return axiosResponse.data.data;
   }

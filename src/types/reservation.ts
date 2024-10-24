@@ -43,12 +43,16 @@ export type GetDaysReservation = {
 
 export type GetLocationReservation = {
   name: string
+  description: string
   price: number
+  enabled: boolean
   thumbnail: string
-  id: string
+  id: number
   establishmentId: number
   priceBracket: {
     id: number,
+    endTime: string
+    startTime: string
     priceOffset: number,
   }
 }
@@ -76,6 +80,8 @@ export type ClientReservation = {
   documentType: string
   documentNumber: string | null
   email: string | null
+  id?: number| null
+  [key: string]: any; 
 }
 
 export type ReservationItems = Pick<
