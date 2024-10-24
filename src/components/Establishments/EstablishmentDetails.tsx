@@ -194,9 +194,12 @@ const EstablishmentDetails = ({ establishment }: props) => {
     })
   }
 
-  const isLessThanMinDifference = (time1: Dayjs, time2: Dayjs): boolean => {
-    const minutesDifference = Math.abs(time1.diff(time2, 'minute'))
-    return minutesDifference < minDifference || time1.hour() >= time2.hour()
+  const isLessThanMinutesApart = (
+    firstTime: Dayjs,
+    secondTime: Dayjs
+  ): boolean => {
+    const minutesDifference = secondTime.diff(firstTime, 'minute')
+    return minutesDifference < minMinutesDifference
   }
 
   const maxBrackets = (time1: Dayjs, time2: Dayjs): number => {
